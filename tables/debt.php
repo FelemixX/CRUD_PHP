@@ -4,17 +4,16 @@ require_once "main_class.php";
 class Debt extends Main_Class
 {
     protected $table_name = "debt";
-    public $paidDebt, $unpaidDebt, $totalDebt;
-    public $creditorBank, $loanRate;
+    public $paidDebt, $unpaidDebt, $debt;
 
     function create()
     {
         $tname = $this->table_name;
-        $query = "INSERT INTO $tname (`name`,`group_id`)
-                            VALUES(?, ?)";
+        $query = "INSERT INTO $tname (`debt`,`paid_debt`, `unpaid_debt`)
+                            VALUES(?, ?, ?)";
         $stmt = $this->conn->prepare($query);
 
-        if ($stmt->execute([$this->name, $this->group_id]))
+        if ($stmt->execute([$this->debt, $this->paidDebt, $this->unpaidDebt]))
         {
             return true;
         }
@@ -27,9 +26,9 @@ class Debt extends Main_Class
     function read()
     {
         $tname = $this->table_name;
-        $query = "SELECT $tname.id, $tname.name, st_groups.g_name
+        $query = "SELECT $tname.id, $tname.debt, $tname.paid_debt, $tname.unpaid_debt
                     FROM $this->table_name
-                    JOIN st_groups ON $tname.group_id = st_groups.id";
+                    /*JOIN st_groups ON $tname.group_id = st_groups.id*/";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchall(PDO::FETCH_ASSOC);
@@ -41,15 +40,16 @@ class Debt extends Main_Class
         $query = "UPDATE 
                         " . $this->table_name . "  
                    SET 
-                        `name` = ?, `group_id` = ?
+                        `debt` = ?, `paid_debt` = ?, `unpaid_debt` = ?
                    WHERE 
                         " . $this->table_name . " .`id` = ?";
 
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(1, $this->name);
-        $stmt->bindParam(2, $this->group_id);
-        $stmt->bindParam(3, $this->id);
+        $stmt->bindParam(1, $this->debt);
+        $stmt->bindParam(2, $this->paidDebt);
+        $stmt->bindParam(3, $this->unpaidDebt);
+        $stmt->bindParam(4, $this->id);
 
         if ($stmt->execute())
         {

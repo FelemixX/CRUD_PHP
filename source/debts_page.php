@@ -8,33 +8,34 @@ try
 {
     echo "Ошибка подключения к БД!: " . $exception->getMessage();
 }
-require_once('../tables/product.php');
-$products = new Product($conn);
-$readProducts = $products->read();
+require_once('../tables/debt.php');
+$debts = new Debt($conn);
+$readDebts = $debts->read();
 ?>
 
 <?php require_once ('../source/header.php'); ?>
 
     <div class="container">
         <div class="row">
-            <h1 >Список товаров</h1>
+            <h1 >Список долгов</h1>
             <table class="table table-hover">
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Наименование</th>
-                    <th scope="col">Количество</th>
-                    <th scope="col">Действие</th>
+                    <th scope="col">Долг</th>
+                    <th scope="col">Оплаченный долг</th>
+                    <th scope="col">Неоплаченный долг</th>
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($readProducts as $product):?>
+                <?php foreach ($readDebts as $debt):?>
                     <tr>
-                        <td><?= $product["id"] ?></td>
-                        <td><?= $product["p_name"] ?></td>
-                        <td><?= $product["quantity"]?></td>
-                        <td> <a href='../debts/update.php?id=<?= $product["id"] ?>'>Обновить</a> </td>
-                        <td> <a href='../debts/update.php?deleteID=<?= $product["id"] ?>'>Удалить</a> </td>
+                        <td><?= $debt["id"] ?></td>
+                        <td><?= $debt["debt"] ?></td>
+                        <td><?= $debt["paid_debt"]?></td>
+                        <td><?= $debt["unpaid_debt"]?></td>
+                        <td> <a href='../debts/update.php?id=<?= $debt["id"] ?>'>Обновить</a> </td>
+                        <td> <a href='../debts/update.php?deleteID=<?= $debt["id"] ?>'>Удалить</a> </td>
                     </tr>
                 <?php endforeach;?>
                 </tbody>

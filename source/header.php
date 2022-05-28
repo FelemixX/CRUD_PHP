@@ -25,7 +25,7 @@
                         <a class="nav-link active" aria-current="page" href="../source/products_page.php">Товары</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Долг</a>
+                        <a class="nav-link active" aria-current="page" href="../source/debts_page.php">Долг</a>
                     </li>
                 </ul>
             </div>
