@@ -15,7 +15,7 @@
 <div class="container">
     <nav class="navbar navbar-nav-scroll navbar-expand-lg navbar-light bg-light ">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/index.php">Main</a>
+            <a class="navbar-brand" href="/source/index.phpdex.php">Main</a>
             <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">

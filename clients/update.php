@@ -45,13 +45,13 @@ if(isset($_POST["id"]) && isset($_POST["birth_date"]) && isset($_POST["name"]))
     $client->id = $postID;
     if($client->update())
     {
-        header("Location: /index.php");
+        header("Location: ../index.php");
     }
 }
 ?>
 
 <?php
-require_once ('../header.php');
+require_once ('../source/header.php');
 ?>
 <form action="update.php" method="post">
     <input class="invisible" name="id" value="<?=$id?>">
@@ -67,6 +67,6 @@ require_once ('../header.php');
     <a href="/index.php">Cancel</a>
 </form>
 <?php
-require_once ('../footer.php');
+require_once ('../source/footer.php');
 ?>
 

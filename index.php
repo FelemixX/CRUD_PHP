@@ -1,5 +1,5 @@
 <?php
-    $config = require_once ('config.php');
+    $config = require_once ('source/config.php');
     $conn = null;
     try
     {
@@ -13,7 +13,7 @@
     $readClients = $clients->read();
 ?>
 <?php
-require_once ('header.php');
+require_once ('source/header.php');
 ?>
 
     <div class="container">
@@ -44,4 +44,4 @@ require_once ('header.php');
         </div>
     </div>
 <?php
-require_once('footer.php');
+require_once('source/footer.php');

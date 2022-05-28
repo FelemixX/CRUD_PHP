@@ -18,11 +18,11 @@ if (isset($_POST["birth_date"]) && isset($_POST["name"]))
     $client->birth_date = $date;
     if ($client->create())
     {
-        header("Location: /index.php");
+        header("Location: ../index.php");
     }
 }
 ?>
-<?php require_once ('../header.php'); ?>
+<?php require_once('../source/header.php'); ?>
 <form action="create.php" method="post">
     <div class="mb-3">
         <label for="name" class="form-label">Name</label>
@@ -33,6 +33,6 @@ if (isset($_POST["birth_date"]) && isset($_POST["name"]))
         <input required name="birth_date" type="date" class="form-control" id="birth_date">
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
-    <a href="/index.php">Cancel</a>
+    <a href="../index.php">Cancel</a>
 </form>
-<?php require_once ('../footer.php'); ?>
+<?php require_once('../source/footer.php'); ?>
