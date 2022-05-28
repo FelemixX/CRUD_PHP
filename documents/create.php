@@ -1,5 +1,5 @@
 <?php
-if (isset($_POST["birth_date"]) && isset($_POST["name"]))
+if (isset($_POST["number"]) && isset($_POST["creation_date"]))
 {
     $docNumber = $_POST["number"];
     $creationDate = $_POST["creation_date"];
@@ -19,7 +19,7 @@ if (isset($_POST["birth_date"]) && isset($_POST["name"]))
     $document->creation_date = $creationDate;
     if ($document->create())
     {
-        header("Location: ../index.php");
+        header("Location: ../source/documents_page.php");
     }
 }
 ?>
@@ -34,6 +34,6 @@ if (isset($_POST["birth_date"]) && isset($_POST["name"]))
         <input required name="birth_date" type="date" class="form-control" id="birth_date">
     </div>
     <button type="submit" class="btn btn-primary">Отправить</button>
-    <a href="../index.php">Отмена</a>
+    <a href="../source/documents_page.php">Отмена</a>
 </form>
 <?php require_once('../source/footer.php'); ?>

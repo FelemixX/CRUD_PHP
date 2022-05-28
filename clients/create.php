@@ -1,5 +1,5 @@
 <?php
-if (isset($_POST["number"]) && isset($_POST["creation_date"]))
+if (isset($_POST["birth_date"]) && isset($_POST["name"]))
 {
     $date = $_POST["birth_date"];
     $name = $_POST["name"];
@@ -12,7 +12,7 @@ if (isset($_POST["number"]) && isset($_POST["creation_date"]))
     {
         echo "Ошибка подключпения к БД!: " . $exception->getMessage();
     }
-    require_once('../tables/document.php');
+    require_once('../tables/client.php');
     $client = new Client($conn);
     $client->name = $name;
     $client->birth_date = $date;
@@ -33,6 +33,6 @@ if (isset($_POST["number"]) && isset($_POST["creation_date"]))
         <input required name="birth_date" type="date" class="form-control" id="birth_date">
     </div>
     <button type="submit" class="btn btn-primary">Отправить</button>
-    <a href="../source/documents_page.php">Отмена</a>
+    <a href="../index.php">Отмена</a>
 </form>
 <?php require_once('../source/footer.php'); ?>
