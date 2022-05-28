@@ -1,4 +1,5 @@
 <?php
+//Сделать работу с внешними ключами
 $config = require_once ('../source/config.php');
 $conn = null;
 try
@@ -6,7 +7,7 @@ try
     $conn = new PDO("mysql:host=" . "localhost:3366" . ";dbname=" . "debts_docs_payments", "root", "");
 } catch (PDOException $exception)
 {
-    echo "Ошибка подключпения к БД!: " . $exception->getMessage();
+    echo "Ошибка подключения к БД!: " . $exception->getMessage();
 }
 require_once('../tables/document.php');
 $documents = new Document($conn);
