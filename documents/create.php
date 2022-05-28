@@ -27,11 +27,11 @@ if (isset($_POST["number"]) && isset($_POST["creation_date"]))
 <form action="create.php" method="post">
     <div class="mb-3">
         <label for="number" class="form-label">Номер документа</label>
-        <input required name="name" type="text" class="form-control" id="name">
+        <input required name="number" type="number" class="form-control" id="number">
     </div>
     <div class="mb-3">
         <label for="creation_date" class="form-label">Дата создания</label>
-        <input required name="birth_date" type="date" class="form-control" id="birth_date">
+        <input required name="creation_date" type="date" class="form-control" id="creation_date">
     </div>
     <button type="submit" class="btn btn-primary">Отправить</button>
     <a href="../source/documents_page.php">Отмена</a>
