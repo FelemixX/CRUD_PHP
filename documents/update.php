@@ -15,22 +15,23 @@ if(isset($_GET["deleteID"]))
     {
         echo "Ошибка подключпения к БД!: " . $exception->getMessage();
     }
-    require_once('../tables/client.php');
-    $client = new Client($conn);
-    $client->id = $deleteID;
-    if($client->delete())
+    require_once('../tables/document.php');
+    $document = new Document($conn);
+    $document->id = $deleteID;
+    if($document->delete())
     {
-        header("Location: /index.php");
+        header("Location: ../source/documents_page.php");
     }
 }
 
-if(isset($_POST["id"]) && isset($_POST["birth_date"]) && isset($_POST["name"]))
+if(isset($_POST["id"]) && isset($_POST["number"]) && isset($_POST["creation_date"]))
 {
     $postID = $_POST["id"];
-    $date = $_POST["birth_date"];
-    $name = $_POST["name"];
+    $docNumber = $_POST["number"];
+    $creationDate = $_POST["creation_date"];
 
     $conn = null;
+
     try
     {
         $conn = new PDO("mysql:host=" . "localhost:3366" . ";dbname=" . "debts_docs_payments", "root", "");
@@ -38,14 +39,14 @@ if(isset($_POST["id"]) && isset($_POST["birth_date"]) && isset($_POST["name"]))
     {
         echo "Ошибка подключпения к БД!: " . $exception->getMessage();
     }
-    require_once('../tables/client.php');
-    $client = new Client($conn);
-    $client->name = $name;
-    $client->birth_date = $date;
-    $client->id = $postID;
-    if($client->update())
+    require_once('../tables/document.php');
+    $document = new Document($conn);
+    $document->number = $docNumber;
+    $document->creation_date = $creationDate;
+    $document->id = $postID;
+    if($document->update())
     {
-        header("Location: ../index.php");
+        header("Location: ../source/documents_page.php");
     }
 }
 ?>
@@ -54,15 +55,15 @@ if(isset($_POST["id"]) && isset($_POST["birth_date"]) && isset($_POST["name"]))
 <form action="update.php" method="post">
     <input class="invisible" name="id" value="<?=$id?>">
     <div class="mb-3">
-        <label for="name" class="form-label">Имя</label>
+        <label for="docNumber" class="form-label">Номер документа</label>
         <input required name="name" type="text" class="form-control" id="name">
     </div>
     <div class="mb-3">
-        <label for="birth_date" class="form-label">Дата рождения</label>
+        <label for="creation_date" class="form-label">Дата создания</label>
         <input required name="birth_date" type="date" class="form-control" id="birth_date">
     </div>
     <button type="submit" class="btn btn-primary">Отправить</button>
-    <a href="../index.php">Отменить</a>
+    <a href="../source/documents_page.php">Отмена</a>
 </form>
 <?php require_once ('../source/footer.php'); ?>
 

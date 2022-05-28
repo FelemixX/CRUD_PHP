@@ -10,38 +10,37 @@
     }
     require_once('tables/client.php');
     $clients = new Client($conn);
-    $readClients = $clients->read();
+    $readDocuments = $clients->read();
 ?>
-<?php
-require_once ('source/header.php');
-?>
+
+<?php require_once ('source/header.php'); ?>
 
     <div class="container">
         <div class="row">
-            <h1 >Cool name</h1>
+            <h1 >Список клиентов</h1>
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Action</th>
+                    <th scope="col">Номер</th>
+                    <th scope="col">Имя</th>
+                    <th scope="col">Дата рождения</th>
+                    <th scope="col">Действие</th>
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($readClients as $client):?>
+                <?php foreach ($readDocuments as $client):?>
                     <tr>
                         <td><?= $client["id"] ?></td>
                         <td><?= $client["name"] ?></td>
                         <td><?= $client["birth_date"]?></td>
-                        <td> <a href='clients/update.php?id=<?= $client["id"] ?>'>update</a> </td>
-                        <td> <a href='clients/update.php?deleteID=<?= $client["id"] ?>'>delete</a> </td>
+                        <td> <a href='clients/update.php?id=<?= $client["id"] ?>'>Обновить</a> </td>
+                        <td> <a href='clients/update.php?deleteID=<?= $client["id"] ?>'>Удалить</a> </td>
                     </tr>
                 <?php endforeach;?>
                 </tbody>
             </table>
-            <a href='clients/create.php'>create</a>
+            <a href='clients/create.php'>Создать</a>
         </div>
     </div>
-<?php
-require_once('source/footer.php');
+<?php require_once('source/footer.php'); ?>
+
