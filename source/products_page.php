@@ -33,13 +33,13 @@ $readProducts = $products->read();
                         <td><?= $product["id"] ?></td>
                         <td><?= $product["p_name"] ?></td>
                         <td><?= $product["quantity"]?></td>
-                        <td> <a href='../debts/update.php?id=<?= $product["id"] ?>'>Обновить</a> </td>
-                        <td> <a href='../debts/update.php?deleteID=<?= $product["id"] ?>'>Удалить</a> </td>
+                        <td> <a href='../products/update.php?id=<?= $product["id"] ?>'>Обновить</a> </td>
+                        <td> <a href='../products/update.php?deleteID=<?= $product["id"] ?>'>Удалить</a> </td>
                     </tr>
                 <?php endforeach;?>
                 </tbody>
             </table>
-            <a href='../debts/create.php'>Создать</a>
+            <a href='../products/create.php'>Создать</a>
         </div>
     </div>
 <?php require_once('../source/footer.php'); ?>

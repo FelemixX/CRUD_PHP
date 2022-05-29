@@ -57,7 +57,7 @@ if(isset($_POST["id"]) && isset($_POST["p_name"]) && isset($_POST["quantity"]))
 <form action="update.php" method="post">
     <input class="invisible" name="id" value="<?=$id?>">
     <div class="mb-3">
-        <label for="debt" class="form-label">Оплаченный долг</label>
+        <label for="debt" class="form-label">Долг</label>
         <input required name="debt" type="number" class="form-control" id="debt">
     </div>
     <div class="mb-3">

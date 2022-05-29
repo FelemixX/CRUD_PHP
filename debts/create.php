@@ -18,7 +18,7 @@ if (isset($_POST["debt"]) && isset($_POST["paid_debt"]) && isset($_POST["unpaid_
     $debt = new Debt($conn);
     $debt->debt = $totalDebt;
     $debt->paidDebt = $paidDebt;
-    $debt->unpaidDebt = $paidDebt;
+    $debt->unpaidDebt = $unpaidDebt;
 
     if ($debt->create())
     {
