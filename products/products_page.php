@@ -1,5 +1,5 @@
 <?php
-$config = require_once ('../source/config.php');
+$config = require_once('../source/config.php');
 $conn = null;
 try
 {
@@ -13,7 +13,7 @@ $products = new Product($conn);
 $readProducts = $products->read();
 ?>
 
-<?php require_once ('../source/header.php'); ?>
+<?php require_once('../source/header.php'); ?>
 
     <div class="container">
         <div class="row">
@@ -33,13 +33,13 @@ $readProducts = $products->read();
                         <td><?= $product["id"] ?></td>
                         <td><?= $product["p_name"] ?></td>
                         <td><?= $product["quantity"]?></td>
-                        <td> <a href='../products/update.php?id=<?= $product["id"] ?>'>Обновить</a> </td>
-                        <td> <a href='../products/update.php?deleteID=<?= $product["id"] ?>'>Удалить</a> </td>
+                        <td> <a href='update.php?id=<?= $product["id"] ?>'>Обновить</a> </td>
+                        <td> <a href='update.php?deleteID=<?= $product["id"] ?>'>Удалить</a> </td>
                     </tr>
                 <?php endforeach;?>
                 </tbody>
             </table>
-            <a href='../products/create.php'>Создать</a>
+            <a href='create.php'>Создать</a>
         </div>
     </div>
 <?php require_once('../source/footer.php'); ?>

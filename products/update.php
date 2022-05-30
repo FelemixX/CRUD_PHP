@@ -20,11 +20,11 @@ if(isset($_GET["deleteID"]))
     $product->id = $deleteID;
     if($product->delete())
     {
-        header("Location: ../source/products_page.php");
+        header("Location: products_page.php");
     }
 }
 
-if(isset($_POST["id"]) && isset($_POST["number"]) && isset($_POST["creation_date"]))
+if(isset($_POST["id"]) && isset($_POST["p_name"]) && isset($_POST["quantity"]))
 {
     $postID = $_POST["id"];
     $productName = $_POST["p_name"];
@@ -46,7 +46,7 @@ if(isset($_POST["id"]) && isset($_POST["number"]) && isset($_POST["creation_date
     $product->id = $postID;
     if($product->update())
     {
-        header("Location: ../source/products_page.php");
+        header("Location: products_page.php");
     }
 }
 ?>
@@ -63,7 +63,7 @@ if(isset($_POST["id"]) && isset($_POST["number"]) && isset($_POST["creation_date
         <input required name="quantity" type="number" class="form-control" id="quantity">
     </div>
     <button type="submit" class="btn btn-primary">Отправить</button>
-    <a href="../source/products_page.php">Отмена</a>
+    <a href="products_page.php">Отмена</a>
 </form>
 <?php require_once ('../source/footer.php'); ?>
 

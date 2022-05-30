@@ -1,5 +1,5 @@
 <?php
-$config = require_once ('../source/config.php');
+$config = require_once('../source/config.php');
 $conn = null;
 try
 {
@@ -13,7 +13,7 @@ $debts = new Debt($conn);
 $readDebts = $debts->read();
 ?>
 
-<?php require_once ('../source/header.php'); ?>
+<?php require_once('../source/header.php'); ?>
 
     <div class="container">
         <div class="row">
@@ -34,13 +34,13 @@ $readDebts = $debts->read();
                         <td><?= $debt["debt"] ?></td>
                         <td><?= $debt["paid_debt"]?></td>
                         <td><?= $debt["unpaid_debt"]?></td>
-                        <td> <a href='../debts/update.php?id=<?= $debt["id"] ?>'>Обновить</a> </td>
-                        <td> <a href='../debts/update.php?deleteID=<?= $debt["id"] ?>'>Удалить</a> </td>
+                        <td> <a href='update.php?id=<?= $debt["id"] ?>'>Обновить</a> </td>
+                        <td> <a href='update.php?deleteID=<?= $debt["id"] ?>'>Удалить</a> </td>
                     </tr>
                 <?php endforeach;?>
                 </tbody>
             </table>
-            <a href='../debts/create.php'>Создать</a>
+            <a href='create.php'>Создать</a>
         </div>
     </div>
 <?php require_once('../source/footer.php'); ?>

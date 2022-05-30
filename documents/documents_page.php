@@ -1,6 +1,6 @@
 <?php
 //Сделать работу с внешними ключами
-$config = require_once ('../source/config.php');
+$config = require_once('../source/config.php');
 $conn = null;
 try
 {
@@ -14,7 +14,7 @@ $documents = new Document($conn);
 $readDocuments = $documents->read();
 ?>
 
-<?php require_once ('../source/header.php'); ?>
+<?php require_once('../source/header.php'); ?>
 
     <div class="container">
         <div class="row">
@@ -34,13 +34,13 @@ $readDocuments = $documents->read();
                         <td><?= $document["id"] ?></td>
                         <td><?= $document["number"] ?></td>
                         <td><?= $document["creation_date"]?></td>
-                        <td> <a href='../documents/update.php?id=<?= $document["id"] ?>'>Обновить</a> </td>
-                        <td> <a href='../documents/update.php?deleteID=<?= $document["id"] ?>'>Удалить</a> </td>
+                        <td> <a href='update.php?id=<?= $document["id"] ?>'>Обновить</a> </td>
+                        <td> <a href='update.php?deleteID=<?= $document["id"] ?>'>Удалить</a> </td>
                     </tr>
                 <?php endforeach;?>
                 </tbody>
             </table>
-            <a href='../documents/create.php'>Создать</a>
+            <a href='create.php'>Создать</a>   <!--  Должна быть на своей исходной позиции  -->
         </div>
     </div>
 <?php require_once('../source/footer.php'); ?>

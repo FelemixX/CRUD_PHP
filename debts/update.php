@@ -20,11 +20,11 @@ if(isset($_GET["deleteID"]))
     $debt->id = $deleteID;
     if($debt->delete())
     {
-        header("Location: ../source/debts_page.php");
+        header("Location: debts_page.php");
     }
 }
 
-if(isset($_POST["id"]) && isset($_POST["p_name"]) && isset($_POST["quantity"]))
+if(isset($_POST["id"]) && isset($_POST["debt"]) && isset ($_POST["paid_debt"]) && isset($_POST["unpaid_debt"]))
 {
     $postID = $_POST["id"];
     $totalDebt = $_POST["debt"];
@@ -48,7 +48,7 @@ if(isset($_POST["id"]) && isset($_POST["p_name"]) && isset($_POST["quantity"]))
     $debt->id = $postID;
     if($debt->update())
     {
-        header("Location: ../source/debts_page.php");
+        header("Location: debts_page.php");
     }
 }
 ?>
@@ -69,7 +69,7 @@ if(isset($_POST["id"]) && isset($_POST["p_name"]) && isset($_POST["quantity"]))
         <input required name="unpaid_debt" type="number" class="form-control" id="unpaid_debt">
     </div>
     <button type="submit" class="btn btn-primary">Отправить</button>
-    <a href="../source/debts_page.php">Отмена</a>
+    <a href="debts_page.php">Отмена</a>
 </form>
 <?php require_once ('../source/footer.php'); ?>
 

@@ -20,7 +20,7 @@ if(isset($_GET["deleteID"]))
     $client->id = $deleteID;
     if($client->delete())
     {
-        header("Location: /index.php");
+        header("Location: clients_page.php");
     }
 }
 
@@ -45,7 +45,7 @@ if(isset($_POST["id"]) && isset($_POST["birth_date"]) && isset($_POST["name"]))
     $client->id = $postID;
     if($client->update())
     {
-        header("Location: ../index.php");
+        header("Location: clients_page.php");
     }
 }
 ?>
@@ -62,7 +62,7 @@ if(isset($_POST["id"]) && isset($_POST["birth_date"]) && isset($_POST["name"]))
         <input required name="birth_date" type="date" class="form-control" id="birth_date">
     </div>
     <button type="submit" class="btn btn-primary">Отправить</button>
-    <a href="../index.php">Отменить</a>
+    <a href="clients_page.php">Отменить</a>
 </form>
 <?php require_once ('../source/footer.php'); ?>
 

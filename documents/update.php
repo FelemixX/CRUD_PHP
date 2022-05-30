@@ -46,7 +46,7 @@ if(isset($_POST["id"]) && isset($_POST["number"]) && isset($_POST["creation_date
     $document->id = $postID;
     if($document->update())
     {
-        header("Location: ../source/documents_page.php");
+        header("Location: documents_page.php");
     }
 }
 ?>
@@ -63,7 +63,7 @@ if(isset($_POST["id"]) && isset($_POST["number"]) && isset($_POST["creation_date
         <input required name="creation_date" type="date" class="form-control" id="birth_date">
     </div>
     <button type="submit" class="btn btn-primary">Отправить</button>
-    <a href="../source/documents_page.php">Отмена</a>
+    <a href="documents_page.php">Отмена</a>
 </form>
 <?php require_once ('../source/footer.php'); ?>
 

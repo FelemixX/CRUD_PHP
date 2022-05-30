@@ -34,6 +34,6 @@ if (isset($_POST["number"]) && isset($_POST["creation_date"]))
         <input required name="creation_date" type="date" class="form-control" id="creation_date">
     </div>
     <button type="submit" class="btn btn-primary">Отправить</button>
-    <a href="../source/documents_page.php">Отмена</a>
+    <a href="documents_page.php">Отмена</a>
 </form>
 <?php require_once('../source/footer.php'); ?>

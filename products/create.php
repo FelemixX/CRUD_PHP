@@ -19,7 +19,7 @@ if (isset($_POST["p_name"]) && isset($_POST["quantity"]))
     $product->quantity = $quantity;
     if ($product->create())
     {
-        header("Location: ../source/products_page.php");
+        header("Location: products_page.php");
     }
 }
 ?>
@@ -34,6 +34,6 @@ if (isset($_POST["p_name"]) && isset($_POST["quantity"]))
         <input required name="quantity" type="number" class="form-control" id="quantity">
     </div>
     <button type="submit" class="btn btn-primary">Отправить</button>
-    <a href="../source/products_page.php">Отмена</a>
+    <a href="products_page.php">Отмена</a>
 </form>
 <?php require_once('../source/footer.php'); ?>
