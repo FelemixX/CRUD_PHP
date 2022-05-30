@@ -18,11 +18,11 @@ if (isset($_POST["debt"]) && isset($_POST["paid_debt"]) && isset($_POST["unpaid_
     $debt = new Debt($conn);
     $debt->debt = $totalDebt;
     $debt->paidDebt = $paidDebt;
-    $debt->unpaidDebt = $paidDebt;
+    $debt->unpaidDebt = $unpaidDebt;
 
     if ($debt->create())
     {
-        header("Location: ../source/debts_page.php");
+        header("Location: debts_page.php");
     }
 }
 ?>
@@ -41,6 +41,6 @@ if (isset($_POST["debt"]) && isset($_POST["paid_debt"]) && isset($_POST["unpaid_
         <input required name="unpaid_debt" type="number" class="form-control" id="unpaid_debt">
     </div>
     <button type="submit" class="btn btn-primary">Отправить</button>
-    <a href="../source/debts_page.php">Отмена</a>
+    <a href="debts_page.php">Отмена</a>
 </form>
 <?php require_once('../source/footer.php'); ?>

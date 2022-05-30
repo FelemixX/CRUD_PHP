@@ -1,5 +1,5 @@
 <?php
-$config = require_once ('../source/config.php');
+$config = require_once('../source/config.php');
 $conn = null;
 try
 {
@@ -13,7 +13,7 @@ $products = new Product($conn);
 $readProducts = $products->read();
 ?>
 
-<?php require_once ('../source/header.php'); ?>
+<?php require_once('../source/header.php'); ?>
 
     <div class="container">
         <div class="row">
@@ -21,10 +21,11 @@ $readProducts = $products->read();
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">ID Товара</th>
                     <th scope="col">Наименование</th>
+                    <th scope="col">Номер документа</th>
                     <th scope="col">Количество</th>
-                    <th scope="col">Действие</th>
+                    <th scope="col">Действие с товарами</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -32,14 +33,15 @@ $readProducts = $products->read();
                     <tr>
                         <td><?= $product["id"] ?></td>
                         <td><?= $product["p_name"] ?></td>
+                        <td><?= $product["number"]?></td>
                         <td><?= $product["quantity"]?></td>
-                        <td> <a href='../debts/update.php?id=<?= $product["id"] ?>'>Обновить</a> </td>
-                        <td> <a href='../debts/update.php?deleteID=<?= $product["id"] ?>'>Удалить</a> </td>
+                        <td> <a href='update.php?id=<?= $product["id"] ?>'>Обновить</a> </td>
+                        <td> <a href='update.php?deleteID=<?= $product["id"] ?>'>Удалить</a> </td>
                     </tr>
                 <?php endforeach;?>
                 </tbody>
             </table>
-            <a href='../debts/create.php'>Создать</a>
+            <a href='create.php'>Создать</a>
         </div>
     </div>
 <?php require_once('../source/footer.php'); ?>

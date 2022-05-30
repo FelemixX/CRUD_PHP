@@ -1,5 +1,5 @@
 <?php
-$config = require_once ('../source/config.php');
+$config = require_once('../source/config.php');
 $conn = null;
 try
 {
@@ -13,7 +13,7 @@ $debts = new Debt($conn);
 $readDebts = $debts->read();
 ?>
 
-<?php require_once ('../source/header.php'); ?>
+<?php require_once('../source/header.php'); ?>
 
     <div class="container">
         <div class="row">
@@ -21,10 +21,10 @@ $readDebts = $debts->read();
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">ID Долга</th>
                     <th scope="col">Долг</th>
-                    <th scope="col">Оплаченный долг</th>
-                    <th scope="col">Неоплаченный долг</th>
+                    <th scope="col">Номер документа</th>
+                    <th scope="col">Действие с долгами</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -32,15 +32,14 @@ $readDebts = $debts->read();
                     <tr>
                         <td><?= $debt["id"] ?></td>
                         <td><?= $debt["debt"] ?></td>
-                        <td><?= $debt["paid_debt"]?></td>
-                        <td><?= $debt["unpaid_debt"]?></td>
-                        <td> <a href='../debts/update.php?id=<?= $debt["id"] ?>'>Обновить</a> </td>
-                        <td> <a href='../debts/update.php?deleteID=<?= $debt["id"] ?>'>Удалить</a> </td>
+                        <td><?= $debt["number"]?></td>
+                        <td> <a href='update.php?id=<?= $debt["id"] ?>'>Обновить</a> </td>
+                        <td> <a href='update.php?deleteID=<?= $debt["id"] ?>'>Удалить</a> </td>
                     </tr>
                 <?php endforeach;?>
                 </tbody>
             </table>
-            <a href='../debts/create.php'>Создать</a>
+            <a href='create.php'>Создать</a>
         </div>
     </div>
 <?php require_once('../source/footer.php'); ?>

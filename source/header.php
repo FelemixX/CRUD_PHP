@@ -15,17 +15,20 @@
 <div class="container">
     <nav class="navbar navbar-nav-scroll navbar-expand-lg navbar-light bg-light ">
         <div class="container-fluid">
-            <a class="navbar-brand" href="../index.php">Клиенты</a>
+            <a class="navbar-brand" href="/index.php/">Главная</a>
             <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="../source/documents_page.php">Документы</a>
+                        <a class="nav-link active" aria-current="page" href="../clients/clients_page.php">Клиенты</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="../source/products_page.php">Товары</a>
+                        <a class="nav-link active" aria-current="page" href="../documents/documents_page.php">Документы</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="../source/debts_page.php">Долг</a>
+                        <a class="nav-link active" aria-current="page" href="../products/products_page.php">Товары</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="../debts/debts_page.php">Долг</a>
                     </li>
                 </ul>
             </div>

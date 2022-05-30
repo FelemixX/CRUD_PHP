@@ -18,7 +18,7 @@ if (isset($_POST["birth_date"]) && isset($_POST["name"]))
     $client->birth_date = $date;
     if ($client->create())
     {
-        header("Location: ../index.php");
+        header("Location: clients_page.php");
     }
 }
 ?>
@@ -29,10 +29,10 @@ if (isset($_POST["birth_date"]) && isset($_POST["name"]))
         <input required name="name" type="text" class="form-control" id="name">
     </div>
     <div class="mb-3">
-        <label for="creation_date" class="form-label">Дата создания</label>
+        <label for="creation_date" class="form-label">Дата рождения</label>
         <input required name="birth_date" type="date" class="form-control" id="birth_date">
     </div>
     <button type="submit" class="btn btn-primary">Отправить</button>
-    <a href="../index.php">Отмена</a>
+    <a href="clients_page.php">Отмена</a>
 </form>
 <?php require_once('../source/footer.php'); ?>
