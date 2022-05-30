@@ -4,19 +4,22 @@ require_once "main_class.php";
 class Product extends Main_Class
 {
     protected $table_name = "product";
-    public $p_name, $quantity;
+    public $p_name, $quantity, $document_ID;
 
     function create()
     {
         $tname = $this->table_name;
-        $query = "INSERT INTO $tname (`p_name`,`quantity`)
-                            VALUES(?, ?)";
+//        $query = "INSERT INTO $tname (`p_name`,`quantity`)
+//                            VALUES(?, ?)";
+        $query = "INSERT INTO product (`p_name`, `quantity`, `document_ID`)
+                        VALUES(?, ?, ?)";
         $stmt = $this->conn->prepare($query);
 
-        if ($stmt->execute([$this->p_name, $this->quantity]))
+        if ($stmt->execute([$this->p_name, $this->quantity, $this->document_ID]))
         {
             return true;
-        } else
+        }
+        else
         {
             return false;
         }

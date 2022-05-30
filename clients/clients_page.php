@@ -39,6 +39,7 @@ $readClients = $clients->read();
             <?php endforeach;?>
             </tbody>
         </table>
+<!--        <button type="submit" href="create.php" class="btn btn-primary">Создать</button>-->
         <a href='create.php'>Создать</a>
     </div>
 </div>

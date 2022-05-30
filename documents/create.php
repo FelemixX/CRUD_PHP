@@ -17,14 +17,14 @@ if (isset($_POST["client_ID"]) && isset($_POST["number"]) && isset($_POST["creat
 
     $docNumber = $_POST["number"];
     $creationDate = $_POST["creation_date"];
-    $clientId = $_POST["client_ID"];
+    $clientID = $_POST["client_ID"];
 
     require_once('../tables/document.php');
 
     $document = new Document($conn);
     $document->number = $docNumber;
     $document->creation_date = $creationDate;
-    $document->client_ID = $clientId;
+    $document->client_ID = $clientID;
 
     if ($document->create())
     {
@@ -35,6 +35,7 @@ if (isset($_POST["client_ID"]) && isset($_POST["number"]) && isset($_POST["creat
 require_once ('../tables/client.php');
 $client = new Client($conn); //Вывод клиентов для выпадашки
 $clients = $client->read();
+
 ?>
 
 <?php require_once('../source/header.php'); ?>
