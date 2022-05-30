@@ -4,16 +4,18 @@ require_once "main_class.php";
 class Debt extends Main_Class
 {
     protected $table_name = "debt";
-    public $debt;
+    public $debt, $document_ID;
 
     function create()
     {
         $tname = $this->table_name;
-        $query = "INSERT INTO $tname (`debt`)
-                            VALUES(?)";
+//        $query = "INSERT INTO $tname (`debt`)
+//                            VALUES(?)";
+        $query = "INSERT INTO debt (`debt`, `document_ID`)
+                        VALUES(?, ?)";
         $stmt = $this->conn->prepare($query);
 
-        if ($stmt->execute([$this->debt]))
+        if ($stmt->execute([$this->debt, $this->document_ID]))
         {
             return true;
         }

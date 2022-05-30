@@ -17,16 +17,6 @@ if (isset($_POST["document_ID"]) && isset($_POST["p_name"]) && isset($_POST["qua
     $quantity = $_POST["quantity"];
     $documentID = $_POST["document_ID"];
 
-    $conn = null;
-
-    try
-    {
-        $conn = new PDO("mysql:host=" . "localhost:3366" . ";dbname=" . "debts_docs_payments", "root", "");
-    }
-    catch (PDOException $exception)
-    {
-        echo "Ошибка подключпения к БД!: " . $exception->getMessage();
-    }
     require_once('../tables/product.php');
     $product = new Product($conn);
 
