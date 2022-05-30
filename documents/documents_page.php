@@ -22,17 +22,19 @@ $readDocuments = $documents->read();
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Номер</th>
+                    <th scope="col">ID Документа</th>
+                    <th scope="col">Номер документа</th>
+                    <th scope="col">Имя клиента</th>
                     <th scope="col">Дата создания</th>
-                    <th scope="col">Действие</th>
+                    <th scope="col">Действие с документами</th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php foreach ($readDocuments as $document):?>
                     <tr>
-                        <td><?= $document["id"] ?></td>
+                        <td><?= $document["id"]?></td>
                         <td><?= $document["number"] ?></td>
+                        <td><?= $document["name"]?></td>
                         <td><?= $document["creation_date"]?></td>
                         <td> <a href='update.php?id=<?= $document["id"] ?>'>Обновить</a> </td>
                         <td> <a href='update.php?deleteID=<?= $document["id"] ?>'>Удалить</a> </td>

@@ -21,10 +21,11 @@ $readProducts = $products->read();
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">ID Товара</th>
                     <th scope="col">Наименование</th>
+                    <th scope="col">Номер документа</th>
                     <th scope="col">Количество</th>
-                    <th scope="col">Действие</th>
+                    <th scope="col">Действие с товарами</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -32,6 +33,7 @@ $readProducts = $products->read();
                     <tr>
                         <td><?= $product["id"] ?></td>
                         <td><?= $product["p_name"] ?></td>
+                        <td><?= $product["number"]?></td>
                         <td><?= $product["quantity"]?></td>
                         <td> <a href='update.php?id=<?= $product["id"] ?>'>Обновить</a> </td>
                         <td> <a href='update.php?deleteID=<?= $product["id"] ?>'>Удалить</a> </td>

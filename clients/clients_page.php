@@ -21,10 +21,10 @@ $readClients = $clients->read();
         <table class="table table-hover">
             <thead>
             <tr>
-                <th scope="col">Номер</th>
+                <th scope="col">ID Клиента</th>
                 <th scope="col">Имя</th>
                 <th scope="col">Дата рождения</th>
-                <th scope="col">Действие</th>
+                <th scope="col">Действие с клиентами</th>
             </tr>
             </thead>
             <tbody>

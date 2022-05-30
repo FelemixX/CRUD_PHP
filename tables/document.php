@@ -26,8 +26,10 @@ class Document extends Main_Class
     function read()
     {
         $tname = $this->table_name;
-        $query = "SELECT $tname.id, $tname.number, $tname.creation_date
-                    FROM $tname";
+       /* $query = "SELECT $tname.id, $tname.number, $tname.creation_date
+                    FROM $tname";*/
+        $query  = "SELECT dc.*, cl.name FROM document AS dc
+                    JOIN client cl on dc.client_ID = cl.id";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchall(PDO::FETCH_ASSOC);
