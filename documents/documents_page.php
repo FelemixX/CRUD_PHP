@@ -9,6 +9,7 @@ try
 {
     echo "Ошибка подключения к БД!: " . $exception->getMessage();
 }
+
 require_once('../tables/document.php');
 $documents = new Document($conn);
 $readDocuments = $documents->read();
@@ -34,7 +35,7 @@ $readDocuments = $documents->read();
                     <tr>
                         <td><?= $document["id"]?></td>
                         <td><?= $document["number"] ?></td>
-                        <td><?= $document["name"]?></td>
+                        <td><?= $document["name"]?></td> <!-- Имя клиента -->
                         <td><?= $document["creation_date"]?></td>
                         <td> <a href='update.php?id=<?= $document["id"] ?>'>Обновить</a> </td>
                         <td> <a href='update.php?deleteID=<?= $document["id"] ?>'>Удалить</a> </td>
@@ -42,7 +43,7 @@ $readDocuments = $documents->read();
                 <?php endforeach;?>
                 </tbody>
             </table>
-            <a href='create.php'>Создать</a>   <!--  Должна быть на своей исходной позиции  -->
+            <a href='create.php'>Создать</a>
         </div>
     </div>
 <?php require_once('../source/footer.php'); ?>
