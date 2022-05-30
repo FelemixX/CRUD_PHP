@@ -29,7 +29,7 @@ if(isset($_GET["deleteID"]))
 
     if($document->delete())
     {
-        header("Location: ../source/documents_page.php");
+        header("Location: documents_page.php");
     }
 }
 

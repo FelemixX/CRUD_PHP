@@ -9,13 +9,13 @@ class Document extends Main_Class
     function create()
     {
         $tname = $this->table_name;
-        $query = "INSERT INTO $tname (`number`,`creation_date`)
-                            VALUES(?, ?)";
-//        $query = "INSERT INTO document (`number`, `creation_date`, `client_ID`)
-//                        VALUES(?, ?, ?)";
+//        $query = "INSERT INTO $tname (`number`,`creation_date`)
+//                            VALUES(?, ?)";
+        $query = "INSERT INTO document (`number`, `creation_date`, `client_ID`)
+                        VALUES(?, ?, ?)";
         $stmt = $this->conn->prepare($query);
 
-        if ($stmt->execute([$this->number, $this->creation_date]))
+        if ($stmt->execute([$this->number, $this->creation_date, $this->client_ID]))
         {
             return true;
         }
