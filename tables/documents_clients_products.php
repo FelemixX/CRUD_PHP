@@ -1,10 +1,10 @@
 <?php
 require_once "main_class.php";
 
-class Documents_And_Products extends Main_Class
+class Documents_Clients_Products extends Main_Class
 {
-    protected $table_name = "documents_and_products";
-    public $document_FK, $product_FK;
+    protected $table_name = "documents_clients_products";
+    public $document_FK, $product_FK, $client_FK;
 
     function create()
     {
@@ -13,10 +13,11 @@ class Documents_And_Products extends Main_Class
                             VALUES(?, ?)";
         $stmt = $this->conn->prepare($query);
 
-        if ($stmt->execute([$this->document_FK, $this->product_FK]))
+        if ($stmt->execute([$this->document_FK, $this->product_FK, $this->client_FK]))
         {
             return true;
-        } else
+        }
+        else
         {
             return false;
         }

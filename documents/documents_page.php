@@ -1,5 +1,5 @@
 <?php
-//Сделать работу с внешними ключами
+
 $config = require_once('../source/config.php');
 $conn = null;
 try

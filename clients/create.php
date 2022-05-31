@@ -25,7 +25,7 @@ if (isset($_POST["birth_date"]) && isset($_POST["name"]))
 <?php require_once('../source/header.php'); ?>
 <form action="create.php" method="post">
     <div class="mb-3">
-        <label for="number" class="form-label">Номер документа</label>
+        <label for="number" class="form-label">Имя</label>
         <input required name="name" type="text" class="form-control" id="name">
     </div>
     <div class="mb-3">
