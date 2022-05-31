@@ -11,37 +11,28 @@ try
 require_once('../tables/client.php');
 $clients = new Client($conn);
 $readClients = $clients->read();
+
 ?>
 
 <?php
-if (isset($_GET["search"]))
+if(isset($_GET['search']))
+{
+    $query = $_GET['search'];
+    $rawResults = ("SELECT client.name FROM client
+			        WHERE (`name` LIKE '%" . $query . "%')");
+    if (isset($rawResults))
+    {
+        while ($results = mysqli_fetch_array($rawResults))
+        {
+            echo $results['name'];
+        }
+    }
+    else
+    {
+        echo "Клиент не найден";
+    }
+}
 ?>
-
-<!--$searchInput = $_REQUEST[''];-->
-<!---->
-<!--$query = "SELECT * FROM client-->
-<!--WHERE `name` = '$searchInput'";-->
-<!---->
-<!--$result = $conn -> query($query);-->
-<!---->
-<!--function fetchSearch($result)-->
-<!--{-->
-<!--    if ($result->rowCount() > 0)-->
-<!--    {-->
-<!--        while ($row = $result -> fetch_assoc())-->
-<!--        {-->
-<!--            $arr = fetchSearch($row);-->
-<!--            echo "ID: ". $row['id'] ."<br>-->
-<!--                  Имя: ". $row['name'] ."<br>-->
-<!--                  Дата рождения: ". $row['birth_date']."<br>";-->
-<!--        }-->
-<!--    }-->
-<!--    else-->
-<!--    {-->
-<!--        echo "Клиент не найден";-->
-<!--    }-->
-<!--}-->
-
 
 
 <?php require_once ('../source/header.php'); ?>
@@ -72,10 +63,10 @@ if (isset($_GET["search"]))
         </table>
 <!--        <button type="submit" href="create.php" class="btn btn-primary">Создать</button>-->
         <a href='create.php'>Создать</a>
-        <form action="clients_page.php" method="get">
-            Поиск клиента: <input type="text" name="search" id="search"<input/>
-            <input type="button" value="Поиск"<input/>
-            <hr>
+        <form method="get" action="clients_page.php">
+            Поиск клиентов
+            <input required name="search" type="text" />
+            <button type="submit" class="btn btn-primary">Поиск</button>
         </form>
          <?php //fetchSearch($result); ?>
     </div>

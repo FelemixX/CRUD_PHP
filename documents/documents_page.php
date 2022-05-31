@@ -45,6 +45,11 @@ $readDocuments = $documents->read();
                 </tbody>
             </table>
             <a href='create.php'>Создать</a>
+            <form method="get" action="clients_page.php">
+                Поиск документов
+                <input required name="search" type="text" />
+                <button type="submit" class="btn btn-primary">Поиск</button>
+            </form>
         </div>
     </div>
 <?php require_once('../source/footer.php'); ?>
