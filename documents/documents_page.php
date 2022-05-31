@@ -30,6 +30,7 @@ $readDocuments = $documents->read();
                     <th scope="col">Действие с документами</th>
                 </tr>
                 </thead>
+
                 <tbody>
                 <?php foreach ($readDocuments as $document):?>
                     <tr>

@@ -13,6 +13,37 @@ $clients = new Client($conn);
 $readClients = $clients->read();
 ?>
 
+<?php
+if (isset($_GET["search"]))
+?>
+
+<!--$searchInput = $_REQUEST[''];-->
+<!---->
+<!--$query = "SELECT * FROM client-->
+<!--WHERE `name` = '$searchInput'";-->
+<!---->
+<!--$result = $conn -> query($query);-->
+<!---->
+<!--function fetchSearch($result)-->
+<!--{-->
+<!--    if ($result->rowCount() > 0)-->
+<!--    {-->
+<!--        while ($row = $result -> fetch_assoc())-->
+<!--        {-->
+<!--            $arr = fetchSearch($row);-->
+<!--            echo "ID: ". $row['id'] ."<br>-->
+<!--                  Имя: ". $row['name'] ."<br>-->
+<!--                  Дата рождения: ". $row['birth_date']."<br>";-->
+<!--        }-->
+<!--    }-->
+<!--    else-->
+<!--    {-->
+<!--        echo "Клиент не найден";-->
+<!--    }-->
+<!--}-->
+
+
+
 <?php require_once ('../source/header.php'); ?>
 
 <div class="container">
@@ -41,6 +72,12 @@ $readClients = $clients->read();
         </table>
 <!--        <button type="submit" href="create.php" class="btn btn-primary">Создать</button>-->
         <a href='create.php'>Создать</a>
+        <form action="clients_page.php" method="get">
+            Поиск клиента: <input type="text" name="search" id="search"<input/>
+            <input type="button" value="Поиск"<input/>
+            <hr>
+        </form>
+         <?php //fetchSearch($result); ?>
     </div>
 </div>
 <?php require_once('../source/footer.php'); ?>
