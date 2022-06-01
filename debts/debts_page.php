@@ -59,7 +59,7 @@ if(isset($_GET['search']))
                 </tbody>
             </table>
             <form method="get" action="debts_page.php">
-                <br> Поиск товаров
+                <br> Поиск задолженностей
                 <br><input required name="search" type="text" />
                 <button type="submit" class="btn btn-primary">Поиск</button>
             </form>
