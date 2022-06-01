@@ -15,23 +15,22 @@ $readClients = $clients->read();
 ?>
 
 <?php
+//поиск
 if(isset($_GET['search']))
 {
     $query = $_GET['search'];
-    $rawResults = ("SELECT client.name FROM client
+    $query = trim($query);
+    $query = htmlspecialchars($query);
+    $result = $conn->prepare("SELECT * FROM client
 			        WHERE (`name` LIKE '%" . $query . "%')");
-    if (isset($rawResults))
+    $result->execute();
+    while($row = $result->fetch(PDO::FETCH_BOTH))
     {
-        while ($results = mysqli_fetch_array($rawResults))
-        {
-            echo $results['name'];
-        }
-    }
-    else
-    {
-        echo "Клиент не найден";
+        $id = array_shift($row);
+        $array[$id] =$row[1];
     }
 }
+
 ?>
 
 
@@ -64,11 +63,32 @@ if(isset($_GET['search']))
 <!--        <button type="submit" href="create.php" class="btn btn-primary">Создать</button>-->
         <a href='create.php'>Создать</a>
         <form method="get" action="clients_page.php">
-            Поиск клиентов
-            <input required name="search" type="text" />
+           <br> Поиск клиентов
+            <br><input required name="search" type="text" />
             <button type="submit" class="btn btn-primary">Поиск</button>
         </form>
-         <?php //fetchSearch($result); ?>
+        <?php if(isset($_GET['search'])): ?>
+            <?php if(empty($array)): ?>
+                <p>Ничего не найдено</p>
+            <?php else: ?>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID Клиента</th>
+                        <th scope="col">Имя</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($array as $id => $client):?>
+                        <tr>
+                            <td><?= $id?></td>
+                            <td><?= $client ?></td>
+                        </tr>
+                    <?php endforeach;?>
+                    </tbody>
+                </table>
+            <?php endif; ?>
+        <?php endif; ?>
     </div>
 </div>
 <?php require_once('../source/footer.php'); ?>

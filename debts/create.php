@@ -42,7 +42,7 @@ $documents = $document->read();
         <?php endforeach?>
     </select>
     <div class="mb-3">
-        <label for="debt" class="form-label">Долг</label>
+        <label for="debt" class="form-label">Задолженность</label>
         <input required name="debt" type="number" class="form-control" id="debt">
     </div>
     <button type="submit" class="btn btn-primary">Отправить</button>
