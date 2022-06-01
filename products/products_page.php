@@ -23,6 +23,7 @@ if(isset($_GET['search']))
     $result = $conn->prepare("SELECT * FROM product
 			        WHERE (`p_name` LIKE '%" . $query . "%')");
     $result->execute();
+    //echo '<pre>' . __FILE__ . ':' . __LINE__ . ':<br>' . print_r($result, true) . '</pre>';
     while($row = $result->fetch(PDO::FETCH_BOTH))
     {
         $id = array_shift($row);

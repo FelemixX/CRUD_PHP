@@ -13,14 +13,14 @@ catch (PDOException $exception)
 }
 if(isset($_GET['user_query']))
 {
+    /* Обработать полученный SQL запрос чтобы не уколоться инъекцией */
     $query = $_GET['user_query'];
     $query = trim($query);
     $query = htmlspecialchars($query);
+    /* Выполнить запрос */
     $queryToExec = $conn->prepare($query);
     $queryToExec->execute();
-     echo '<pre>' . __FILE__ . ':' . __LINE__ . ':<br>' . print_r($queryToExec, true) . '</pre>';
     $queryToExec = $queryToExec->fetchAll(PDO::FETCH_ASSOC);
-
 }
 ?>
 
@@ -36,6 +36,16 @@ if(isset($_GET['user_query']))
             <input required name="user_query" type="text" />
             <button type="submit" class="btn btn-primary">Отправить</button>
         </form>
+            <?php echo "<table>";
+                foreach ($queryToExec as $key=>$value)
+                {
+                   echo "<tr>";
+                    foreach ($value as $row=>$val)
+                    {
+                        echo '<td>' .$val. '</td>';
+                    }
+                    echo "</tr>";
+                } ?>
     </div>
 </div>
 <?php require_once('source/footer.php'); ?>
