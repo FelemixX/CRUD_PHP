@@ -54,15 +54,4 @@ class Client extends Main_Class
         return false;
     }
 
-
-    function search()
-    {
-        $query = $_GET['search'];
-        $tname = $this->table_name;
-        $query = ("SELECT client.name FROM client
-			        WHERE (`name` LIKE '%".$query."%')");
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchall(PDO::FETCH_ASSOC);
-    }
 }
