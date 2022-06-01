@@ -40,6 +40,12 @@ abstract class Main_Class
             return false;
         }
     }
+
+    function sqlQuery($query)
+    {
+        $stmt = $this->conn->prepare($query);
+
+    }
 }
 
 ?>

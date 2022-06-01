@@ -69,7 +69,7 @@ if(isset($_POST["document_ID"]) && isset($_POST["id"]) && isset($_POST["debt"]))
                 <option value="<?=$item["id"]?>" selected><?=$item["number"]?></option>
             <?php endforeach?>
         </select>
-        <label for="debt" class="form-label">Долг</label>
+        <label for="debt" class="form-label">Задолженность</label>
         <input required name="debt" type="number" class="form-control" id="debt">
     </div>
     <button type="submit" class="btn btn-primary">Отправить</button>

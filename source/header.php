@@ -28,7 +28,7 @@
                         <a class="nav-link active" aria-current="page" href="../products/products_page.php">Товары</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="../debts/debts_page.php">Долг</a>
+                        <a class="nav-link active" aria-current="page" href="../debts/debts_page.php">Задолженности</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="../documents_products_clients/documents_products_clients_page.php">Документ - клиент - товар</a>

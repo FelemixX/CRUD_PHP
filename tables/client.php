@@ -7,8 +7,8 @@ class Client extends Main_Class
 
     function create()
     {
-
-        $query = "INSERT INTO $this->table_name (`name`,`birth_date`)
+        $tname = $this->table_name;
+        $query = "INSERT INTO $tname (`name`,`birth_date`)
                             VALUES(?, ?)";
         $stmt = $this->conn->prepare($query);
 
@@ -23,8 +23,9 @@ class Client extends Main_Class
 
     function read()
     {
-        $query = "SELECT $this->table_name.id, $this->table_name.name, birth_date
-                    FROM $this->table_name";
+        $tname = $this->table_name;
+        $query = "SELECT $tname.id, $tname.birth_date, $tname.name
+                    FROM $tname";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchall(PDO::FETCH_ASSOC);
@@ -32,6 +33,7 @@ class Client extends Main_Class
 
     function update()
     {
+        $tname = $this->table_name;
         $query = "UPDATE 
                         " . $this->table_name . "  
                    SET 
@@ -51,4 +53,5 @@ class Client extends Main_Class
         }
         return false;
     }
+
 }
