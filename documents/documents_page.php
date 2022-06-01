@@ -28,7 +28,7 @@ if(isset($_GET['search']))
     while($row = $result->fetch(PDO::FETCH_BOTH))
     {
         $id = array_shift($row);
-        $array[$id] =$row[1];
+        $array[$id] =array($row[0], $row[1], $row[2]);
     }
 }
 
@@ -75,16 +75,19 @@ if(isset($_GET['search']))
                 <?php else: ?>
                     <table class="table table-hover">
                         <thead>
+                        <h2>Найденные совпадения</h2>
                         <tr>
                             <th scope="col">ID Документа</th>
                             <th scope="col">Номер</th>
+                            <th scope="col">Дата создания</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <?php foreach ($array as $id => $doc):?>
+                        <?php foreach ($array as $result):?>
                             <tr>
-                                <td><?= $id?></td>
-                                <td><?= $doc ?></td>
+                                <td><?= $result["0"] ?></td>
+                                <td><?= $result["1"] ?></td>
+                                <td><?= $result["2"] ?></td>
                             </tr>
                         <?php endforeach;?>
                         </tbody>

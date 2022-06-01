@@ -4,7 +4,8 @@ $conn = null;
 try
 {
     $conn = new PDO("mysql:host=" . "localhost:3366" . ";dbname=" . "debts_docs_payments", "root", "");
-} catch (PDOException $exception)
+}
+catch (PDOException $exception)
 {
     echo "Ошибка подключения к БД!: " . $exception->getMessage();
 }
@@ -18,17 +19,17 @@ $readClients = $clients->read();
 //поиск
 if(isset($_GET['search']))
 {
-    $query = $_GET['search'];
-    $query = trim($query);
-    $query = htmlspecialchars($query);
-    $result = $conn->prepare("SELECT * FROM client
-			        WHERE (`name` LIKE '%" . $query . "%')");
-    $result->execute();
-    while($row = $result->fetch(PDO::FETCH_BOTH))
-    {
-        $id = array_shift($row);
-        $array[$id] =$row[1];
-    }
+        $query = $_GET['search'];
+        $query = trim($query);
+        $query = htmlspecialchars($query);
+        $result = $conn->prepare("SELECT * FROM client
+                    WHERE (`name` LIKE '%" . $query . "%')");
+        $result->execute();
+        while ($row = $result->fetch(PDO::FETCH_BOTH))
+        {
+            $id = array_shift($row);
+            $array[$id] = array($row[0], $row[1], $row[2]);//0,1,2
+        }
 }
 
 ?>
@@ -73,16 +74,19 @@ if(isset($_GET['search']))
             <?php else: ?>
                 <table class="table table-hover">
                     <thead>
+                    <h2>Найденные совпадения</h2>
                     <tr>
                         <th scope="col">ID Клиента</th>
                         <th scope="col">Имя</th>
+                        <th scope="col">Дата рождения</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach ($array as $id => $client):?>
+                    <?php foreach ($array as $result):?>
                         <tr>
-                            <td><?= $id?></td>
-                            <td><?= $client ?></td>
+                            <td><?= $result["0"] ?></td>
+                            <td><?= $result["1"] ?></td>
+                            <td><?= $result["2"] ?></td>
                         </tr>
                     <?php endforeach;?>
                     </tbody>

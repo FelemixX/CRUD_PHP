@@ -27,7 +27,7 @@ if(isset($_GET['search']))
     while($row = $result->fetch(PDO::FETCH_BOTH))
     {
         $id = array_shift($row);
-        $array[$id] =$row[2];
+        $array[$id] =array($row[0],$row[2], $row[3]); //0,2,3
     }
 }
 
@@ -76,13 +76,15 @@ if(isset($_GET['search']))
                         <tr>
                             <th scope="col">ID Товара</th>
                             <th scope="col">Наименование</th>
+                            <th scope="col">Количество</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <?php foreach ($array as $id => $prod):?>
+                        <?php foreach ($array as $result):?>
                             <tr>
-                                <td><?= $id?></td>
-                                <td><?= $prod ?></td>
+                                <td><?= $result["0"]?></td>
+                                <td><?= $result["1"] ?></td>
+                                <td><?= $result["2"] ?></td>
                             </tr>
                         <?php endforeach;?>
                         </tbody>
