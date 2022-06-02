@@ -13,9 +13,9 @@ catch (PDOException $exception)
     echo "Ошибка подключения к БД!: " . $exception->getMessage();
 }
 
-require_once('../tables/document.php');
-$documents = new Document($conn);
-$readDocuments = $documents->read();
+require_once('../tables/documents_clients_products.php');
+$dcp = new Documents_Clients_Products($conn);
+$readDcp = $dcp->read();
 ?>
 
 <?php require_once('../source/header.php'); ?>
@@ -26,27 +26,26 @@ $readDocuments = $documents->read();
         <table class="table table-hover">
             <thead>
             <tr>
-                <th scope="col">ID Документа</th>
-                <th scope="col">Номер документа</th>
+                <th scope="col">ID клиента</th>
                 <th scope="col">Имя клиента</th>
-                <th scope="col">Дата создания</th>
-                <th scope="col">Действие с документами</th>
+                <th scope="col">Дата рождения</th>
+                <th scope="col">Товар</th>
+                <th scope="col">Номер документа</th>
+                <th scope="col">Дата создания документа</th>
             </tr>
             </thead>
             <tbody>
-            <?php foreach ($readDocuments as $document):?>
+            <?php foreach ($readDcp as $dcp):?>
                 <tr>
-                    <td><?= $document["id"]?></td>
-                    <td><?= $document["number"] ?></td>
-                    <td><?= $document["name"]?></td> <!-- Имя клиента -->
-                    <td><?= $document["creation_date"]?></td>
-                    <td> <a href='update.php?id=<?= $document["id"] ?>'>Обновить</a> </td>
-                    <td> <a href='update.php?deleteID=<?= $document["id"] ?>'>Удалить</a> </td>
-                </tr>
+                    <td><?= $dcp["client_FK"]?></td>
+                    <td><?= $dcp["name"] ?></td>
+                    <td><?= $dcp["birth_date"]?></td>
+                    <td><?= $dcp["p_name"]?></td>
+                    <td><?= $dcp["number"]?></td>
+                    <td><?= $dcp["creation_date"]?></td>
             <?php endforeach;?>
             </tbody>
         </table>
-        <a href='create.php'>Создать</a>
     </div>
 </div>
 <?php require_once('../source/footer.php'); ?>

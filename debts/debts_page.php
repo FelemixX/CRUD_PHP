@@ -58,6 +58,7 @@ if(isset($_GET['search']))
                 <?php endforeach;?>
                 </tbody>
             </table>
+            <a href='create.php'>Создать</a>
             <form method="get" action="debts_page.php">
                 <br> Поиск задолженностей
                 <br><input required name="search" type="text" />
@@ -85,7 +86,6 @@ if(isset($_GET['search']))
                     </table>
                 <?php endif; ?>
             <?php endif; ?>
-            <a href='create.php'>Создать</a>
         </div>
     </div>
 <?php require_once('../source/footer.php'); ?>

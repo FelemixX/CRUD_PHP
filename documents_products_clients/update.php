@@ -11,15 +11,6 @@ catch (PDOException $exception)
     echo "Ошибка подключпения к БД!: " . $exception->getMessage();
 }
 
-if(isset($_GET["id"]))
-{
-    $id = $_GET["id"];
-
-    require_once('../tables/client.php');
-    $client = new Client($conn); //Вывод клиентов для выпадашки
-    $clients = $client->read();
-}
-
 if(isset($_GET["deleteID"]))
 {
     $deleteID = $_GET["deleteID"];
@@ -29,20 +20,20 @@ if(isset($_GET["deleteID"]))
 
     if($document->delete())
     {
-        header("Location: documents_page.php");
+        header("Location: documents_products_clients_page.php");
     }
 }
 
 if(isset($_POST["id"]) && isset($_POST["number"]) && isset($_POST["creation_date"]) && isset($_POST["client_ID"]))
 {
     $postID = $_POST["id"];
-    $docNumber = $_POST["number"];
+    $documentFK = $_POST["number"];
     $creationDate = $_POST["creation_date"];
     $client = $_POST["client_ID"];
 
     require_once('../tables/document.php');
     $document = new Document($conn);
-    $document->number = $docNumber;
+    $document->number = $documentFK;
     $document->creation_date = $creationDate;
     $document->id = $postID;
     $document->client_ID = $client;

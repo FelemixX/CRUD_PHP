@@ -29,8 +29,8 @@ if (isset($_POST["document_ID"]) && isset($_POST["debt"]))
 }
 
 require_once ('../tables/document.php');
-$document = new Document($conn);
-$documents = $document->read();
+$dcp = new Document($conn);
+$documents = $dcp->read();
 
 ?>
 <?php require_once('../source/header.php'); ?>
