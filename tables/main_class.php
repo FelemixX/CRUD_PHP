@@ -35,16 +35,11 @@ abstract class Main_Class
         if ($result = $stmt->execute())
         {
             return true;
-        } else
+        }
+        else
         {
             return false;
         }
-    }
-
-    function sqlQuery($query)
-    {
-        $stmt = $this->conn->prepare($query);
-
     }
 }
 

@@ -7,7 +7,7 @@ try
 }
 catch (PDOException $exception)
 {
-    echo "Ошибка подключпения к БД!: " . $exception->getMessage();
+    echo "Ошибка подключения к БД!: " . $exception->getMessage();
 }
 
 if(isset($_GET["id"]))

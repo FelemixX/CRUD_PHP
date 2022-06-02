@@ -23,7 +23,15 @@ if(isset($_GET['user_query']))
         /* Выполнить запрос */
         $queryToExec = $conn->prepare($query);
         $queryToExec->execute();
-        $queryToExec = $queryToExec->fetchAll(PDO::FETCH_ASSOC);
+        if ((preg_match('DELETE' || 'INSERT', $query)) > 0)
+        {
+            echo "Успешно применено к: " . $queryToExec->rowCount() . " столбцов";
+        }
+        else
+        {
+            $queryToExec = $queryToExec->fetchAll(PDO::FETCH_ASSOC);
+        }
+
     }
     catch(Exception $error)
     {

@@ -22,7 +22,7 @@ $readDcp = $dcp->read();
 
 <div class="container">
     <div class="row">
-        <h1 >Список документов</h1>
+        <h1 >Список документов - клиентов - товаров</h1>
         <table class="table table-hover">
             <thead>
             <tr>
@@ -43,9 +43,13 @@ $readDcp = $dcp->read();
                     <td><?= $dcp["p_name"]?></td>
                     <td><?= $dcp["number"]?></td>
                     <td><?= $dcp["creation_date"]?></td>
+                    <td> <a href='update.php?id=<?= $dcp["id"] ?>'>Обновить</a> </td>
+                    <td> <a href='update.php?deleteID=<?= $dcp["id"] ?>'>Удалить</a> </td>
+                </tr>
             <?php endforeach;?>
             </tbody>
         </table>
+        <a href='create.php'>Создать</a>
     </div>
 </div>
 <?php require_once('../source/footer.php'); ?>

@@ -6,22 +6,22 @@ class Documents_Clients_Products extends Main_Class
     protected $table_name = "documents_clients_products";
     public $document_FK, $product_FK, $client_FK;
 
-//    function create()
-//    {
-//
-//        $query = "INSERT INTO $this->table_name (`document_FK`,`product_FK`)
-//                            VALUES(?, ?)";
-//        $stmt = $this->conn->prepare($query);
-//
-//        if ($stmt->execute([$this->document_FK, $this->product_FK, $this->client_FK]))
-//        {
-//            return true;
-//        }
-//        else
-//        {
-//            return false;
-//        }
-//    }
+    function create()
+    {
+
+        $query = "INSERT INTO $this->table_name (`document_FK`,`product_FK`, `client_fk`)
+                            VALUES(?, ?, ?)";
+        $stmt = $this->conn->prepare($query);
+
+        if ($stmt->execute([$this->document_FK, $this->product_FK, $this->client_FK]))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     function read()
     {
