@@ -50,7 +50,7 @@ if(isset($_GET['user_query']))
 <div class="d-flex justify-content-center">
     <div>
        <h4>Отправить SQL Запрос</h4>
-        <form  method="get" action="index.php">
+        <form method="get" action="index.php">
             <input required name="user_query" type="text" />
             <button type="submit" class="btn btn-primary">Отправить</button>
         </form>
