@@ -77,7 +77,7 @@ if(isset($_POST["id"]) && isset($_POST["birth_date"]) && isset($_POST["name"]))
             <?php endforeach?>
         </select>
         <label for="name" class="form-label">Имя</label>
-        <input required name="name" type="text" class="form-control" id="name">
+        <input required name="name" type="text" pattern="^[A-Za-zА-Яа-яЁё\s]+$" class="form-control" id="name">
     </div>
     <div class="mb-3">
         <label for="birth_date" class="form-label">Дата рождения</label>
