@@ -15,7 +15,8 @@ class Client extends Main_Class
         if ($stmt->execute([$this->name, $this->birth_date]))
         {
             return true;
-        } else
+        }
+        else
         {
             return false;
         }
