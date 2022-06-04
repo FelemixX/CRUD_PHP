@@ -21,12 +21,12 @@ if(isset($_POST['user_login']) && isset($_POST['user_passwd']))
 
     if($user->authorization())
     {
-        $_SESSION["idUser"] = true;
+        $_SESSION["logged"] = true;
         header("Location: clients/clients_page.php");
     }
     else
     {
-        $_SESSION['error_log'] = "Такого пользователя не существует";
+        $_SESSION['error'] = "Такого пользователя не существует";
         header("Location: " . $_SERVER['PHP_SELF']);
     }
 }
@@ -36,6 +36,9 @@ if(isset($_POST['user_login']) && isset($_POST['user_passwd']))
 
     <form method="post" action="index.php">
         <div class="mb-3">
+            <?php if(isset($_SESSION['error'])): ?>
+                <?php echo "такого пользователя нет "; ?>
+            <?php endif; ?>
             <label for="user_login" class="form-label">Логин</label>
             <input required type="text" class="form-control" id="user_login" aria-describedby="user login">
         </div>

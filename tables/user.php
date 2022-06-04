@@ -46,10 +46,16 @@ Class User extends Main_Class
         if (isset($stmt))
         {
             $foundSalt = $stmt[0]["salt"];
+            $foundLogin = $stmt[0]["login"];
             $saltedPass = md5($this->pass . $foundSalt);
 
-            if ($saltedPass == $foundSalt)
+            if (($saltedPass == $foundSalt) && ($this->login == $foundLogin))
             {
+                if ($foundLogin == "admin")
+                {
+                    $_SESSION['admin'] = true;
+                    return true;
+                }
                 return true;
             }
             else
@@ -61,6 +67,11 @@ Class User extends Main_Class
         {
             return false;
         }
+    }
+
+    function isAdmin()
+    {
+        $tname = $this->table_name;
     }
 
     function userExists()
