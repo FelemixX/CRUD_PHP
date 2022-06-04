@@ -33,6 +33,9 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="../documents_products_clients/documents_products_clients_page.php">Документ - клиент - товар</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="../source/direct_sql_query.php">Запрос к БД</a>
+                    </li>
                 </ul>
             </div>
         </div>
