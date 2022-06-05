@@ -1,6 +1,6 @@
 <?php
 
-require_once "config.php";
+require_once "source/config.php";
 
 
 class Database
@@ -36,7 +36,7 @@ class Database
             $conn = new PDO("mysql:host=" . $this->db_host . ";dbname=" . $this->db_name, $this->db_user, $this->db_pass);
         } catch (PDOException $exception)
         {
-            echo "Ошибка подключпения к БД!: " . $exception->getMessage();
+            echo "Ошибка подключения к БД!: " . $exception->getMessage();
         }
         return $conn;
     }

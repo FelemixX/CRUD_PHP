@@ -1,4 +1,8 @@
 <?php
+if (!isset($_SESSION["isAdmin"]))
+{
+    header("Location: /index.php/");
+}
 $config = require_once ('../source/config.php');
 $conn = null;
 try
@@ -45,7 +49,9 @@ if(isset($_GET['search']))
                 <th scope="col">ID Клиента</th>
                 <th scope="col">Имя</th>
                 <th scope="col">Дата рождения</th>
-                <th scope="col">Действие с клиентами</th>
+                <?php if (isset($_SESSION["isAdmin"])): ?>
+                    <th scope="col">Действие с клиентами</th>
+                <?php endif; ?>
             </tr>
             </thead>
             <tbody>
@@ -54,14 +60,17 @@ if(isset($_GET['search']))
                     <td><?= $client["id"] ?></td>
                     <td><?= $client["name"] ?></td>
                     <td><?= $client["birth_date"]?></td>
-                    <td> <a href='update.php?id=<?= $client["id"] ?>'>Обновить</a> </td>
-                    <td> <a href='update.php?deleteID=<?= $client["id"] ?>'>Удалить</a> </td>
+                    <?php if (isset($_SESSION["isAdmin"])): ?>
+                        <td> <a href='update.php?id=<?= $client["id"] ?>'>Обновить</a> </td>
+                        <td> <a href='update.php?deleteID=<?= $client["id"] ?>'>Удалить</a> </td>
+                    <?php endif; ?>
                 </tr>
             <?php endforeach;?>
             </tbody>
         </table>
-<!--        <button type="submit" href="create.php" class="btn btn-primary">Создать</button>-->
-        <a href='create.php'>Создать</a>
+        <?php if (isset($_SESSION["isAdmin"])): ?>
+            <a href='create.php'>Создать</a>
+        <?php endif; ?>
         <form method="get" action="clients_page.php">
            <br> Поиск клиентов
             <br><input required name="search" type="text" />

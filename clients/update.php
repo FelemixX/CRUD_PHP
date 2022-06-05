@@ -4,11 +4,11 @@ $conn = null;
 
 try
 {
-    $conn = new PDO("mysql:host=" . "localhost:3366" . ";dbname=" . "debts_docs_payments", "root", "");
+    $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
 }
 catch (PDOException $exception)
 {
-    echo "Ошибка подключпения к БД!: " . $exception->getMessage();
+    echo "Ошибка подключения к БД!: " . $exception->getMessage();
 }
 
 if(isset($_GET["id"]))
@@ -22,15 +22,6 @@ if(isset($_GET["id"]))
 if(isset($_GET["deleteID"]))
 {
     $deleteID = $_GET["deleteID"];
-    $conn = null;
-    try
-    {
-        $conn = new PDO("mysql:host=" . "localhost:3366" . ";dbname=" . "debts_docs_payments", "root", "");
-    }
-    catch (PDOException $exception)
-    {
-        echo "Ошибка подключпения к БД!: " . $exception->getMessage();
-    }
     require_once('../tables/client.php');
     $client = new Client($conn);
     $client->id = $deleteID;
@@ -46,14 +37,6 @@ if(isset($_POST["id"]) && isset($_POST["birth_date"]) && isset($_POST["name"]))
     $date = $_POST["birth_date"];
     $name = $_POST["name"];
 
-    $conn = null;
-    try
-    {
-        $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-    } catch (PDOException $exception)
-    {
-        echo "Ошибка подключения к БД!: " . $exception->getMessage();
-    }
     require_once('../tables/client.php');
     $client = new Client($conn);
     $client->name = $name;
