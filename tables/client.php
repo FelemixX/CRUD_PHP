@@ -24,6 +24,7 @@ class Client extends Main_Class
 
     function read()
     {
+
         $tname = $this->table_name;
         $query = "SELECT $tname.id, $tname.birth_date, $tname.name
                     FROM $tname";

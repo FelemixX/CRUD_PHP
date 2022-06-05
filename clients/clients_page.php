@@ -1,5 +1,6 @@
 <?php
-if (!isset($_SESSION["isAdmin"]))
+session_start();
+if (!isset($_SESSION["usedId"]))
 {
     header("Location: /index.php/");
 }
@@ -15,6 +16,18 @@ catch (PDOException $exception)
 }
 require_once('../tables/client.php');
 $clients = new Client($conn);
+$orderBy = " ";
+/*
+var orderBy = Request.QueryString;
+			string query = " ";
+			foreach (string key in orderBy)
+			{
+				query += key + " " + orderBy[key] + ",";
+			}
+
+			query = query.Remove(query.Length - 1);
+            */
+
 $readClients = $clients->read();
 ?>
 
@@ -46,9 +59,9 @@ if(isset($_GET['search']))
         <table class="table table-hover">
             <thead>
             <tr>
-                <th scope="col">ID Клиента</th>
-                <th scope="col">Имя</th>
-                <th scope="col">Дата рождения</th>
+                <th id="Id" scope="col">ID Клиента</th>
+                <th id="Name" scope="col">Имя</th>
+                <th id="Date" scope="col">Дата рождения</th>
                 <?php if (isset($_SESSION["isAdmin"])): ?>
                     <th scope="col">Действие с клиентами</th>
                 <?php endif; ?>
@@ -104,3 +117,68 @@ if(isset($_GET['search']))
     </div>
 </div>
 <?php require_once('../source/footer.php'); ?>
+
+<script type="text/javascript">
+    let sortId = document.getElementById("Id");
+    let sortName = document.getElementById("Name");
+    let sortDate = document.getElementById("Date");
+    let url = new URL(location.href);
+
+    sortId.onclick = function(e) {
+        if (url.searchParams.has("id"))
+        {
+            if (url.searchParams.get("id") === "asc")
+            {
+                url.searchParams.set("id", "desc");
+            }
+            else
+            {
+                url.searchParams.delete("id");
+            }
+        }
+        else
+        {
+            url.searchParams.append("id","asc");
+        }
+        console.log(url);
+        window.location.replace(url);
+    }
+    sortName.onclick = function(e) {
+        if (url.searchParams.has("name"))
+        {
+            if (url.searchParams.get("name") === "asc")
+            {
+                url.searchParams.set("name", "desc");
+            }
+            else
+            {
+                url.searchParams.delete("name");
+            }
+        }
+        else
+        {
+            url.searchParams.append("name","asc");
+        }
+        console.log(url);
+        window.location.replace(url);
+    }
+    sortDate.onclick = function(e) {
+        if (url.searchParams.has("date"))
+        {
+            if (url.searchParams.get("date") === "asc")
+            {
+                url.searchParams.set("date", "desc");
+            }
+            else
+            {
+                url.searchParams.delete("date");
+            }
+        }
+        else
+        {
+            url.searchParams.append("date","asc");
+        }
+        console.log(url);
+        window.location.replace(url);
+    }
+</script>
