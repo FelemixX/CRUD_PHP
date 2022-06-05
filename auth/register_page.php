@@ -55,9 +55,10 @@ if (isset($_POST['user_name']) && isset($_POST['user_login']) && isset($_POST['u
         <input required name="user_passwd" type="password" class="form-control" id="user_passwd">
     </div>
     <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
-    <?php if (isset($err)): ?>
-        <?php echo '<br>' . $err; ?>
-    <?php endif; ?>
 </form>
+<button class="btn"><a href="/index.php/">Назад</a></button>
+<?php if (isset($err)): ?>
+    <?php echo '<br>' . $err; ?>
+<?php endif; ?>
 
 <?php require_once('../source/footer.php'); ?>

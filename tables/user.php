@@ -6,7 +6,42 @@ class User extends Main_Class
 {
     protected $table_name = "user";
 
-    public $userName, $login, $pass;
+    public $userName, $login, $pass, $name;
+
+    function read()
+    {
+
+        $tname = $this->table_name;
+        $query = "SELECT $tname.id, $tname.name, $tname.login
+                    FROM $tname";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchall(PDO::FETCH_ASSOC);
+    }
+
+    function update()
+    {
+        $tname = $this->table_name;
+
+        $query = "UPDATE 
+                        " . $tname . "  
+                   SET 
+                        `login` = ?, `name` = ?
+                   WHERE 
+                        " . $tname . " .`id` = ?";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(1, $this->login);
+        $stmt->bindParam(2, $this->name);
+        $stmt->bindParam(3, $this->id);
+
+        if ($stmt->execute())
+        {
+            return true;
+        }
+        return false;
+    }
 
     function genSalt()
     {

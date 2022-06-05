@@ -18,7 +18,7 @@ if (isset($_POST["birth_date"]) && isset($_POST["name"]))
     $client->birth_date = $date;
     if ($client->create())
     {
-        header("Location: clients_page.php");
+        header("Location: users_page.php");
     }
 }
 ?>

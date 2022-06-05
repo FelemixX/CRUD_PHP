@@ -1,5 +1,4 @@
 <?php
-
 require_once('tables/user.php');
 $config = require_once('source/config.php');
 
@@ -31,9 +30,6 @@ if (isset($_POST['user_login']) && isset($_POST['user_passwd']))
 <?php require_once('source/header.php') ?>
     <form method="post" action="/index.php">
         <div class="mb-3">
-            <?php if (isset($_SESSION['error'])): ?>
-                <?php echo "такого пользователя нет "; ?>
-            <?php endif; ?>
             <label for="user_login" class="form-label">Логин</label>
             <input name="user_login" required type="text" class="form-control" id="user_login"
                    aria-describedby="user login">

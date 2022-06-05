@@ -24,15 +24,6 @@ create table document
     client_ID     int         null
 );
 
-create table documents_clients_products
-(
-    id          int auto_increment
-        primary key,
-    document_FK int null,
-    product_FK  int null,
-    client_FK   int null
-);
-
 create table product
 (
     id          int auto_increment

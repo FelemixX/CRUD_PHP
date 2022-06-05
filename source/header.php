@@ -43,11 +43,12 @@ session_start();
                             <a class="nav-link active" aria-current="page"
                                href="../debts/debts_page.php">Задолженности</a>
                         </li>
+                        <?php if (isset($_SESSION["isAdmin"])): ?>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page"
-                               href="../documents_products_clients/documents_products_clients_page.php">Документ -
-                                клиент - товар</a>
+                               href="../users/users_page.php">Список пользователей</a>
                         </li>
+                        <?php endif; ?>
                         <?php if (isset($_SESSION["isAdmin"])): ?>
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="../source/direct_sql_query.php">Запрос

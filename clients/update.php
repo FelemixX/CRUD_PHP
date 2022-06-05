@@ -26,7 +26,7 @@ if (isset($_GET["deleteID"]))
     $client->id = $deleteID;
     if ($client->delete())
     {
-        header("Location: clients_page.php");
+        header("Location: users_page.php");
     }
 }
 
@@ -43,7 +43,7 @@ if (isset($_POST["id"]) && isset($_POST["birth_date"]) && isset($_POST["name"]))
     $client->id = $postID;
     if ($client->update())
     {
-        header("Location: clients_page.php");
+        header("Location: users_page.php");
     }
 }
 ?>
