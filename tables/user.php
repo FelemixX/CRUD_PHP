@@ -2,7 +2,7 @@
 
 require_once "main_class.php";
 
-Class User extends Main_Class
+class User extends Main_Class
 {
     protected $table_name = "user";
 
@@ -10,7 +10,7 @@ Class User extends Main_Class
 
     function genSalt()
     {
-        return  md5($this->userName . $this->login . $this->pass);
+        return md5($this->userName . $this->login . $this->pass);
     }
 
     function registration()
@@ -27,8 +27,7 @@ Class User extends Main_Class
         if ($stmt->execute([$this->userName, $this->login, $saltedPass, $salt]))
         { //saltedPass == pass
             return true;
-        }
-        else
+        } else
         {
             return false;
         }
@@ -39,7 +38,7 @@ Class User extends Main_Class
         $tname = $this->table_name;
         $aye = $this->login;
 
-        $query= "SELECT * FROM $tname
+        $query = "SELECT * FROM $tname
                     WHERE login = '$aye'";
 
         $stmt = $this->conn->prepare($query);
@@ -64,13 +63,11 @@ Class User extends Main_Class
                     return true;
                 }
                 return true;
-            }
-            else
+            } else
             {
                 return false;
             }
-        }
-        else
+        } else
         {
             return false;
         }
@@ -97,9 +94,8 @@ Class User extends Main_Class
         $stmt = $stmt->rowCount();
         if ($stmt > 0)
         {
-           return true;
-        }
-        else
+            return true;
+        } else
         {
             return false;
         }

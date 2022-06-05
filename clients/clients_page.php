@@ -4,13 +4,12 @@ if (!isset($_SESSION["usedId"]))
 {
     header("Location: /index.php/");
 }
-$config = require_once ('../source/config.php');
+$config = require_once('../source/config.php');
 $conn = null;
 try
 {
     $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-}
-catch (PDOException $exception)
+} catch (PDOException $exception)
 {
     echo "Ошибка подключения к БД!: " . $exception->getMessage();
 }
@@ -33,29 +32,29 @@ $readClients = $clients->read();
 
 <?php
 //поиск
-if(isset($_GET['search']))
+if (isset($_GET['search']))
 {
-        $query = $_GET['search'];
-        $query = trim($query);
-        $query = htmlspecialchars($query);
-        $result = $conn->prepare("SELECT * FROM client
+    $query = $_GET['search'];
+    $query = trim($query);
+    $query = htmlspecialchars($query);
+    $result = $conn->prepare("SELECT * FROM client
                     WHERE (`name` LIKE '%" . $query . "%')");
-        $result->execute();
-        while ($row = $result->fetch(PDO::FETCH_BOTH))
-        {
-            $id = array_shift($row);
-            $array[$id] = array($row[0], $row[1], $row[2]);//0,1,2
-        }
+    $result->execute();
+    while ($row = $result->fetch(PDO::FETCH_BOTH))
+    {
+        $id = array_shift($row);
+        $array[$id] = array($row[0], $row[1], $row[2]);//0,1,2
+    }
 }
 
 ?>
 
 
-<?php require_once ('../source/header.php'); ?>
+<?php require_once('../source/header.php'); ?>
 
 <div class="container">
     <div class="row">
-        <h1 >Список клиентов</h1>
+        <h1>Список клиентов</h1>
         <table class="table table-hover">
             <thead>
             <tr>
@@ -68,29 +67,29 @@ if(isset($_GET['search']))
             </tr>
             </thead>
             <tbody>
-            <?php foreach ($readClients as $client):?>
+            <?php foreach ($readClients as $client): ?>
                 <tr>
                     <td><?= $client["id"] ?></td>
                     <td><?= $client["name"] ?></td>
-                    <td><?= $client["birth_date"]?></td>
+                    <td><?= $client["birth_date"] ?></td>
                     <?php if (isset($_SESSION["isAdmin"])): ?>
-                        <td> <a href='update.php?id=<?= $client["id"] ?>'>Обновить</a> </td>
-                        <td> <a href='update.php?deleteID=<?= $client["id"] ?>'>Удалить</a> </td>
+                        <td><a href='update.php?id=<?= $client["id"] ?>'>Обновить</a></td>
+                        <td><a href='update.php?deleteID=<?= $client["id"] ?>'>Удалить</a></td>
                     <?php endif; ?>
                 </tr>
-            <?php endforeach;?>
+            <?php endforeach; ?>
             </tbody>
         </table>
         <?php if (isset($_SESSION["isAdmin"])): ?>
             <a href='create.php'>Создать</a>
         <?php endif; ?>
         <form method="get" action="clients_page.php">
-           <br> Поиск клиентов
-            <br><input required name="search" type="text" />
+            <br> Поиск клиентов
+            <br><input required name="search" type="text"/>
             <button type="submit" class="btn btn-primary">Поиск</button>
         </form>
-        <?php if(isset($_GET['search'])): ?>
-            <?php if(empty($array)): ?>
+        <?php if (isset($_GET['search'])): ?>
+            <?php if (empty($array)): ?>
                 <p>Ничего не найдено</p>
             <?php else: ?>
                 <table class="table table-hover">
@@ -103,13 +102,13 @@ if(isset($_GET['search']))
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach ($array as $result):?>
+                    <?php foreach ($array as $result): ?>
                         <tr>
                             <td><?= $result["0"] ?></td>
                             <td><?= $result["1"] ?></td>
                             <td><?= $result["2"] ?></td>
                         </tr>
-                    <?php endforeach;?>
+                    <?php endforeach; ?>
                     </tbody>
                 </table>
             <?php endif; ?>
@@ -124,59 +123,41 @@ if(isset($_GET['search']))
     let sortDate = document.getElementById("Date");
     let url = new URL(location.href);
 
-    sortId.onclick = function(e) {
-        if (url.searchParams.has("id"))
-        {
-            if (url.searchParams.get("id") === "asc")
-            {
+    sortId.onclick = function (e) {
+        if (url.searchParams.has("id")) {
+            if (url.searchParams.get("id") === "asc") {
                 url.searchParams.set("id", "desc");
-            }
-            else
-            {
+            } else {
                 url.searchParams.delete("id");
             }
-        }
-        else
-        {
-            url.searchParams.append("id","asc");
+        } else {
+            url.searchParams.append("id", "asc");
         }
         console.log(url);
         window.location.replace(url);
     }
-    sortName.onclick = function(e) {
-        if (url.searchParams.has("name"))
-        {
-            if (url.searchParams.get("name") === "asc")
-            {
+    sortName.onclick = function (e) {
+        if (url.searchParams.has("name")) {
+            if (url.searchParams.get("name") === "asc") {
                 url.searchParams.set("name", "desc");
-            }
-            else
-            {
+            } else {
                 url.searchParams.delete("name");
             }
-        }
-        else
-        {
-            url.searchParams.append("name","asc");
+        } else {
+            url.searchParams.append("name", "asc");
         }
         console.log(url);
         window.location.replace(url);
     }
-    sortDate.onclick = function(e) {
-        if (url.searchParams.has("date"))
-        {
-            if (url.searchParams.get("date") === "asc")
-            {
+    sortDate.onclick = function (e) {
+        if (url.searchParams.has("date")) {
+            if (url.searchParams.get("date") === "asc") {
                 url.searchParams.set("date", "desc");
-            }
-            else
-            {
+            } else {
                 url.searchParams.delete("date");
             }
-        }
-        else
-        {
-            url.searchParams.append("date","asc");
+        } else {
+            url.searchParams.append("date", "asc");
         }
         console.log(url);
         window.location.replace(url);

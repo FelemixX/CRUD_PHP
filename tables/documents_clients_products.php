@@ -16,8 +16,7 @@ class Documents_Clients_Products extends Main_Class
         if ($stmt->execute([$this->document_FK, $this->product_FK, $this->client_FK]))
         {
             return true;
-        }
-        else
+        } else
         {
             return false;
         }

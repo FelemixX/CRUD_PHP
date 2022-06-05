@@ -18,8 +18,7 @@ class Product extends Main_Class
         if ($stmt->execute([$this->p_name, $this->quantity, $this->document_ID]))
         {
             return true;
-        }
-        else
+        } else
         {
             return false;
         }
@@ -30,7 +29,7 @@ class Product extends Main_Class
         $tname = $this->table_name;
         /*$query = "SELECT $tname.id, $tname.p_name, $tname.quantity
                     FROM $tname";*/
-        $query =  "SELECT pr.*, d.number FROM product AS pr 
+        $query = "SELECT pr.*, d.number FROM product AS pr 
                     JOIN document d on pr.document_ID = d.id";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();

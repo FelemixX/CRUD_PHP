@@ -18,8 +18,7 @@ class Document extends Main_Class
         if ($stmt->execute([$this->number, $this->creation_date, $this->client_ID]))
         {
             return true;
-        }
-        else
+        } else
         {
             return false;
         }
@@ -28,9 +27,9 @@ class Document extends Main_Class
     function read()
     {
         $tname = $this->table_name;
-       /* $query = "SELECT $tname.id, $tname.number, $tname.creation_date
-                    FROM $tname";*/
-        $query  = "SELECT dc.*, cl.name FROM document AS dc
+        /* $query = "SELECT $tname.id, $tname.number, $tname.creation_date
+                     FROM $tname";*/
+        $query = "SELECT dc.*, cl.name FROM document AS dc
                     JOIN client cl on dc.client_ID = cl.id";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();

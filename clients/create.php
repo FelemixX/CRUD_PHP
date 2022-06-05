@@ -8,8 +8,7 @@ if (isset($_POST["birth_date"]) && isset($_POST["name"]))
     try
     {
         $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-    }
-    catch (PDOException $exception)
+    } catch (PDOException $exception)
     {
         echo "Ошибка подключения к БД!: " . $exception->getMessage();
     }
@@ -24,16 +23,16 @@ if (isset($_POST["birth_date"]) && isset($_POST["name"]))
 }
 ?>
 <?php require_once('../source/header.php'); ?>
-<form action="create.php" method="post">
-    <div class="mb-3">
-        <label for="number" class="form-label">Имя</label>
-        <input required name="name" type="text" pattern="^[A-Za-zА-Яа-яЁё\s]+$" class="form-control" id="name">
-    </div>
-    <div class="mb-3">
-        <label for="creation_date" class="form-label">Дата рождения</label>
-        <input required name="birth_date" type="date" class="form-control" id="birth_date">
-    </div>
-    <button type="submit" class="btn btn-primary">Отправить</button>
-    <a href="clients_page.php">Отмена</a>
-</form>
+    <form action="create.php" method="post">
+        <div class="mb-3">
+            <label for="number" class="form-label">Имя</label>
+            <input required name="name" type="text" pattern="^[A-Za-zА-Яа-яЁё\s]+$" class="form-control" id="name">
+        </div>
+        <div class="mb-3">
+            <label for="creation_date" class="form-label">Дата рождения</label>
+            <input required name="birth_date" type="date" class="form-control" id="birth_date">
+        </div>
+        <button type="submit" class="btn btn-primary">Отправить</button>
+        <a href="clients_page.php">Отмена</a>
+    </form>
 <?php require_once('../source/footer.php'); ?>

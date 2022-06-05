@@ -5,8 +5,7 @@ $conn = null;
 try
 {
     $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-}
-catch (PDOException $exception)
+} catch (PDOException $exception)
 {
     echo "Ошибка подключения к БД!: " . $exception->getMessage();
 }
@@ -28,24 +27,24 @@ if (isset($_POST["document_ID"]) && isset($_POST["debt"]))
     }
 }
 
-require_once ('../tables/document.php');
+require_once('../tables/document.php');
 $dcp = new Document($conn);
 $documents = $dcp->read();
 
 ?>
 <?php require_once('../source/header.php'); ?>
-<form action="create.php" method="post">
-    <label for="document_ID" class="form-label">Документ</label>
-    <select name="document_ID" class="form-select" aria-label="client select" id="document_ID">  <!-- Выпадашка -->
-        <?php foreach ($documents as $item): ?> <!-- Выборка клиентов -->
-            <option value="<?=$item["id"]?>" selected><?=$item["number"]?></option>
-        <?php endforeach?>
-    </select>
-    <div class="mb-3">
-        <label for="debt" class="form-label">Задолженность</label>
-        <input required name="debt" type="number" class="form-control" id="debt">
-    </div>
-    <button type="submit" class="btn btn-primary">Отправить</button>
-    <a href="debts_page.php">Отмена</a>
-</form>
+    <form action="create.php" method="post">
+        <label for="document_ID" class="form-label">Документ</label>
+        <select name="document_ID" class="form-select" aria-label="client select" id="document_ID">  <!-- Выпадашка -->
+            <?php foreach ($documents as $item): ?> <!-- Выборка клиентов -->
+                <option value="<?= $item["id"] ?>" selected><?= $item["number"] ?></option>
+            <?php endforeach ?>
+        </select>
+        <div class="mb-3">
+            <label for="debt" class="form-label">Задолженность</label>
+            <input required name="debt" type="number" class="form-control" id="debt">
+        </div>
+        <button type="submit" class="btn btn-primary">Отправить</button>
+        <a href="debts_page.php">Отмена</a>
+    </form>
 <?php require_once('../source/footer.php'); ?>

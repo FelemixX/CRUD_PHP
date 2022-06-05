@@ -35,8 +35,7 @@ abstract class Main_Class
         if ($result = $stmt->execute())
         {
             return true;
-        }
-        else
+        } else
         {
             return false;
         }

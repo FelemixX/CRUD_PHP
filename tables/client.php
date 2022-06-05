@@ -1,5 +1,6 @@
 <?php
 require_once "main_class.php";
+
 class Client extends Main_Class
 {
     protected $table_name = "client";
@@ -15,8 +16,7 @@ class Client extends Main_Class
         if ($stmt->execute([$this->name, $this->birth_date]))
         {
             return true;
-        }
-        else
+        } else
         {
             return false;
         }

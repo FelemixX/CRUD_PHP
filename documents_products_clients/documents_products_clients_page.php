@@ -1,5 +1,9 @@
 <?php
-
+session_start();
+if (!isset($_SESSION["usedId"]))
+{
+    header("Location: /index.php/");
+}
 $config = require_once('../source/config.php');
 
 $conn = null;
@@ -7,8 +11,7 @@ $conn = null;
 try
 {
     $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-}
-catch (PDOException $exception)
+} catch (PDOException $exception)
 {
     echo "Ошибка подключения к БД!: " . $exception->getMessage();
 }
@@ -22,7 +25,7 @@ $readDcp = $dcp->read();
 
 <div class="container">
     <div class="row">
-        <h1 >Список документов - клиентов - товаров</h1>
+        <h1>Список документов - клиентов - товаров</h1>
         <table class="table table-hover">
             <thead>
             <tr>
@@ -35,21 +38,25 @@ $readDcp = $dcp->read();
             </tr>
             </thead>
             <tbody>
-            <?php foreach ($readDcp as $dcp):?>
+            <?php foreach ($readDcp as $dcp): ?>
                 <tr>
-                    <td><?= $dcp["client_FK"]?></td>
+                    <td><?= $dcp["client_FK"] ?></td>
                     <td><?= $dcp["name"] ?></td>
-                    <td><?= $dcp["birth_date"]?></td>
-                    <td><?= $dcp["p_name"]?></td>
-                    <td><?= $dcp["number"]?></td>
-                    <td><?= $dcp["creation_date"]?></td>
-                    <td> <a href='update.php?id=<?= $dcp["id"] ?>'>Обновить</a> </td>
-                    <td> <a href='update.php?deleteID=<?= $dcp["id"] ?>'>Удалить</a> </td>
+                    <td><?= $dcp["birth_date"] ?></td>
+                    <td><?= $dcp["p_name"] ?></td>
+                    <td><?= $dcp["number"] ?></td>
+                    <td><?= $dcp["creation_date"] ?></td>
+                    <?php if (isset($_SESSION["isAdmin"])): ?>
+                    <td><a href='update.php?id=<?= $dcp["id"] ?>'>Обновить</a></td>
+                    <td><a href='update.php?deleteID=<?= $dcp["id"] ?>'>Удалить</a></td>
+                    <?php endif; ?>
                 </tr>
-            <?php endforeach;?>
+            <?php endforeach; ?>
             </tbody>
         </table>
+        <?php if (isset($_SESSION["isAdmin"])): ?>
         <a href='create.php'>Создать</a>
+        <?php endif; ?>
     </div>
 </div>
 <?php require_once('../source/footer.php'); ?>
