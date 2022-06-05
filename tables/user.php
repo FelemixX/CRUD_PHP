@@ -44,23 +44,23 @@ Class User extends Main_Class
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
-        $res = $stmt->fetchAll();
+        $stmt = $stmt->fetch();
 
-        echo '<pre>' . __FILE__ . ':' . __LINE__ . ':<br>' . print_r($res, true) . '</pre>';
-        die();
-
-
-        if (isset($stmt))
+        if (!empty($stmt))
         {
-            $foundSalt = $stmt[0]["salt"];
-            $foundLogin = $stmt[0]["login"];
+            $foundSalt = $stmt["salt"];
+            $foundLogin = $stmt["login"];
             $saltedPass = md5($this->pass . $foundSalt);
+            $pass = $stmt["pass"];
 
-            if (($saltedPass == $foundSalt) && ($this->login == $foundLogin))
+            if (($saltedPass == $pass))
             {
+                self::logout();
+                session_start();
+                $_SESSION["usedId"] = $stmt["id"];
                 if ($foundLogin == "admin")
                 {
-                    $_SESSION['admin'] = true;
+                    $_SESSION["isAdmin"] = true;
                     return true;
                 }
                 return true;
@@ -76,9 +76,14 @@ Class User extends Main_Class
         }
     }
 
-    function isAdmin()
+    static function logout()
     {
-        $tname = $this->table_name;
+        session_start();
+        if (isset($_SESSION["usedId"]))
+            unset($_SESSION["usedId"]);
+
+        if (isset($_SESSION["isAdmin"]))
+            unset($_SESSION["isAdmin"]);
     }
 
     function userExists()

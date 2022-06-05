@@ -1,5 +1,4 @@
 <?php
-require_once ('tables/main_class.php');
 require_once ('tables/user.php');
 $config = require_once('source/config.php');
 
@@ -21,8 +20,7 @@ if(isset($_POST['user_login']) && isset($_POST['user_passwd']))
 
     if($user->authorization())
     {
-        $_SESSION["logged"] = true;
-        header("Location: clients/clients_page.php");
+        header("Location: /clients/clients_page.php");
     }
     else
     {

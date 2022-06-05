@@ -3,7 +3,7 @@ $config = require_once ('../source/config.php');
 $conn = null;
 try
 {
-    $conn = new PDO("mysql:host=" . "localhost:3366" . ";dbname=" . "debts_docs_payments", "root", "root");
+    $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
 }
 catch (PDOException $exception)
 {
@@ -12,7 +12,6 @@ catch (PDOException $exception)
 require_once('../tables/client.php');
 $clients = new Client($conn);
 $readClients = $clients->read();
-
 ?>
 
 <?php
