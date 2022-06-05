@@ -2,9 +2,9 @@
 
 return array
 (
-    'db_host' => 'localhost:3366',
+    'db_host' => 'localhost:3306',
     'db_user' => 'root',
-    'db_pass' => '',
+    'db_pass' => 'root',
     'db_name' => 'debts_docs_payments',
 );
 

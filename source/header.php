@@ -40,3 +40,9 @@
             </div>
         </div>
     </nav>
+<?php
+if (isset($_SESSION["error"]))
+{
+    echo '<pre>' . __FILE__ . ':' . __LINE__ . ':<br>' . print_r($_SESSION["error"], true) . '</pre>';
+}
+

@@ -3,7 +3,7 @@ $config = require_once ('../source/config.php');
 $conn = null;
 try
 {
-    $conn = new PDO("mysql:host=" . "localhost:3366" . ";dbname=" . "debts_docs_payments", "root", "");
+    $conn = new PDO("mysql:host=" . "localhost:3366" . ";dbname=" . "debts_docs_payments", "root", "root");
 }
 catch (PDOException $exception)
 {

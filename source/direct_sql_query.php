@@ -5,7 +5,7 @@ $config = require_once('config.php');
 $conn = null;
 try
 {
-    $conn = new PDO("mysql:host=" . "localhost:3366" . ";dbname=" . "debts_docs_payments", "root", "");
+    $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
 }
 catch (PDOException $exception)
 {
@@ -17,8 +17,6 @@ if(isset($_GET['user_query']))
     try
     {
         $query = $_GET['user_query'];
-        $query = trim($query);    //Убрать пробелы
-        $query = htmlspecialchars($query);  //Преобразовать спец символы в сущности HTML
 
         if(str_contains($query, 'SELECT') || str_contains($query, 'select'))    //Обработка SELECT запроса
         {

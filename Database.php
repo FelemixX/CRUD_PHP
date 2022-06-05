@@ -20,10 +20,10 @@ class Database
 //            $this->db_name = $config['db_name'];
 //            $this->db_user = $config['db_user'];
 //            $this->db_pass = $config['db_pass'];
-            $this->db_host = 'localhost:3366';
+            $this->db_host = 'localhost:3306';
             $this->db_name = 'debts_docs_payments';
             $this->db_user = 'root';
-            $this->db_pass = '';
+            $this->db_pass = 'root';
         }
     }
 

@@ -6,7 +6,7 @@ $config = require_once('source/config.php');
 $conn = null;
 try
 {
-    $conn = new PDO("mysql:host=" . "localhost:3366" . ";dbname=" . "debts_docs_payments", "root", "");
+    $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
 }
 catch (PDOException $exception)
 {
@@ -26,25 +26,23 @@ if(isset($_POST['user_login']) && isset($_POST['user_passwd']))
     }
     else
     {
-        $_SESSION['error'] = "Такого пользователя не существует";
         header("Location: " . $_SERVER['PHP_SELF']);
     }
 }
 ?>
 
 <?php require_once ('source/header.php') ?>
-
-    <form method="post" action="index.php">
+    <form method="post" action="/index.php">
         <div class="mb-3">
             <?php if(isset($_SESSION['error'])): ?>
                 <?php echo "такого пользователя нет "; ?>
             <?php endif; ?>
             <label for="user_login" class="form-label">Логин</label>
-            <input required type="text" class="form-control" id="user_login" aria-describedby="user login">
+            <input name="user_login" required type="text" class="form-control" id="user_login" aria-describedby="user login">
         </div>
         <div class="mb-3">
             <label for="user_passwd" class="form-label">Пароль</label>
-            <input required type="password" class="form-control" id="user_passwd">
+            <input name="user_passwd" required type="password" class="form-control" id="user_passwd">
         </div>
         <button type="submit" class="btn btn-primary">Войти</button>
     </form>

@@ -37,12 +37,19 @@ Class User extends Main_Class
     function authorization()
     {
         $tname = $this->table_name;
+        $aye = $this->login;
 
         $query= "SELECT * FROM $tname
-                    WHERE login = $this->login";
+                    WHERE login = '$aye'";
+
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
-        $stmt = $stmt->fetchAll();
+        $res = $stmt->fetchAll();
+
+        echo '<pre>' . __FILE__ . ':' . __LINE__ . ':<br>' . print_r($res, true) . '</pre>';
+        die();
+
+
         if (isset($stmt))
         {
             $foundSalt = $stmt[0]["salt"];
