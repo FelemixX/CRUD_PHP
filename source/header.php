@@ -22,7 +22,7 @@ session_start();
 <div class="container">
     <nav class="navbar navbar-nav-scroll navbar-expand-lg navbar-light bg-light ">
         <div class="container-fluid">
-           <!-- <?php //if (!isset($_SESSION["usedId"])): ?>
+            <!-- <?php //if (!isset($_SESSION["usedId"])): ?>
             <a class="navbar-brand" href="/index.php/">Войти</a>
                 <?php // endif; ?> -->
             <?php if (isset($_SESSION["usedId"])): ?>
@@ -57,7 +57,6 @@ session_start();
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="../auth/logout.php">Выйти</a>
                         </li>
-
                         <?php if (isset($_SESSION["isAdmin"])): ?>
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="../auth/logout.php">Admin</a>

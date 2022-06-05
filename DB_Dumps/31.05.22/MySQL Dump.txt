@@ -1,0 +1,54 @@
+create table client
+(
+    id         int auto_increment
+        primary key,
+    name       varchar(256) null,
+    birth_date date         null
+);
+
+create table debt
+(
+    id          int auto_increment
+        primary key,
+    client_ID   int         null,
+    document_ID int         null,
+    debt        decimal(53) null
+);
+
+create table document
+(
+    id            int auto_increment
+        primary key,
+    number        decimal(53) null,
+    creation_date date        null,
+    client_ID     int         null
+);
+
+create table documents_clients_products
+(
+    id          int auto_increment
+        primary key,
+    document_FK int null,
+    product_FK  int null,
+    client_FK   int null
+);
+
+create table product
+(
+    id          int auto_increment
+        primary key,
+    document_ID int          null,
+    p_name      varchar(256) null,
+    quantity    int          null
+);
+
+create table user
+(
+    id    int auto_increment
+        primary key,
+    login varchar(256) null,
+    pass  varchar(256) null,
+    salt  varchar(256) null,
+    name  varchar(256) null
+);
+
