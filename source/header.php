@@ -24,7 +24,7 @@ session_start();
         <div class="container-fluid">
            <!-- <?php //if (!isset($_SESSION["usedId"])): ?>
             <a class="navbar-brand" href="/index.php/">Войти</a>
-                <?php// endif; ?> -->
+                <?php // endif; ?> -->
             <?php if (isset($_SESSION["usedId"])): ?>
                 <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
