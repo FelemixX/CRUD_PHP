@@ -18,8 +18,7 @@ class Debt extends Main_Class
         if ($stmt->execute([$this->debt, $this->document_ID]))
         {
             return true;
-        }
-        else
+        } else
         {
             return false;
         }

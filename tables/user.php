@@ -2,15 +2,50 @@
 
 require_once "main_class.php";
 
-Class User extends Main_Class
+class User extends Main_Class
 {
     protected $table_name = "user";
 
-    public $userName, $login, $pass;
+    public $userName, $login, $pass, $name;
+
+    function read()
+    {
+
+        $tname = $this->table_name;
+        $query = "SELECT $tname.id, $tname.name, $tname.login
+                    FROM $tname";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchall(PDO::FETCH_ASSOC);
+    }
+
+    function update()
+    {
+        $tname = $this->table_name;
+
+        $query = "UPDATE 
+                        " . $tname . "  
+                   SET 
+                        `login` = ?, `name` = ?
+                   WHERE 
+                        " . $tname . " .`id` = ?";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(1, $this->login);
+        $stmt->bindParam(2, $this->name);
+        $stmt->bindParam(3, $this->id);
+
+        if ($stmt->execute())
+        {
+            return true;
+        }
+        return false;
+    }
 
     function genSalt()
     {
-        return  md5($this->userName . $this->login . $this->pass);
+        return md5($this->userName . $this->login . $this->pass);
     }
 
     function registration()
@@ -27,8 +62,7 @@ Class User extends Main_Class
         if ($stmt->execute([$this->userName, $this->login, $saltedPass, $salt]))
         { //saltedPass == pass
             return true;
-        }
-        else
+        } else
         {
             return false;
         }
@@ -37,41 +71,51 @@ Class User extends Main_Class
     function authorization()
     {
         $tname = $this->table_name;
+        $aye = $this->login;
 
-        $query= "SELECT * FROM $tname
-                    WHERE login = $this->login";
+        $query = "SELECT * FROM $tname
+                    WHERE login = '$aye'";
+
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
-        $stmt = $stmt->fetchAll();
-        if (isset($stmt))
-        {
-            $foundSalt = $stmt[0]["salt"];
-            $foundLogin = $stmt[0]["login"];
-            $saltedPass = md5($this->pass . $foundSalt);
+        $stmt = $stmt->fetch();
 
-            if (($saltedPass == $foundSalt) && ($this->login == $foundLogin))
+        if (!empty($stmt))
+        {
+            $foundSalt = $stmt["salt"];
+            $foundLogin = $stmt["login"];
+            $saltedPass = md5($this->pass . $foundSalt);
+            $pass = $stmt["pass"];
+
+            if (($saltedPass == $pass))
             {
+                self::logout();
+                session_start();
+                $_SESSION["usedId"] = $stmt["id"];
                 if ($foundLogin == "admin")
                 {
-                    $_SESSION['admin'] = true;
+                    $_SESSION["isAdmin"] = true;
                     return true;
                 }
                 return true;
-            }
-            else
+            } else
             {
                 return false;
             }
-        }
-        else
+        } else
         {
             return false;
         }
     }
 
-    function isAdmin()
+    static function logout()
     {
-        $tname = $this->table_name;
+        session_start();
+        if (isset($_SESSION["usedId"]))
+            unset($_SESSION["usedId"]);
+
+        if (isset($_SESSION["isAdmin"]))
+            unset($_SESSION["isAdmin"]);
     }
 
     function userExists()
@@ -85,9 +129,8 @@ Class User extends Main_Class
         $stmt = $stmt->rowCount();
         if ($stmt > 0)
         {
-           return true;
-        }
-        else
+            return true;
+        } else
         {
             return false;
         }

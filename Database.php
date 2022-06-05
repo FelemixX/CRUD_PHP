@@ -1,6 +1,6 @@
 <?php
 
-require_once "config.php";
+require_once "source/config.php";
 
 
 class Database
@@ -20,10 +20,10 @@ class Database
 //            $this->db_name = $config['db_name'];
 //            $this->db_user = $config['db_user'];
 //            $this->db_pass = $config['db_pass'];
-            $this->db_host = 'localhost:3366';
+            $this->db_host = 'localhost:3306';
             $this->db_name = 'debts_docs_payments';
             $this->db_user = 'root';
-            $this->db_pass = '';
+            $this->db_pass = 'root';
         }
     }
 
@@ -36,7 +36,7 @@ class Database
             $conn = new PDO("mysql:host=" . $this->db_host . ";dbname=" . $this->db_name, $this->db_user, $this->db_pass);
         } catch (PDOException $exception)
         {
-            echo "Ошибка подключпения к БД!: " . $exception->getMessage();
+            echo "Ошибка подключения к БД!: " . $exception->getMessage();
         }
         return $conn;
     }

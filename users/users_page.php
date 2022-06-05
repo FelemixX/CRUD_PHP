@@ -13,8 +13,8 @@ try
 {
     echo "Ошибка подключения к БД!: " . $exception->getMessage();
 }
-require_once('../tables/client.php');
-$clients = new Client($conn);
+require_once('../tables/user.php');
+$users = new User($conn);
 $orderBy = " ";
 /*
 var orderBy = Request.QueryString;
@@ -27,7 +27,7 @@ var orderBy = Request.QueryString;
 			query = query.Remove(query.Length - 1);
             */
 
-$readClients = $clients->read();
+$readUsers = $users->read();
 ?>
 
 <?php
@@ -37,13 +37,13 @@ if (isset($_GET['search']))
     $query = $_GET['search'];
     $query = trim($query);
     $query = htmlspecialchars($query);
-    $result = $conn->prepare("SELECT * FROM client
+    $result = $conn->prepare("SELECT * FROM user
                     WHERE (`name` LIKE '%" . $query . "%')");
     $result->execute();
-    while ($row = $result->fetch(PDO::FETCH_BOTH))
+    while ($row = $result->fetch())
     {
         $id = array_shift($row);
-        $array[$id] = array($row[0], $row[1], $row[2]);//0,1,2
+        $array[$id] = array($row[0], $row[1], $row[4]);
     }
 }
 
@@ -54,24 +54,24 @@ if (isset($_GET['search']))
 
 <div class="container">
     <div class="row">
-        <h1>Список клиентов</h1>
+        <h1>Список пользователей</h1>
         <table class="table table-hover">
             <thead>
             <tr>
-                <th id="Id" scope="col">ID Клиента</th>
+                <th id="Id" scope="col">ID Пользователя</th>
                 <th id="Name" scope="col">Имя</th>
-                <th id="Date" scope="col">Дата рождения</th>
+                <th id="Date" scope="col">Логин</th>
                 <?php if (isset($_SESSION["isAdmin"])): ?>
-                    <th scope="col">Действие с клиентами</th>
+                    <th scope="col">Действие с пользователями</th>
                 <?php endif; ?>
             </tr>
             </thead>
             <tbody>
-            <?php foreach ($readClients as $client): ?>
+            <?php foreach ($readUsers as $client): ?>
                 <tr>
                     <td><?= $client["id"] ?></td>
                     <td><?= $client["name"] ?></td>
-                    <td><?= $client["birth_date"] ?></td>
+                    <td><?= $client["login"] ?></td>
                     <?php if (isset($_SESSION["isAdmin"])): ?>
                         <td><a href='update.php?id=<?= $client["id"] ?>'>Обновить</a></td>
                         <td><a href='update.php?deleteID=<?= $client["id"] ?>'>Удалить</a></td>
@@ -80,11 +80,8 @@ if (isset($_GET['search']))
             <?php endforeach; ?>
             </tbody>
         </table>
-        <?php if (isset($_SESSION["isAdmin"])): ?>
-            <a href='create.php'>Создать</a>
-        <?php endif; ?>
-        <form method="get" action="clients_page.php">
-            <br> Поиск клиентов
+        <form method="get" action="users_page.php">
+            <br> Поиск пользователей
             <br><input required name="search" type="text"/>
             <button type="submit" class="btn btn-primary">Поиск</button>
         </form>
@@ -96,17 +93,17 @@ if (isset($_GET['search']))
                     <thead>
                     <h2>Найденные совпадения</h2>
                     <tr>
-                        <th scope="col">ID Клиента</th>
+                        <th scope="col">ID Пользователя</th>
                         <th scope="col">Имя</th>
-                        <th scope="col">Дата рождения</th>
+                        <th scope="col">Логин</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach ($array as $result): ?>
+                    <?php foreach ($array as $results): ?>
                         <tr>
-                            <td><?= $result["0"] ?></td>
-                            <td><?= $result["1"] ?></td>
-                            <td><?= $result["2"] ?></td>
+                            <td><?= $results["0"] ?></td>
+                            <td><?= $results["2"] ?></td>
+                            <td><?= $results["1"] ?></td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>

@@ -1,10 +1,14 @@
 <?php
-
+session_start();
+if (!isset($_SESSION["usedId"]))
+{
+    header("Location: /index.php/");
+}
 $config = require_once('../source/config.php');
 $conn = null;
 try
 {
-    $conn = new PDO("mysql:host=" . "localhost:3366" . ";dbname=" . "debts_docs_payments", "root", "");
+    $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
 } catch (PDOException $exception)
 {
     echo "Ошибка подключения к БД!: " . $exception->getMessage();
@@ -17,7 +21,7 @@ $readDocuments = $documents->read();
 
 <?php
 //поиск
-if(isset($_GET['search']))
+if (isset($_GET['search']))
 {
     $query = $_GET['search'];
     $query = trim($query);
@@ -25,10 +29,10 @@ if(isset($_GET['search']))
     $result = $conn->prepare("SELECT * FROM document
 			        WHERE (`number` LIKE '%" . $query . "%')");
     $result->execute();
-    while($row = $result->fetch(PDO::FETCH_BOTH))
+    while ($row = $result->fetch(PDO::FETCH_BOTH))
     {
         $id = array_shift($row);
-        $array[$id] =array($row[0], $row[1], $row[2]);
+        $array[$id] = array($row[0], $row[1], $row[2]);
     }
 }
 
@@ -38,7 +42,7 @@ if(isset($_GET['search']))
 
     <div class="container">
         <div class="row">
-            <h1 >Список документов</h1>
+            <h1>Список документов</h1>
             <table class="table table-hover">
                 <thead>
                 <tr>
@@ -46,30 +50,36 @@ if(isset($_GET['search']))
                     <th scope="col">Номер документа</th>
                     <th scope="col">Имя клиента</th>
                     <th scope="col">Дата создания</th>
-                    <th scope="col">Действие с документами</th>
+                    <?php if (isset($_SESSION["isAdmin"])): ?>
+                        <th scope="col">Действие с документами</th>
+                    <?php endif ?>
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($readDocuments as $document):?>
+                <?php foreach ($readDocuments as $document): ?>
                     <tr>
-                        <td><?= $document["id"]?></td>
+                        <td><?= $document["id"] ?></td>
                         <td><?= $document["number"] ?></td>
-                        <td><?= $document["name"]?></td> <!-- Имя клиента -->
-                        <td><?= $document["creation_date"]?></td>
-                        <td> <a href='update.php?id=<?= $document["id"] ?>'>Обновить</a> </td>
-                        <td> <a href='update.php?deleteID=<?= $document["id"] ?>'>Удалить</a> </td>
+                        <td><?= $document["name"] ?></td> <!-- Имя клиента -->
+                        <td><?= $document["creation_date"] ?></td>
+                        <?php if (isset($_SESSION["isAdmin"])): ?>
+                            <td><a href='update.php?id=<?= $document["id"] ?>'>Обновить</a></td>
+                            <td><a href='update.php?deleteID=<?= $document["id"] ?>'>Удалить</a></td>
+                        <?php endif; ?>
                     </tr>
-                <?php endforeach;?>
+                <?php endforeach; ?>
                 </tbody>
             </table>
-            <a href='create.php'>Создать</a>
+            <?php if (isset($_SESSION["isAdmin"])): ?>
+                <a href='create.php'>Создать</a>
+            <?php endif; ?>
             <form method="get" action="documents_page.php">
                 <br> Поиск документов
-                <br><input required name="search" type="text" />
+                <br><input required name="search" type="text"/>
                 <button type="submit" class="btn btn-primary">Поиск</button>
             </form>
-            <?php if(isset($_GET['search'])): ?>
-                <?php if(empty($array)): ?>
+            <?php if (isset($_GET['search'])): ?>
+                <?php if (empty($array)): ?>
                     <p>Ничего не найдено</p>
                 <?php else: ?>
                     <table class="table table-hover">
@@ -82,13 +92,13 @@ if(isset($_GET['search']))
                         </tr>
                         </thead>
                         <tbody>
-                        <?php foreach ($array as $result):?>
+                        <?php foreach ($array as $result): ?>
                             <tr>
                                 <td><?= $result["0"] ?></td>
                                 <td><?= $result["1"] ?></td>
                                 <td><?= $result["2"] ?></td>
                             </tr>
-                        <?php endforeach;?>
+                        <?php endforeach; ?>
                         </tbody>
                     </table>
                 <?php endif; ?>

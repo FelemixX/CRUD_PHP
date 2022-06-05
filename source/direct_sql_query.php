@@ -5,22 +5,19 @@ $config = require_once('config.php');
 $conn = null;
 try
 {
-    $conn = new PDO("mysql:host=" . "localhost:3366" . ";dbname=" . "debts_docs_payments", "root", "");
-}
-catch (PDOException $exception)
+    $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
+} catch (PDOException $exception)
 {
     echo "Ошибка подключения к БД!: " . $exception->getMessage();
 }
-if(isset($_GET['user_query']))
+if (isset($_GET['user_query']))
 {
     //Проверка на правильность введенного запроса
     try
     {
         $query = $_GET['user_query'];
-        $query = trim($query);    //Убрать пробелы
-        $query = htmlspecialchars($query);  //Преобразовать спец символы в сущности HTML
 
-        if(str_contains($query, 'SELECT') || str_contains($query, 'select'))    //Обработка SELECT запроса
+        if (str_contains($query, 'SELECT') || str_contains($query, 'select'))    //Обработка SELECT запроса
         {
             /* Выполнить запрос */
             $queryToExec = $conn->prepare($query);
@@ -36,8 +33,7 @@ if(isset($_GET['user_query']))
             $otherQueryToExec = $otherQuery->execute();
             $changedRowCount = $otherQuery->rowCount();
         }
-    }
-    catch(Exception $error)
+    } catch (Exception $error)
     {
         $caughtError = $error->getMessage();
         echo '<pre>' . __FILE__ . ':' . __LINE__ . ':<br>' . print_r($caughtError, true) . '</pre>';
@@ -45,22 +41,22 @@ if(isset($_GET['user_query']))
 }
 ?>
 
-<?php require_once ('header.php'); ?>
-    <div class="d-flex p-2 bd-highlight"> </div>
+<?php require_once('header.php'); ?>
+    <div class="d-flex p-2 bd-highlight"></div>
     <div class="d-flex justify-content-center">
         <div>
             <h4>Отправить SQL Запрос</h4>
             <form method="get" action="direct_sql_query.php">
-                <input required name="user_query" type="text" />
+                <input required name="user_query" type="text"/>
                 <button type="submit" class="btn btn-primary" name="user_id">Отправить</button>
             </form>
-            <?php if(isset($_GET['user_query'])): ?>
-                <?php if(empty($query)): ?> <!-- SELECT запрос -->
+            <?php if (isset($_GET['user_query'])): ?>
+                <?php if (empty($query)): ?> <!-- SELECT запрос -->
                     <p>Запрос не обнаружен</p>
-                <?php elseif(isset($caughtError)): ?>
+                <?php elseif (isset($caughtError)): ?>
                     <p><h4>Запрос введен неверно</h4></p>
                 <?php else: ?>
-                    <?php if(isset($queryToExec)): ?>
+                    <?php if (isset($queryToExec)): ?>
                         <table class="table table-hover">
                             <thead>
                             <h2>Результат запроса</h2>
@@ -70,8 +66,8 @@ if(isset($_GET['user_query']))
                             </tr>
                             </thead>
                             <tbody>
-                            <?php foreach($queryToExec as $key=>$value): ?> <!-- Вывод таблицы после SELECT -->
-                                <?php foreach($value as $row=>$val): ?>
+                            <?php foreach ($queryToExec as $key => $value): ?> <!-- Вывод таблицы после SELECT -->
+                                <?php foreach ($value as $row => $val): ?>
                                     <td><?= $val ?></td>
                                 <?php endforeach; ?>
                             <?php endforeach; ?>
@@ -80,7 +76,7 @@ if(isset($_GET['user_query']))
                     <?php endif; ?>
                 <?php endif; ?>
             <?php endif; ?>
-            <?php if(isset($otherQueryToExec)): ?> <!-- Вывод количества измененных столбцов -->
+            <?php if (isset($otherQueryToExec)): ?> <!-- Вывод количества измененных столбцов -->
                 <?php print ("Изменено $changedRowCount столбцов") ?>
             <?php endif; ?>
         </div>

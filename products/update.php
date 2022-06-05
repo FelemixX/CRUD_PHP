@@ -3,14 +3,13 @@
 $conn = null;
 try
 {
-    $conn = new PDO("mysql:host=" . "localhost:3366" . ";dbname=" . "debts_docs_payments", "root", "");
-}
-catch (PDOException $exception)
+    $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
+} catch (PDOException $exception)
 {
     echo "Ошибка подключения к БД!: " . $exception->getMessage();
 }
 
-if(isset($_GET["id"]))
+if (isset($_GET["id"]))
 {
     $id = $_GET["id"];
 
@@ -19,7 +18,7 @@ if(isset($_GET["id"]))
     $documents = $document->read();
 }
 
-if(isset($_GET["deleteID"]))
+if (isset($_GET["deleteID"]))
 {
     $deleteID = $_GET["deleteID"];
     require_once('../tables/product.php');
@@ -27,13 +26,13 @@ if(isset($_GET["deleteID"]))
     $product = new Product($conn);
     $product->id = $deleteID;
 
-    if($product->delete())
+    if ($product->delete())
     {
         header("Location: products_page.php");
     }
 }
 
-if(isset($_POST["id"]) && isset($_POST["p_name"]) && isset($_POST["quantity"]))
+if (isset($_POST["id"]) && isset($_POST["p_name"]) && isset($_POST["quantity"]))
 {
     $postID = $_POST["id"];
     $productName = $_POST["p_name"];
@@ -46,22 +45,22 @@ if(isset($_POST["id"]) && isset($_POST["p_name"]) && isset($_POST["quantity"]))
     $product->quantity = $quantity;
     $product->document_ID = $documentID;
     $product->id = $postID;
-    if($product->update())
+    if ($product->update())
     {
         header("Location: products_page.php");
     }
 }
 ?>
 
-<?php require_once ('../source/header.php'); ?>
+<?php require_once('../source/header.php'); ?>
 <form action="update.php" method="post">
-    <input class="invisible" name="id" value="<?=$id?>">
+    <input class="invisible" name="id" value="<?= $id ?>">
     <div class="mb-3">
         <label for="document_ID" class="form-label">Документ</label>
         <select name="document_ID" class="form-select" aria-label="client select" id="document_ID">  <!-- Выпадашка -->
             <?php foreach ($documents as $item): ?> <!-- Выборка клиентов -->
-                <option value="<?=$item["id"]?>" selected><?=$item["number"]?></option>
-            <?php endforeach?>
+                <option value="<?= $item["id"] ?>" selected><?= $item["number"] ?></option>
+            <?php endforeach ?>
         </select>
         <label for="p_name" class="form-label">Наименование</label>
         <input required name="p_name" type="text" class="form-control" id="p_name">
@@ -73,5 +72,5 @@ if(isset($_POST["id"]) && isset($_POST["p_name"]) && isset($_POST["quantity"]))
     <button type="submit" class="btn btn-primary">Отправить</button>
     <a href="products_page.php">Отмена</a>
 </form>
-<?php require_once ('../source/footer.php'); ?>
+<?php require_once('../source/footer.php'); ?>
 
