@@ -1,16 +1,13 @@
 <?php
 session_start();
-if (!isset($_SESSION["usedId"]))
-{
+if (!isset($_SESSION["usedId"])) {
     header("Location: /index.php/");
 }
 $config = require_once('../source/config.php');
 $conn = null;
-try
-{
+try {
     $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-} catch (PDOException $exception)
-{
+} catch (PDOException $exception) {
     echo "Ошибка подключения к БД!: " . $exception->getMessage();
 }
 require_once('../tables/debt.php');
@@ -20,34 +17,29 @@ $readDebts = $debts->read();
 
 <?php
 //поиск
-if (isset($_GET['search']))
-{
+if (isset($_GET['search'])) {
     $query = $_GET['search'];
     $query = trim($query);
     $query = htmlspecialchars($query);
     $result = $conn->prepare("SELECT * FROM debt
 			        WHERE (`debt` LIKE '%" . $query . "%')");
     $result->execute();
-    while ($row = $result->fetch(PDO::FETCH_BOTH))
-    {
+    while ($row = $result->fetch(PDO::FETCH_BOTH)) {
         $id = array_shift($row);
         $array[$id] = $row[3];
     }
 }
 
-if (isset($_GET['show_logs']))
-{
+if (isset($_GET['show_logs'])) {
     $log = $conn->prepare("SELECT * FROM logs");
     $log->execute();
-    while ($row = $log->fetch(PDO::FETCH_BOTH))
-    {
+    while ($row = $log->fetch(PDO::FETCH_BOTH)) {
         $id = array_shift($row);
         $logs[$id] = array($row[0], $row[1], $row[2]);
     }
 }
 
-if (isset($_POST['call_proc']))
-{
+if (isset($_POST['call_proc'])) {
     $debts->callProc();
     header("Location: debts_page.php");
 }
@@ -86,15 +78,15 @@ if (isset($_POST['call_proc']))
             </table>
             <?php if (isset($_SESSION["isAdmin"])): ?>
                 <a href='create.php'>Создать</a>
+                <form method="post" action="debts_page.php">
+                    <input type="hidden" name="call_proc" value="call_proc"/>
+                    <button type="submit" class="btn btn-primary">Выполнить процедуру</button>
+                </form>
+                <form method="get" action="debts_page.php">
+                    <input type="hidden" name="show_logs" value="show_logs"/>
+                    <button type="submit" class="btn btn-primary">Показать логи</button>
+                </form>
             <?php endif; ?>
-            <form method="post" action="debts_page.php">
-                <input type="hidden" name="call_proc" value="call_proc"/>
-                <button type="submit" class="btn btn-primary">Выполнить процедуру</button>
-            </form>
-            </bar><form method="get" action="debts_page.php">
-                <input type="hidden" name="show_logs" value="show_logs"/>
-                <button type="submit" class="btn btn-primary">Показать логи</button>
-            </form>
             <?php if (isset($_GET['show_logs'])): ?>
                 <?php if (empty($logs)): ?>
                     <p>Нет логированной информации</p>
