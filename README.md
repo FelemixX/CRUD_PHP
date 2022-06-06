@@ -4,6 +4,7 @@ CRUD made in PHP and MySQL.
 Database dump scripts are in DB_Dump folder.
 
 Server is up using XAMPP Compiled Apr 6th 2021
+MySQL is up using MySQL Workbench
 
 Task:
 
