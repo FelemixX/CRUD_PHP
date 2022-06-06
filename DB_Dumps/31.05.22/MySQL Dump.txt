@@ -43,3 +43,35 @@ create table user
     name  varchar(256) null
 );
 
+create table logs
+(
+    id          int auto_increment
+        primary key,
+    last_update datetime null,
+    debt_ID     int      null,
+    constraint `log _debt_id_fk`
+        foreign key (debt_ID) references debt (id)
+            on update cascade on delete cascade
+);
+
+
+
+create
+    definer = root@localhost procedure update_debt()
+BEGIN
+
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE ID INT;
+    DECLARE DEBT VARCHAR(10);
+    DECLARE CUR1 CURSOR for SELECT id,debt FROM debt;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+    open CUR1;
+    read_loop: LOOP
+        FETCH CUR1 INTO ID, DEBT;
+        INSERT INTO debt (`debt`)
+        VALUES(@DEBT);
+        if done then leave read_loop; end if;
+    END LOOP;
+    CLOSE CUR1;
+END;
+

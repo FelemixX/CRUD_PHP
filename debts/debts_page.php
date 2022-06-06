@@ -90,7 +90,7 @@ if (isset($_GET['search']))
                         <?php foreach ($array as $id => $prod): ?>
                             <tr>
                                 <td><?= $id ?></td>
-                                <td><?= $prod ?></td>
+                                <td><?= $prod . " руб" ?></td>
                             </tr>
                         <?php endforeach; ?>
                         </tbody>

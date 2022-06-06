@@ -17,25 +17,23 @@ if (isset($_POST["document_ID"]) && isset($_POST["debt"]))
 
     require_once('../tables/debt.php');
     $debt = new Debt($conn);
-
     $debt->debt = $totalDebt;
     $debt->document_ID = $documentID;
-
+    $debt->client_ID = $debt->getClientByDocID()["client_ID"];
     if ($debt->create())
-    {
-        header("Location: debts_page.php");
+        {
+            header("Location: debts_page.php");
+        }
     }
-}
 
 require_once('../tables/document.php');
-$dcp = new Document($conn);
-$documents = $dcp->read();
-
+$doc = new Document($conn);
+$documents = $doc->read();
 ?>
 <?php require_once('../source/header.php'); ?>
     <form action="create.php" method="post">
         <label for="document_ID" class="form-label">Документ</label>
-        <select name="document_ID" class="form-select" aria-label="client select" id="document_ID">  <!-- Выпадашка -->
+        <select name="document_ID" class="form-select" aria-label="document select" id="document_ID">  <!-- Выпадашка -->
             <?php foreach ($documents as $item): ?> <!-- Выборка клиентов -->
                 <option value="<?= $item["id"] ?>" selected><?= $item["number"] ?></option>
             <?php endforeach ?>

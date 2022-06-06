@@ -37,20 +37,13 @@ if (isset($_POST["document_ID"]) && isset($_POST["id"]) && isset($_POST["debt"])
     $postID = $_POST["id"];
     $totalDebt = $_POST["debt"];
     $document = $_POST["document_ID"];
-    $conn = null;
 
-    try
-    {
-        $conn = new PDO("mysql:host=" . "localhost:3366" . ";dbname=" . "debts_docs_payments", "root", "");
-    } catch (PDOException $exception)
-    {
-        echo "Ошибка подключения к БД!: " . $exception->getMessage();
-    }
     require_once('../tables/debt.php');
     $debt = new Debt($conn);
     $debt->debt = $totalDebt;
     $debt->document_ID = $document;
     $debt->id = $postID;
+    $debt->client_ID = $debt->getClientByDocID()["client_ID"];
     if ($debt->update())
     {
         header("Location: debts_page.php");

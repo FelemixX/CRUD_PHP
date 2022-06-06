@@ -95,7 +95,7 @@ if (isset($_GET['search']))
                         <?php foreach ($array as $result): ?>
                             <tr>
                                 <td><?= $result["0"] ?></td>
-                                <td><?= $result["1"] ?></td>
+                                <td>№ <?= $result["1"] ?></td>
                                 <td><?= $result["2"] ?></td>
                             </tr>
                         <?php endforeach; ?>

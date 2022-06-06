@@ -86,6 +86,10 @@ session_start();
                                     <li class="nav-item">
                                         <a class="nav-link active" aria-current="page" ><strong class="gradient-text">ADMIN</strong></a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page"
+                                           href="/call_proc.php/">Процедура</a>
+                                    </li>
                                 <?php endif; ?>
                             <?php endif; ?>
                         </ul>
