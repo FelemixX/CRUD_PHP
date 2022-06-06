@@ -91,6 +91,7 @@ class User extends Main_Class
             {
                 self::logout();
                 session_start();
+                $_SESSION["userName"] = $stmt["name"];
                 $_SESSION["usedId"] = $stmt["id"];
                 if ($foundLogin == "admin")
                 {
@@ -98,11 +99,13 @@ class User extends Main_Class
                     return true;
                 }
                 return true;
-            } else
+            }
+            else
             {
                 return false;
             }
-        } else
+        }
+        else
         {
             return false;
         }

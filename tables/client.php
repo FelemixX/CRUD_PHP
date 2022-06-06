@@ -56,4 +56,10 @@ class Client extends Main_Class
         return false;
     }
 
+    function orderBy($orderBy)
+    {
+        $tname = $this->table_name;
+        $query = "$orderBy";
+        $stmt = $this->conn->prepare($query);
+    }
 }

@@ -22,7 +22,7 @@ if (isset($_POST['user_login']) && isset($_POST['user_passwd']))
         header("Location: /clients/clients_page.php");
     } else
     {
-        header("Location: " . $_SERVER['PHP_SELF']);
+        header("Location: " . $_SERVER['PHP_SELF'] . "?error");
     }
 }
 ?>
@@ -42,4 +42,15 @@ if (isset($_POST['user_login']) && isset($_POST['user_passwd']))
     </form>
     <button class="btn"><a href="/auth/register_page.php">Регистрация</a></button>
 
+<?php if (isset($_GET["error"])): ?>
+    <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show" role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+            <use xlink:href="#exclamation-triangle-fill"/>
+        </svg>
+        <div>
+            Ошибка! Пользователя не существует
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
 <?php require_once('source/footer.php'); ?>
