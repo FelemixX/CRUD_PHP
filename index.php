@@ -33,9 +33,11 @@ if (isset($_POST['user_login']) && isset($_POST['user_passwd'])) {
             <label for="user_passwd" class="form-label">Пароль</label>
             <input name="user_passwd" required type="password" class="form-control" id="user_passwd">
         </div>
-        <button class="btn btn-success" type="submit" class="btn btn-primary">Войти</button>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary mr-3">Войти</button>
+            <a type="submit" class="d-inline-block btn btn-warning" href="/auth/register_page.php">Регистрация</a>
+        </div>
     </form>
-    <button class="btn"><a href="/auth/register_page.php">Регистрация</a></button>
 
 <?php if (isset($_GET["error"])): ?>
     <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show" role="alert">
