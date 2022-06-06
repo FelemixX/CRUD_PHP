@@ -51,6 +51,6 @@ $documents = $document->read();
             <input required name="quantity" type="number" class="form-control" id="quantity">
         </div>
         <button type="submit" class="btn btn-primary">Отправить</button>
-        <a href="products_page.php">Отмена</a>
+        <a class="btn btn-danger" href="products_page.php">Отмена</a>
     </form>
 <?php require_once('../source/footer.php'); ?>

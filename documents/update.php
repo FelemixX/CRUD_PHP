@@ -16,7 +16,7 @@ if (isset($_GET["id"]))
 
     require_once('../tables/client.php');
     $client = new Client($conn); //Вывод клиентов для выпадашки
-    $clients = $client->read();
+    $clients = $client->read("");
 }
 
 if (isset($_GET["deleteID"]))
@@ -75,7 +75,7 @@ if (isset($_POST["id"]) && isset($_POST["number"]) && isset($_POST["creation_dat
         <input required name="creation_date" type="date" class="form-control" id="birth_date">
     </div>
     <button type="submit" class="btn btn-primary">Отправить</button>
-    <a href="documents_page.php">Отмена</a>
+    <a class="btn btn-danger" href="documents_page.php">Отмена</a>
 </form>
 <?php require_once('../source/footer.php'); ?>
 

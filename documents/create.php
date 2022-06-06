@@ -33,7 +33,7 @@ if (isset($_POST["client_ID"]) && isset($_POST["number"]) && isset($_POST["creat
 
 require_once('../tables/client.php');
 $client = new Client($conn); //Вывод клиентов для выпадашки
-$clients = $client->read();
+$clients = $client->read("");
 
 ?>
 
@@ -56,7 +56,7 @@ $clients = $client->read();
         <input required name="creation_date" type="date" class="form-control" id="creation_date">
     </div>
     <button type="submit" class="btn btn-primary">Отправить</button>
-    <a href="documents_page.php">Отмена</a>
+    <a class="btn btn-danger" href="documents_page.php">Отмена</a>
 </form>
 
 <?php require_once('../source/footer.php'); ?>

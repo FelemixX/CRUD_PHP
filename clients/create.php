@@ -33,6 +33,6 @@ if (isset($_POST["birth_date"]) && isset($_POST["name"]))
             <input required name="birth_date" type="date" class="form-control" id="birth_date">
         </div>
         <button type="submit" class="btn btn-primary">Отправить</button>
-        <a href="clients_page.php">Отмена</a>
+        <a class="btn btn-danger" href="clients_page.php">Отмена</a>
     </form>
 <?php require_once('../source/footer.php'); ?>

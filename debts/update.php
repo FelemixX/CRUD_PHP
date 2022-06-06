@@ -65,7 +65,7 @@ if (isset($_POST["document_ID"]) && isset($_POST["id"]) && isset($_POST["debt"])
         <input required name="debt" type="number" class="form-control" id="debt">
     </div>
     <button type="submit" class="btn btn-primary">Отправить</button>
-    <a href="debts_page.php">Отмена</a>
+    <a class="btn btn-danger" href="debts_page.php">Отмена</a>
 </form>
 <?php require_once('../source/footer.php'); ?>
 

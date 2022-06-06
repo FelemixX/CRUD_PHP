@@ -71,7 +71,7 @@ if (isset($_POST["id"]) && isset($_POST["name"]) && isset($_POST["login"]))
         <input required name="user_name" type="text" class="form-control" id="user_name">
     </div>
     <button type="submit" class="btn btn-primary">Отправить</button>
-    <a href="users_page.php">Отмена</a>
+    <a class="btn btn-danger" href="users_page.php">Отмена</a>
 </form>
 <?php require_once('../source/footer.php'); ?>
 
