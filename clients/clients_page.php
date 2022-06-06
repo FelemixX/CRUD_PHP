@@ -1,42 +1,36 @@
 <?php
 session_start();
-if (!isset($_SESSION["usedId"]))
-{
+if (!isset($_SESSION["usedId"])) {
     header("Location: /index.php/");
 }
 $config = require_once('../source/config.php');
 $conn = null;
-try
-{
+try {
     $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-} catch (PDOException $exception)
-{
+} catch (PDOException $exception) {
     echo "Ошибка подключения к БД!: " . $exception->getMessage();
 }
 require_once('../tables/client.php');
 $clients = new Client($conn);
 $query = " ";
-foreach ($_GET as $index=>$item)
-{
+foreach ($_GET as $index => $item) {
     $query .= $index . " " . $item . ", ";
 }
-$query = substr_replace($query ,"", -2);
+$query = substr_replace($query, "", -2);
 
 $readClients = $clients->read($query);
 ?>
 
 <?php
 //поиск
-if (isset($_POST['search']))
-{
+if (isset($_POST['search'])) {
     $query = $_POST['search'];
     $query = trim($query);
     $query = htmlspecialchars($query);
     $result = $conn->prepare("SELECT * FROM client
                     WHERE (`name` LIKE '%" . $query . "%')");
     $result->execute();
-    while ($row = $result->fetch(PDO::FETCH_BOTH))
-    {
+    while ($row = $result->fetch(PDO::FETCH_BOTH)) {
         $id = array_shift($row);
         $array[$id] = array($row[0], $row[1], $row[2]);//0,1,2
     }
@@ -48,67 +42,68 @@ if (isset($_POST['search']))
 <?php require_once('../source/header.php'); ?>
 
 <div class="container">
-    <div class="row">
-        <h1>Список клиентов</h1>
-        <table class="table table-hover">
-            <thead>
+    <h1>Список клиентов</h1>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th id="Id" scope="col">ID Клиента</th>
+            <th id="Name" scope="col">Имя</th>
+            <th id="Date" scope="col">Дата рождения</th>
+            <?php if (isset($_SESSION["isAdmin"])): ?>
+                <th scope="col">Действие с клиентами</th>
+            <?php endif; ?>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($readClients as $client): ?>
             <tr>
-                <th id="Id" scope="col">ID Клиента</th>
-                <th id="Name" scope="col">Имя</th>
-                <th id="Date" scope="col">Дата рождения</th>
+                <td><?= $client["id"] ?></td>
+                <td><?= $client["name"] ?></td>
+                <td><?= $client["birth_date"] ?></td>
                 <?php if (isset($_SESSION["isAdmin"])): ?>
-                    <th scope="col">Действие с клиентами</th>
+                    <td>
+                        <a class="btn btn-success" href='update.php?id=<?= $client["id"] ?>'>Обновить</a>
+                        <a class="btn btn-danger" href='update.php?deleteID=<?= $client["id"] ?>'>Удалить</a>
+                    </td>
                 <?php endif; ?>
             </tr>
-            </thead>
-            <tbody>
-            <?php foreach ($readClients as $client): ?>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+    <?php if (isset($_SESSION["isAdmin"])): ?>
+        <a class="btn btn-primary" href='create.php'>Создать</a>
+    <?php endif; ?>
+    <form method="post" action="clients_page.php">
+        <br> Поиск клиентов
+        <br><input required name="search" type="text"/>
+        <button type="submit" class="btn btn-primary">Поиск</button>
+    </form>
+    <?php if (isset($_POST['search'])): ?>
+        <?php if (empty($array)): ?>
+            <p>Ничего не найдено</p>
+        <?php else: ?>
+            <table class="table table-hover">
+                <thead>
+                <h2>Найденные совпадения</h2>
                 <tr>
-                    <td><?= $client["id"] ?></td>
-                    <td><?= $client["name"] ?></td>
-                    <td><?= $client["birth_date"] ?></td>
-                    <?php if (isset($_SESSION["isAdmin"])): ?>
-                        <td><a href='update.php?id=<?= $client["id"] ?>'>Обновить</a></td>
-                        <td><a href='update.php?deleteID=<?= $client["id"] ?>'>Удалить</a></td>
-                    <?php endif; ?>
+                    <th scope="col">ID Клиента</th>
+                    <th scope="col">Имя</th>
+                    <th scope="col">Дата рождения</th>
                 </tr>
-            <?php endforeach; ?>
-            </tbody>
-        </table>
-        <?php if (isset($_SESSION["isAdmin"])): ?>
-            <a href='create.php'>Создать</a>
-        <?php endif; ?>
-        <form method="post" action="clients_page.php">
-            <br> Поиск клиентов
-            <br><input required name="search" type="text"/>
-            <button type="submit" class="btn btn-primary">Поиск</button>
-        </form>
-        <?php if (isset($_POST['search'])): ?>
-            <?php if (empty($array)): ?>
-                <p>Ничего не найдено</p>
-            <?php else: ?>
-                <table class="table table-hover">
-                    <thead>
-                    <h2>Найденные совпадения</h2>
+                </thead>
+                <tbody>
+                <?php foreach ($array as $result): ?>
                     <tr>
-                        <th scope="col">ID Клиента</th>
-                        <th scope="col">Имя</th>
-                        <th scope="col">Дата рождения</th>
+                        <td><?= $result["0"] ?></td>
+                        <td><?= $result["1"] ?></td>
+                        <td><?= $result["2"] ?></td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    <?php foreach ($array as $result): ?>
-                        <tr>
-                            <td><?= $result["0"] ?></td>
-                            <td><?= $result["1"] ?></td>
-                            <td><?= $result["2"] ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                    </tbody>
-                </table>
-            <?php endif; ?>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
         <?php endif; ?>
-    </div>
+    <?php endif; ?>
+</div>
 </div>
 <?php require_once('../source/footer.php'); ?>
 

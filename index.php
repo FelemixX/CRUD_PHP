@@ -3,25 +3,20 @@ require_once('tables/user.php');
 $config = require_once('source/config.php');
 
 $conn = null;
-try
-{
+try {
     $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-} catch (PDOException $exception)
-{
+} catch (PDOException $exception) {
     echo "Ошибка подключения к БД!: " . $exception->getMessage();
 }
 
-if (isset($_POST['user_login']) && isset($_POST['user_passwd']))
-{
+if (isset($_POST['user_login']) && isset($_POST['user_passwd'])) {
     $user = new User($conn);
     $user->login = $_POST['user_login'];
     $user->pass = $_POST['user_passwd'];
 
-    if ($user->authorization())
-    {
+    if ($user->authorization()) {
         header("Location: /clients/clients_page.php");
-    } else
-    {
+    } else {
         header("Location: " . $_SERVER['PHP_SELF'] . "?error");
     }
 }
@@ -38,7 +33,7 @@ if (isset($_POST['user_login']) && isset($_POST['user_passwd']))
             <label for="user_passwd" class="form-label">Пароль</label>
             <input name="user_passwd" required type="password" class="form-control" id="user_passwd">
         </div>
-        <button type="submit" class="btn btn-primary">Войти</button>
+        <button class="btn btn-success" type="submit" class="btn btn-primary">Войти</button>
     </form>
     <button class="btn"><a href="/auth/register_page.php">Регистрация</a></button>
 

@@ -49,95 +49,96 @@ if (isset($_POST['call_proc'])) {
 <?php require_once('../source/header.php'); ?>
 
     <div class="container">
-        <div class="row">
-            <h1>Список задолженностей</h1>
-            <table class="table table-hover">
-                <thead>
+        <h1>Список задолженностей</h1>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">ID Задолженности</th>
+                <th scope="col">Задолженность</th>
+                <th scope="col">Номер документа</th>
+                <?php if (isset($_SESSION["isAdmin"])): ?>
+                    <th scope="col">Действие с задолженностями</th>
+                <?php endif; ?>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($readDebts as $debt): ?>
                 <tr>
-                    <th scope="col">ID Задолженности</th>
-                    <th scope="col">Задолженность</th>
-                    <th scope="col">Номер документа</th>
+                    <td><?= $debt["id"] ?></td>
+                    <td><?= $debt["debt"] . " руб." ?></td>
+                    <td><?= "№ " . $debt["number"] ?></td>
                     <?php if (isset($_SESSION["isAdmin"])): ?>
-                        <th scope="col">Действие с задолженностями</th>
+                        <td>
+                            <a class="btn btn-success" href='update.php?id=<?= $debt["id"] ?>'>Обновить</a>
+                            <a class="btn btn-danger" href='update.php?deleteID=<?= $debt["id"] ?>'>Удалить</a>
+                        </td>
                     <?php endif; ?>
                 </tr>
-                </thead>
-                <tbody>
-                <?php foreach ($readDebts as $debt): ?>
-                    <tr>
-                        <td><?= $debt["id"] ?></td>
-                        <td><?= $debt["debt"] . " руб." ?></td>
-                        <td><?= "№ " . $debt["number"] ?></td>
-                        <?php if (isset($_SESSION["isAdmin"])): ?>
-                            <td><a href='update.php?id=<?= $debt["id"] ?>'>Обновить</a></td>
-                            <td><a href='update.php?deleteID=<?= $debt["id"] ?>'>Удалить</a></td>
-                        <?php endif; ?>
-                    </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
-            <?php if (isset($_SESSION["isAdmin"])): ?>
-                <a href='create.php'>Создать</a>
-                <form method="post" action="debts_page.php">
-                    <input type="hidden" name="call_proc" value="call_proc"/>
-                    <button type="submit" class="btn btn-primary">Выполнить процедуру</button>
-                </form>
-                <form method="get" action="debts_page.php">
-                    <input type="hidden" name="show_logs" value="show_logs"/>
-                    <button type="submit" class="btn btn-primary">Показать логи</button>
-                </form>
-            <?php endif; ?>
-            <?php if (isset($_GET['show_logs'])): ?>
-                <?php if (empty($logs)): ?>
-                    <p>Нет логированной информации</p>
-                <?php else: ?>
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th scope="col">ID Лога</th>
-                            <th scope="col">Дата создания</th>
-                            <th scope="col">ID Задолженности</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach ($logs as $result): ?>
-                            <tr>
-                                <td><?= $result["0"] ?></td>
-                                <td><?= $result["1"] ?></td>
-                                <td><?= $result["2"] ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                <?php endif; ?>
-            <?php endif; ?>
-            <form method="get" action="debts_page.php">
-                <br> Поиск задолженностей
-                <br><input required name="search" type="text"/>
-                <button type="submit" class="btn btn-primary">Поиск</button>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <?php if (isset($_SESSION["isAdmin"])): ?>
+            <a class="btn btn-primary" href='create.php'>Создать</a>
+            <form method="post" action="debts_page.php">
+                <input type="hidden" name="call_proc" value="call_proc"/>
+                <button type="submit" class="btn btn-primary">Выполнить процедуру</button>
             </form>
-            <?php if (isset($_GET['search'])): ?>
-                <?php if (empty($array)): ?>
-                    <p>Ничего не найдено</p>
-                <?php else: ?>
-                    <table class="table table-hover">
-                        <thead>
+            <form method="get" action="debts_page.php">
+                <input type="hidden" name="show_logs" value="show_logs"/>
+                <button type="submit" class="btn btn-primary">Показать логи</button>
+            </form>
+        <?php endif; ?>
+        <?php if (isset($_GET['show_logs'])): ?>
+            <?php if (empty($logs)): ?>
+                <p>Нет логированной информации</p>
+            <?php else: ?>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID Лога</th>
+                        <th scope="col">Дата создания</th>
+                        <th scope="col">ID Задолженности</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($logs as $result): ?>
                         <tr>
-                            <th scope="col">ID Задолженности</th>
-                            <th scope="col">Задолженность</th>
+                            <td><?= $result["0"] ?></td>
+                            <td><?= $result["1"] ?></td>
+                            <td><?= $result["2"] ?></td>
                         </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach ($array as $id => $prod): ?>
-                            <tr>
-                                <td><?= $id ?></td>
-                                <td><?= $prod . " руб" ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                <?php endif; ?>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
             <?php endif; ?>
-        </div>
+        <?php endif; ?>
+        <form method="get" action="debts_page.php">
+            <br> Поиск задолженностей
+            <br><input required name="search" type="text"/>
+            <button type="submit" class="btn btn-primary">Поиск</button>
+        </form>
+        <?php if (isset($_GET['search'])): ?>
+            <?php if (empty($array)): ?>
+                <p>Ничего не найдено</p>
+            <?php else: ?>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID Задолженности</th>
+                        <th scope="col">Задолженность</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($array as $id => $prod): ?>
+                        <tr>
+                            <td><?= $id ?></td>
+                            <td><?= $prod . " руб" ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php endif; ?>
+        <?php endif; ?>
+    </div>
     </div>
 <?php require_once('../source/footer.php'); ?>

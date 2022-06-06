@@ -41,7 +41,6 @@ if (isset($_GET['search']))
 <?php require_once('../source/header.php'); ?>
 
     <div class="container">
-        <div class="row">
             <h1>Список товаров</h1>
             <table class="table table-hover">
                 <thead>
@@ -63,15 +62,17 @@ if (isset($_GET['search']))
                         <td><?= "№ " . $product["number"] ?></td>
                         <td><?= $product["quantity"] ?></td>
                         <?php if (isset($_SESSION["isAdmin"])): ?>
-                            <td><a href='update.php?id=<?= $product["id"] ?>'>Обновить</a></td>
-                            <td><a href='update.php?deleteID=<?= $product["id"] ?>'>Удалить</a></td>
+                            <td>
+                                <a class="btn btn-success" href='update.php?id=<?= $product["id"] ?>'>Обновить</a>
+                                <a class="btn btn-danger" href='update.php?deleteID=<?= $product["id"] ?>'>Удалить</a>
+                            </td>
                         <?php endif; ?>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
             </table>
             <?php if (isset($_SESSION["isAdmin"])): ?>
-                <a href='create.php'>Создать</a>
+                <a class="btn btn-primary" href='create.php'>Создать</a>
             <?php endif; ?>
             <form method="get" action="products_page.php">
                 <br> Поиск товаров

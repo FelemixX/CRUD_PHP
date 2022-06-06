@@ -1,47 +1,32 @@
 <?php
 session_start();
-if (!isset($_SESSION["usedId"]))
-{
+if (!isset($_SESSION["usedId"])) {
     header("Location: /index.php/");
 }
 $config = require_once('../source/config.php');
 $conn = null;
-try
-{
+try {
     $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-} catch (PDOException $exception)
-{
+} catch (PDOException $exception) {
     echo "Ошибка подключения к БД!: " . $exception->getMessage();
 }
 require_once('../tables/user.php');
 $users = new User($conn);
 $orderBy = " ";
-/*
-var orderBy = Request.QueryString;
-			string query = " ";
-			foreach (string key in orderBy)
-			{
-				query += key + " " + orderBy[key] + ",";
-			}
-
-			query = query.Remove(query.Length - 1);
-            */
 
 $readUsers = $users->read();
 ?>
 
 <?php
 //поиск
-if (isset($_GET['search']))
-{
+if (isset($_GET['search'])) {
     $query = $_GET['search'];
     $query = trim($query);
     $query = htmlspecialchars($query);
     $result = $conn->prepare("SELECT * FROM user
                     WHERE (`name` LIKE '%" . $query . "%')");
     $result->execute();
-    while ($row = $result->fetch())
-    {
+    while ($row = $result->fetch()) {
         $id = array_shift($row);
         $array[$id] = array($row[0], $row[1], $row[4]);
     }
@@ -53,7 +38,6 @@ if (isset($_GET['search']))
 <?php require_once('../source/header.php'); ?>
 
 <div class="container">
-    <div class="row">
         <h1>Список пользователей</h1>
         <table class="table table-hover">
             <thead>
@@ -73,8 +57,10 @@ if (isset($_GET['search']))
                     <td><?= $client["name"] ?></td>
                     <td><?= $client["login"] ?></td>
                     <?php if (isset($_SESSION["isAdmin"])): ?>
-                        <td><a href='update.php?id=<?= $client["id"] ?>'>Обновить</a></td>
-                        <td><a href='update.php?deleteID=<?= $client["id"] ?>'>Удалить</a></td>
+                        <td>
+                            <a class="btn btn-success" href='update.php?id=<?= $client["id"] ?>'>Обновить</a>
+                            <a class="btn btn-danger" href='update.php?deleteID=<?= $client["id"] ?>'>Удалить</a>
+                        </td>
                     <?php endif; ?>
                 </tr>
             <?php endforeach; ?>
