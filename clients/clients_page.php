@@ -73,9 +73,11 @@ if (isset($_POST['search'])) {
     <?php if (isset($_SESSION["isAdmin"])): ?>
         <a class="btn btn-primary" href='create.php'>Создать</a>
     <?php endif; ?>
-    <form method="post" action="clients_page.php">
+    <form class="mb-2" method="post" action="clients_page.php">
         <br> Поиск клиентов
-        <br><input required name="search" type="text"/>
+        <br>
+        <input class="form-control" required name="search" type="text"/>
+        <br>
         <button type="submit" class="btn btn-primary">Поиск</button>
     </form>
     <?php if (isset($_POST['search'])): ?>

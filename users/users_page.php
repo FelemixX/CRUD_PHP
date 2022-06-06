@@ -66,10 +66,10 @@ if (isset($_GET['search'])) {
             <?php endforeach; ?>
             </tbody>
         </table>
-        <form method="get" action="users_page.php">
+        <form class="mb-2" method="get" action="users_page.php">
             <br> Поиск пользователей
-            <br><input required name="search" type="text"/>
-            <button type="submit" class="btn btn-primary">Поиск</button>
+            <input class="form-control" required name="search" type="text"/>
+            <br><button type="submit" class="btn btn-primary">Поиск</button>
         </form>
         <?php if (isset($_GET['search'])): ?>
             <?php if (empty($array)): ?>

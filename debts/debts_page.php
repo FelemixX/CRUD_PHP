@@ -78,12 +78,14 @@ if (isset($_POST['call_proc'])) {
             </tbody>
         </table>
         <?php if (isset($_SESSION["isAdmin"])): ?>
+            <form class="mb-2">
             <a class="btn btn-primary" href='create.php'>Создать</a>
-            <form method="post" action="debts_page.php">
+            </form>
+            <form class="mb-2" method="post" action="debts_page.php">
                 <input type="hidden" name="call_proc" value="call_proc"/>
                 <button type="submit" class="btn btn-primary">Выполнить процедуру</button>
             </form>
-            <form method="get" action="debts_page.php">
+            <form class="mb-2" method="get" action="debts_page.php">
                 <input type="hidden" name="show_logs" value="show_logs"/>
                 <button type="submit" class="btn btn-primary">Показать логи</button>
             </form>
@@ -114,7 +116,8 @@ if (isset($_POST['call_proc'])) {
         <?php endif; ?>
         <form method="get" action="debts_page.php">
             <br> Поиск задолженностей
-            <br><input required name="search" type="text"/>
+            <input class="form-control" required name="search" type="text"/>
+            <br>
             <button type="submit" class="btn btn-primary">Поиск</button>
         </form>
         <?php if (isset($_GET['search'])): ?>

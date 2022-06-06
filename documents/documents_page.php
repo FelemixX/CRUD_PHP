@@ -67,11 +67,14 @@ if (isset($_GET['search'])) {
             </tbody>
         </table>
         <?php if (isset($_SESSION["isAdmin"])): ?>
+        <form class="mb-2">
             <a class="btn btn-primary" href='create.php'>Создать</a>
+        </form>
         <?php endif; ?>
-        <form method="get" action="documents_page.php">
+        <form class="mb-2" method="get" action="documents_page.php">
             <br> Поиск документов
-            <br><input required name="search" type="text"/>
+            <input class="form-control" required name="search" type="text"/>
+            <br>
             <button type="submit" class="btn btn-primary">Поиск</button>
         </form>
         <?php if (isset($_GET['search'])): ?>

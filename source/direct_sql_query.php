@@ -3,18 +3,14 @@
 $config = require_once('config.php');
 
 $conn = null;
-try
-{
+try {
     $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-} catch (PDOException $exception)
-{
+} catch (PDOException $exception) {
     echo "Ошибка подключения к БД!: " . $exception->getMessage();
 }
-if (isset($_GET['user_query']))
-{
+if (isset($_GET['user_query'])) {
     //Проверка на правильность введенного запроса
-    try
-    {
+    try {
         $query = $_GET['user_query'];
 
         if (str_contains($query, 'SELECT') || str_contains($query, 'select'))    //Обработка SELECT запроса
@@ -27,14 +23,12 @@ if (isset($_GET['user_query']))
         //Т.к. во всех запросах кроме SELECT и всего что с ним связано нет смысла отображать таблицу
         //А количество столбцов, к которым применен запрос
         //Выведем вместо таблицы количество задействованных столбцов
-        else
-        {
+        else {
             $otherQuery = $conn->prepare($query);
             $otherQueryToExec = $otherQuery->execute();
             $changedRowCount = $otherQuery->rowCount();
         }
-    } catch (Exception $error)
-    {
+    } catch (Exception $error) {
         $caughtError = $error->getMessage();
         echo '<pre>' . __FILE__ . ':' . __LINE__ . ':<br>' . print_r($caughtError, true) . '</pre>';
     }
@@ -46,8 +40,9 @@ if (isset($_GET['user_query']))
     <div class="d-flex justify-content-center">
         <div>
             <h4>Отправить SQL Запрос</h4>
-            <form method="get" action="direct_sql_query.php">
-                <input required name="user_query" type="text"/>
+            <form class="mb-2" method="get" action="direct_sql_query.php">
+                <input class="form-control" required name="user_query" type="text"/>
+                <br>
                 <button type="submit" class="btn btn-primary" name="user_id">Отправить</button>
             </form>
             <?php if (isset($_GET['user_query'])): ?>
