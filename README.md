@@ -1,5 +1,5 @@
 # CRUD_PHP
-CRUD made in PHP and MariaDB.
+CRUD made in PHP and MySQL.
 
 Database dump scripts are in DB_Dump folder.
 
