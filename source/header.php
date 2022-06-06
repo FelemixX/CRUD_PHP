@@ -75,12 +75,12 @@ session_start();
                                         к БД</a>
                                 </li>
                             <?php endif; ?>
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="../auth/logout.php">Выйти</a>
-                            </li>
                             <?php if (isset($_SESSION["userName"])): ?>
                                 <li class="nav-item">
                                     <a class="nav-link active" aria-current="page" ><?= $_SESSION["userName"] ?></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="../auth/logout.php">Выйти</a>
                                 </li>
                                 <?php if (isset($_SESSION["isAdmin"])): ?>
                                     <li class="nav-item">
