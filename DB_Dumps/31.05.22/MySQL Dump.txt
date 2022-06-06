@@ -6,42 +6,40 @@ create table client
     birth_date date         null
 );
 
-create table debt
-(
-    id          int auto_increment
-        primary key,
-    client_ID   int         null,
-    document_ID int         null,
-    debt        decimal(53) null
-);
-
 create table document
 (
     id            int auto_increment
         primary key,
     number        decimal(53) null,
     creation_date date        null,
-    client_ID     int         null
+    client_ID     int         null,
+    constraint document_client_id_fk
+        foreign key (client_ID) references client (id)
+            on update cascade on delete cascade
 );
 
-create table product
+create table debt
 (
     id          int auto_increment
         primary key,
-    document_ID int          null,
-    p_name      varchar(256) null,
-    quantity    int          null
+    client_ID   int         null,
+    document_ID int         null,
+    debt        decimal(53) null,
+    constraint debt_client_id_fk
+        foreign key (client_ID) references client (id)
+            on update cascade on delete cascade,
+    constraint debt_document_id_fk
+        foreign key (document_ID) references document (id)
 );
 
-create table user
-(
-    id    int auto_increment
-        primary key,
-    login varchar(256) null,
-    pass  varchar(256) null,
-    salt  varchar(256) null,
-    name  varchar(256) null
-);
+create definer = root@localhost trigger check_debt_update
+    after update
+    on debt
+    for each row
+BEGIN
+        INSERT INTO logs (last_update, debt_ID)
+            VALUES (NOW(),OLD.id);
+    END;
 
 create table logs
 (
@@ -54,24 +52,55 @@ create table logs
             on update cascade on delete cascade
 );
 
+create table product
+(
+    id          int auto_increment
+        primary key,
+    document_ID int          null,
+    p_name      varchar(256) null,
+    quantity    int          null,
+    constraint product_document_id_fk
+        foreign key (document_ID) references document (id)
+            on update cascade on delete cascade
+);
 
+create table user
+(
+    id    int auto_increment
+        primary key,
+    login varchar(256) null,
+    pass  varchar(256) null,
+    salt  varchar(256) null,
+    name  varchar(256) null
+);
 
 create
     definer = root@localhost procedure update_debt()
 BEGIN
 
     DECLARE done INT DEFAULT FALSE;
-    DECLARE ID INT;
-    DECLARE DEBT VARCHAR(10);
-    DECLARE CUR1 CURSOR for SELECT id,debt FROM debt;
+    DECLARE idDebt INT;
+    DECLARE debtSum DECIMAL(53);
+    DECLARE CUR1 CURSOR for SELECT debt.id, debt.debt FROM debt;
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
     open CUR1;
     read_loop: LOOP
-        FETCH CUR1 INTO ID, DEBT;
-        INSERT INTO debt (`debt`)
-        VALUES(@DEBT);
+        FETCH CUR1 INTO idDebt, debtSum;
+        IF (debtSum > 1000) THEN
+            UPDATE debt
+            SET
+                `debt` = debtSum + ((debtSum * 10) / 100)
+            WHERE
+                    `id` = idDebt;
+        ELSE
+            UPDATE debt
+            SET
+                `debt` = debtSum + ((debtSum * 2) / 100)
+            WHERE
+                    `id` = idDebt;
+        end if;
+
         if done then leave read_loop; end if;
     END LOOP;
     CLOSE CUR1;
 END;
-

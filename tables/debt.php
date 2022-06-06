@@ -63,4 +63,11 @@ class Debt extends Main_Class
         $stmt->execute();
         return $stmt->fetch();
     }
+
+    function callProc()
+    {
+        $query = "call update_debt()";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+    }
 }
