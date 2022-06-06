@@ -59,7 +59,7 @@ if (isset($_GET['search']))
                 <?php foreach ($readDocuments as $document): ?>
                     <tr>
                         <td><?= $document["id"] ?></td>
-                        <td><?= $document["number"] ?></td>
+                        <td><?= "№ " . $document["number"] ?></td>
                         <td><?= $document["name"] ?></td> <!-- Имя клиента -->
                         <td><?= $document["creation_date"] ?></td>
                         <?php if (isset($_SESSION["isAdmin"])): ?>

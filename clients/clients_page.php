@@ -15,26 +15,21 @@ try
 }
 require_once('../tables/client.php');
 $clients = new Client($conn);
-$orderBy = " ";
-/*
-var orderBy = Request.QueryString;
-			string query = " ";
-			foreach (string key in orderBy)
-			{
-				query += key + " " + orderBy[key] + ",";
-			}
+$query = " ";
+foreach ($_GET as $index=>$item)
+{
+    $query .= $index . " " . $item . ", ";
+}
+$query = substr_replace($query ,"", -2);
 
-			query = query.Remove(query.Length - 1);
-            */
-
-$readClients = $clients->read();
+$readClients = $clients->read($query);
 ?>
 
 <?php
 //поиск
-if (isset($_GET['search']))
+if (isset($_POST['search']))
 {
-    $query = $_GET['search'];
+    $query = $_POST['search'];
     $query = trim($query);
     $query = htmlspecialchars($query);
     $result = $conn->prepare("SELECT * FROM client
@@ -83,12 +78,12 @@ if (isset($_GET['search']))
         <?php if (isset($_SESSION["isAdmin"])): ?>
             <a href='create.php'>Создать</a>
         <?php endif; ?>
-        <form method="get" action="clients_page.php">
+        <form method="post" action="clients_page.php">
             <br> Поиск клиентов
             <br><input required name="search" type="text"/>
             <button type="submit" class="btn btn-primary">Поиск</button>
         </form>
-        <?php if (isset($_GET['search'])): ?>
+        <?php if (isset($_POST['search'])): ?>
             <?php if (empty($array)): ?>
                 <p>Ничего не найдено</p>
             <?php else: ?>
@@ -150,14 +145,14 @@ if (isset($_GET['search']))
         window.location.replace(url);
     }
     sortDate.onclick = function (e) {
-        if (url.searchParams.has("date")) {
-            if (url.searchParams.get("date") === "asc") {
-                url.searchParams.set("date", "desc");
+        if (url.searchParams.has("birth_date")) {
+            if (url.searchParams.get("birth_date") === "asc") {
+                url.searchParams.set("birth_date", "desc");
             } else {
-                url.searchParams.delete("date");
+                url.searchParams.delete("birth_date");
             }
         } else {
-            url.searchParams.append("date", "asc");
+            url.searchParams.append("birth_date", "asc");
         }
         console.log(url);
         window.location.replace(url);

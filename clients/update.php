@@ -15,7 +15,7 @@ if (isset($_GET["id"]))
     $id = $_GET["id"];
     require_once('../tables/client.php');
     $client = new Client($conn); //Вывод клиентов для выпадашки
-    $clients = $client->read();
+    $clients = $client->read("");
 }
 
 if (isset($_GET["deleteID"]))
@@ -26,7 +26,7 @@ if (isset($_GET["deleteID"]))
     $client->id = $deleteID;
     if ($client->delete())
     {
-        header("Location: users_page.php");
+        header("Location: clients_page.php");
     }
 }
 
@@ -43,7 +43,7 @@ if (isset($_POST["id"]) && isset($_POST["birth_date"]) && isset($_POST["name"]))
     $client->id = $postID;
     if ($client->update())
     {
-        header("Location: users_page.php");
+        header("Location: clients_page.php");
     }
 }
 ?>
@@ -56,7 +56,7 @@ if (isset($_POST["id"]) && isset($_POST["birth_date"]) && isset($_POST["name"]))
         <label for="client_ID" class="form-label">Клиент</label>
         <select name="client_ID" class="form-select" aria-label="client select" id="client_ID">  <!-- Выпадашка -->
             <?php foreach ($clients as $item): ?> <!-- Выборка клиентов -->
-                <option value="<?= $item["id"] ?>" selected><?= $item["name"] ?></option>
+                <option value="<?= $item["id"] ?>" <?php if($id == $item["id"]) echo "selected"; ?>><?= $item["name"] ?></option>
             <?php endforeach ?>
         </select>
         <label for="name" class="form-label">Имя</label>

@@ -56,9 +56,9 @@ if (isset($_GET['search']))
                 <tbody>
                 <?php foreach ($readDebts as $debt): ?>
                     <tr>
-                        <td><?= $debt["id"] ?></td>
-                        <td><?= $debt["debt"] ?></td>
-                        <td><?= $debt["number"] ?></td>
+                        <td><?= $debt["id"]?></td>
+                        <td><?= $debt["debt"] . " руб."  ?></td>
+                        <td><?= "№ " . $debt["number"] ?></td>
                         <?php if (isset($_SESSION["isAdmin"])): ?>
                             <td><a href='update.php?id=<?= $debt["id"] ?>'>Обновить</a></td>
                             <td><a href='update.php?deleteID=<?= $debt["id"] ?>'>Удалить</a></td>

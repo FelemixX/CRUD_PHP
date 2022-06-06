@@ -60,7 +60,7 @@ if (isset($_GET['search']))
                     <tr>
                         <td><?= $product["id"] ?></td>
                         <td><?= $product["p_name"] ?></td>
-                        <td><?= $product["number"] ?></td>
+                        <td><?= "№ " . $product["number"] ?></td>
                         <td><?= $product["quantity"] ?></td>
                         <?php if (isset($_SESSION["isAdmin"])): ?>
                             <td><a href='update.php?id=<?= $product["id"] ?>'>Обновить</a></td>
