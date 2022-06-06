@@ -54,9 +54,11 @@ if (isset($_POST['user_name']) && isset($_POST['user_login']) && isset($_POST['u
         <label for="user_passwd" class="form-label">Пароль</label>
         <input required name="user_passwd" type="password" class="form-control" id="user_passwd">
     </div>
-    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+    <div class="text-center">
+        <button type="submit" class="d-inline-block btn btn-primary mr-3">Зарегистрироваться</button>
+        <a class="d-inline-block btn btn-warning" href="/index.php/">Назад</a>
+    </div>
 </form>
-<button class="btn"><a href="/index.php/">Назад</a></button>
 <?php if (isset($err)): ?>
     <?php echo '<br>' . $err; ?>
 <?php endif; ?>
