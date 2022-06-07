@@ -78,7 +78,8 @@ if (isset($_POST['search'])) {
             <a class="btn btn-primary" href='create.php'>Создать</a>
         <?php endif; ?>
         <form class="mb-2" method="post" action="products_page.php">
-            <br> Поиск товаров
+            <br>
+            <h5>Поиск товаров</h5>
             <input class="form-control" required name="search" type="text"/>
             <br>
             <button type="submit" class="btn btn-primary">Поиск</button>

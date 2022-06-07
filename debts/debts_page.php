@@ -131,7 +131,8 @@ if (isset($_POST['call_proc']))
         <?php endif; ?>
     <?php endif; ?>
     <form method="post" action="debts_page.php">
-        <br> Поиск задолженностей
+        <br>
+        <h5>Поиск задолженностей</h5>
         <input class="form-control" required name="search" type="text"/>
         <br>
         <button type="submit" class="btn btn-primary">Поиск</button>

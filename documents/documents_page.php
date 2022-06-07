@@ -85,7 +85,8 @@ if (isset($_POST['search']))
             </form>
         <?php endif; ?>
         <form class="mb-2" method="post" action="documents_page.php">
-            <br> Поиск документов
+            <br>
+            <h5>Поиск документов</h5>
             <input class="form-control" required name="search" type="text"/>
             <br>
             <button type="submit" class="btn btn-primary">Поиск</button>
