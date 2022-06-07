@@ -49,44 +49,44 @@ session_start();
                     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page"
+                                <a class="btn" aria-current="page"
                                    href="../clients/clients_page.php">Клиенты</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="../documents/documents_page.php">Документы</a>
+                                <a class="btn" aria-current="page" href="../documents/documents_page.php">Документы</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page"
+                                <a class="btn" aria-current="page"
                                    href="../products/products_page.php">Товары</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page"
+                                <a class="btn" aria-current="page"
                                    href="../debts/debts_page.php">Задолженности</a>
                             </li>
                             <?php if (isset($_SESSION["isAdmin"])): ?>
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page"
+                                <a class="btn" aria-current="page"
                                    href="../users/users_page.php">Список пользователей</a>
                             </li>
                             <?php endif; ?>
                             <?php if (isset($_SESSION["isAdmin"])): ?>
                                 <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="../source/direct_sql_query.php">Запрос
+                                    <a class="btn" aria-current="page" href="../source/direct_sql_query.php">Запрос
                                         к БД</a>
                                 </li>
                             <?php endif; ?>
                             <?php if (isset($_SESSION["userName"])): ?>
                                 <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" ><?= $_SESSION["userName"] ?></a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="../auth/logout.php">Выйти</a>
+                                    <a class="btn btn-warning" aria-current="page" ><?= $_SESSION["userName"] ?></a>
                                 </li>
                                 <?php if (isset($_SESSION["isAdmin"])): ?>
                                     <li class="nav-item">
                                         <a class="nav-link active" aria-current="page" ><strong class="gradient-text">ADMIN</strong></a>
                                     </li>
                                 <?php endif; ?>
+                                <li class="nav-item">
+                                    <a class="btn btn-danger" aria-current="page" href="../auth/logout.php">Выйти</a>
+                                </li>
                             <?php endif; ?>
                         </ul>
                     </div>
