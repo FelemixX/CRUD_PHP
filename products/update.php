@@ -15,7 +15,7 @@ if (isset($_GET["id"]))
 
     require_once('../tables/document.php');
     $document = new Document($conn); //Вывод клиентов для выпадашки
-    $documents = $document->read();
+    $documents = $document->read("");
 }
 
 if (isset($_GET["deleteID"]))

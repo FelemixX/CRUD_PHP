@@ -1,31 +1,44 @@
 <?php
 session_start();
-if (!isset($_SESSION["usedId"])) {
+if (!isset($_SESSION["usedId"]))
+{
     header("Location: /index.php/");
 }
 $config = require_once('../source/config.php');
 $conn = null;
-try {
+try
+{
     $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-} catch (PDOException $exception) {
+} catch (PDOException $exception)
+{
     echo "Ошибка подключения к БД!: " . $exception->getMessage();
 }
 
 require_once('../tables/document.php');
 $documents = new Document($conn);
-$readDocuments = $documents->read();
+
+$query = " ";
+foreach ($_GET as $index => $item)
+{
+    $query .= $index . " " . $item . ", ";
+}
+$query = substr_replace($query, "", -2);
+
+$readDocuments = $documents->read($query);
 ?>
 
 <?php
 //поиск
-if (isset($_GET['search'])) {
-    $query = $_GET['search'];
+if (isset($_POST['search']))
+{
+    $query = $_POST['search'];
     $query = trim($query);
     $query = htmlspecialchars($query);
     $result = $conn->prepare("SELECT * FROM document
 			        WHERE (`number` LIKE '%" . $query . "%')");
     $result->execute();
-    while ($row = $result->fetch(PDO::FETCH_BOTH)) {
+    while ($row = $result->fetch(PDO::FETCH_BOTH))
+    {
         $id = array_shift($row);
         $array[$id] = array($row[0], $row[1], $row[2]);
     }
@@ -40,10 +53,10 @@ if (isset($_GET['search'])) {
         <table class="table table-hover">
             <thead>
             <tr>
-                <th scope="col">ID Документа</th>
-                <th scope="col">Номер документа</th>
+                <th id="Id" scope="col">ID Документа</th>
+                <th id="Number" scope="col">Номер документа</th>
                 <th scope="col">Имя клиента</th>
-                <th scope="col">Дата создания</th>
+                <th id="Creation_Date" scope="col">Дата создания</th>
                 <?php if (isset($_SESSION["isAdmin"])): ?>
                     <th scope="col">Действие с документами</th>
                 <?php endif ?>
@@ -67,17 +80,17 @@ if (isset($_GET['search'])) {
             </tbody>
         </table>
         <?php if (isset($_SESSION["isAdmin"])): ?>
-        <form class="mb-2">
-            <a class="btn btn-primary" href='create.php'>Создать</a>
-        </form>
+            <form class="mb-2">
+                <a class="btn btn-primary" href='create.php'>Создать</a>
+            </form>
         <?php endif; ?>
-        <form class="mb-2" method="get" action="documents_page.php">
+        <form class="mb-2" method="post" action="documents_page.php">
             <br> Поиск документов
             <input class="form-control" required name="search" type="text"/>
             <br>
             <button type="submit" class="btn btn-primary">Поиск</button>
         </form>
-        <?php if (isset($_GET['search'])): ?>
+        <?php if (isset($_POST['search'])): ?>
             <?php if (empty($array)): ?>
                 <p>Ничего не найдено</p>
             <?php else: ?>
@@ -103,5 +116,51 @@ if (isset($_GET['search'])) {
             <?php endif; ?>
         <?php endif; ?>
     </div>
-    </div>
 <?php require_once('../source/footer.php'); ?>
+
+<script type="text/javascript">
+    let sortId = document.getElementById("Id");
+    let sortNumber = document.getElementById("Number");
+    let sortCreationDate = document.getElementById("Creation_Date");
+    let url = new URL(location.href);
+
+    sortId.onclick = function (e) {
+        if (url.searchParams.has("id")) {
+            if (url.searchParams.get("id") === "asc") {
+                url.searchParams.set("id", "desc");
+            } else {
+                url.searchParams.delete("id");
+            }
+        } else {
+            url.searchParams.append("id", "asc");
+        }
+        console.log(url);
+        window.location.replace(url);
+    }
+    sortNumber.onclick = function (e) {
+        if (url.searchParams.has("number")) {
+            if (url.searchParams.get("number") === "asc") {
+                url.searchParams.set("number", "desc");
+            } else {
+                url.searchParams.delete("number");
+            }
+        } else {
+            url.searchParams.append("number", "asc");
+        }
+        console.log(url);
+        window.location.replace(url);
+    }
+    sortCreationDate.onclick = function (e) {
+        if (url.searchParams.has("creation_date")) {
+            if (url.searchParams.get("creation_date") === "asc") {
+                url.searchParams.set("creation_date", "desc");
+            } else {
+                url.searchParams.delete("creation_date");
+            }
+        } else {
+            url.searchParams.append("creation_date", "asc");
+        }
+        console.log(url);
+        window.location.replace(url);
+    }
+</script>

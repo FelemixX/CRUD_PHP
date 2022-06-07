@@ -12,13 +12,21 @@ try {
 }
 require_once('../tables/product.php');
 $products = new Product($conn);
-$readProducts = $products->read();
+
+$query = " ";
+foreach ($_GET as $index => $item)
+{
+    $query .= $index . " " . $item . ", ";
+}
+$query = substr_replace($query, "", -2);
+
+$readProducts = $products->read($query);
 ?>
 
 <?php
 //поиск
-if (isset($_GET['search'])) {
-    $query = $_GET['search'];
+if (isset($_POST['search'])) {
+    $query = $_POST['search'];
     $query = trim($query);
     $query = htmlspecialchars($query);
     $result = $conn->prepare("SELECT * FROM product
@@ -40,10 +48,10 @@ if (isset($_GET['search'])) {
         <table class="table table-hover">
             <thead>
             <tr>
-                <th scope="col">ID Товара</th>
-                <th scope="col">Наименование</th>
+                <th id="Id" scope="col">ID Товара</th>
+                <th id="P_Name" scope="col">Наименование</th>
                 <th scope="col">Номер документа</th>
-                <th scope="col">Количество</th>
+                <th id="Quantity" scope="col">Количество</th>
                 <?php if (isset($_SESSION["isAdmin"])): ?>
                     <th scope="col">Действие с товарами</th>
                 <?php endif; ?>
@@ -69,13 +77,13 @@ if (isset($_GET['search'])) {
         <?php if (isset($_SESSION["isAdmin"])): ?>
             <a class="btn btn-primary" href='create.php'>Создать</a>
         <?php endif; ?>
-        <form class="mb-2" method="get" action="products_page.php">
+        <form class="mb-2" method="post" action="products_page.php">
             <br> Поиск товаров
             <input class="form-control" required name="search" type="text"/>
             <br>
             <button type="submit" class="btn btn-primary">Поиск</button>
         </form>
-        <?php if (isset($_GET['search'])): ?>
+        <?php if (isset($_POST['search'])): ?>
             <?php if (empty($array)): ?>
                 <p>Ничего не найдено</p>
             <?php else: ?>
@@ -102,3 +110,50 @@ if (isset($_GET['search'])) {
     </div>
     </div>
 <?php require_once('../source/footer.php'); ?>
+
+<script type="text/javascript">
+    let sortId = document.getElementById("Id");
+    let sortName = document.getElementById("P_Name");
+    let sortQuantity = document.getElementById("Quantity");
+    let url = new URL(location.href);
+
+    sortId.onclick = function (e) {
+        if (url.searchParams.has("id")) {
+            if (url.searchParams.get("id") === "asc") {
+                url.searchParams.set("id", "desc");
+            } else {
+                url.searchParams.delete("id");
+            }
+        } else {
+            url.searchParams.append("id", "asc");
+        }
+        console.log(url);
+        window.location.replace(url);
+    }
+    sortName.onclick = function (e) {
+        if (url.searchParams.has("p_name")) {
+            if (url.searchParams.get("p_name") === "asc") {
+                url.searchParams.set("p_name", "desc");
+            } else {
+                url.searchParams.delete("p_name");
+            }
+        } else {
+            url.searchParams.append("p_name", "asc");
+        }
+        console.log(url);
+        window.location.replace(url);
+    }
+    sortQuantity.onclick = function (e) {
+        if (url.searchParams.has("quantity")) {
+            if (url.searchParams.get("quantity") === "asc") {
+                url.searchParams.set("quantity", "desc");
+            } else {
+                url.searchParams.delete("quantity");
+            }
+        } else {
+            url.searchParams.append("quantity", "asc");
+        }
+        console.log(url);
+        window.location.replace(url);
+    }
+</script>

@@ -30,7 +30,7 @@ if (isset($_POST["document_ID"]) && isset($_POST["p_name"]) && isset($_POST["qua
 }
 require_once('../tables/document.php');
 $document = new Document($conn);
-$documents = $document->read();
+$documents = $document->read("");
 
 ?>
 <?php require_once('../source/header.php'); ?>

@@ -16,13 +16,13 @@ abstract class Main_Class
         return $this->table_name;
     }
 
-    function readAll()
+    /*function readAll()
     {
         $query = "SELECT * FROM " . $this->table_name;
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchall(PDO::FETCH_ASSOC);
-    }
+    }*/
 
     function delete()
     {

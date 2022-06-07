@@ -24,13 +24,18 @@ class Document extends Main_Class
         }
     }
 
-    function read()
+    function read($sort)
     {
+        if($sort == "")
+        {
+            $sort = "id";
+        }
         $tname = $this->table_name;
         /* $query = "SELECT $tname.id, $tname.number, $tname.creation_date
                      FROM $tname";*/
         $query = "SELECT dc.*, cl.name FROM document AS dc
-                    JOIN client cl on dc.client_ID = cl.id";
+                    JOIN client cl on dc.client_ID = cl.id
+                    ORDER BY $sort";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchall(PDO::FETCH_ASSOC);

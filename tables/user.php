@@ -8,12 +8,16 @@ class User extends Main_Class
 
     public $userName, $login, $pass, $name;
 
-    function read()
+    function read($sort)
     {
-
+        if($sort == "")
+        {
+            $sort = "id";
+        }
         $tname = $this->table_name;
         $query = "SELECT $tname.id, $tname.name, $tname.login
-                    FROM $tname";
+                    FROM $tname
+                    ORDER BY $sort";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchall(PDO::FETCH_ASSOC);

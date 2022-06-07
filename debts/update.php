@@ -16,7 +16,7 @@ if (isset($_GET["id"]))
 
     require_once('../tables/document.php');
     $document = new Document($conn);
-    $documents = $document->read();
+    $documents = $document->read("");
 }
 
 if (isset($_GET["deleteID"]))

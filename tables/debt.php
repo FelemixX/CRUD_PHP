@@ -22,11 +22,17 @@ class Debt extends Main_Class
         }
     }
 
-    function read()
+    function read($sort)
     {
+        if($sort == "")
+        {
+            $sort = "id";
+        }
+
         $tname = $this->table_name;
         $query = "SELECT db.*, d.number FROM debt as db
-                    JOIN document d on db.document_ID = d.id";
+                    JOIN document d on db.document_ID = d.id
+                    ORDER BY $sort";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchall(PDO::FETCH_ASSOC);

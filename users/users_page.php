@@ -1,4 +1,5 @@
 <?php
+require_once('../tables/user.php');
 session_start();
 if (!isset($_SESSION["usedId"])) {
     header("Location: /index.php/");
@@ -10,17 +11,22 @@ try {
 } catch (PDOException $exception) {
     echo "Ошибка подключения к БД!: " . $exception->getMessage();
 }
-require_once('../tables/user.php');
-$users = new User($conn);
-$orderBy = " ";
 
-$readUsers = $users->read();
+$users = new User($conn);
+
+$query = " ";
+foreach ($_GET as $index => $item)
+{
+    $query .= $index . " " . $item . ", ";
+}
+$query = substr_replace($query, "", -2);
+$readUsers = $users->read($query);
 ?>
 
 <?php
 //поиск
-if (isset($_GET['search'])) {
-    $query = $_GET['search'];
+if (isset($_POST['search'])) {
+    $query = $_POST['search'];
     $query = trim($query);
     $query = htmlspecialchars($query);
     $result = $conn->prepare("SELECT * FROM user
@@ -44,7 +50,7 @@ if (isset($_GET['search'])) {
             <tr>
                 <th id="Id" scope="col">ID Пользователя</th>
                 <th id="Name" scope="col">Имя</th>
-                <th id="Date" scope="col">Логин</th>
+                <th id="Login" scope="col">Логин</th>
                 <?php if (isset($_SESSION["isAdmin"])): ?>
                     <th scope="col">Действие с пользователями</th>
                 <?php endif; ?>
@@ -66,12 +72,12 @@ if (isset($_GET['search'])) {
             <?php endforeach; ?>
             </tbody>
         </table>
-        <form class="mb-2" method="get" action="users_page.php">
+        <form class="mb-2" method="post" action="users_page.php">
             <br> Поиск пользователей
             <input class="form-control" required name="search" type="text"/>
             <br><button type="submit" class="btn btn-primary">Поиск</button>
         </form>
-        <?php if (isset($_GET['search'])): ?>
+        <?php if (isset($_POST['search'])): ?>
             <?php if (empty($array)): ?>
                 <p>Ничего не найдено</p>
             <?php else: ?>
@@ -103,7 +109,7 @@ if (isset($_GET['search'])) {
 <script type="text/javascript">
     let sortId = document.getElementById("Id");
     let sortName = document.getElementById("Name");
-    let sortDate = document.getElementById("Date");
+    let sortLogin = document.getElementById("Login");
     let url = new URL(location.href);
 
     sortId.onclick = function (e) {
@@ -132,15 +138,15 @@ if (isset($_GET['search'])) {
         console.log(url);
         window.location.replace(url);
     }
-    sortDate.onclick = function (e) {
-        if (url.searchParams.has("date")) {
-            if (url.searchParams.get("date") === "asc") {
-                url.searchParams.set("date", "desc");
+    sortLogin.onclick = function (e) {
+        if (url.searchParams.has("login")) {
+            if (url.searchParams.get("login") === "asc") {
+                url.searchParams.set("login", "desc");
             } else {
-                url.searchParams.delete("date");
+                url.searchParams.delete("login");
             }
         } else {
-            url.searchParams.append("date", "asc");
+            url.searchParams.append("login", "asc");
         }
         console.log(url);
         window.location.replace(url);
