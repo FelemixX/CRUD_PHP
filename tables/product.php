@@ -8,19 +8,22 @@ class Product extends Main_Class
 
     function create()
     {
-        $tname = $this->table_name;
+        try {
+            $tname = $this->table_name;
 //        $query = "INSERT INTO $tname (`p_name`,`quantity`)
 //                            VALUES(?, ?)";
-        $query = "INSERT INTO product (`p_name`, `quantity`, `document_ID`)
+            $query = "INSERT INTO product (`p_name`, `quantity`, `document_ID`)
                         VALUES(?, ?, ?)";
-        $stmt = $this->conn->prepare($query);
+            $stmt = $this->conn->prepare($query);
 
-        if ($stmt->execute([$this->p_name, $this->quantity, $this->document_ID]))
-        {
-            return true;
-        } else
-        {
-            return false;
+            if ($stmt->execute([$this->p_name, $this->quantity, $this->document_ID])) {
+                return true;
+            } else {
+                return false;
+            }
+        }catch (Exception $error){
+            $caughtError = $error->getMessage();
+            echo "Что-то пошло не так, обновите страницу и попробуйте еще раз";
         }
     }
 
@@ -43,24 +46,28 @@ class Product extends Main_Class
 
     function update()
     {
-        $tname = $this->table_name;
-        $query = "UPDATE 
+        try {
+            $tname = $this->table_name;
+            $query = "UPDATE 
                         " . $tname . "  
                    SET 
                         `p_name` = ?, `quantity` = ?
                    WHERE 
                         " . $tname . " .`id` = ?";
 
-        $stmt = $this->conn->prepare($query);
+            $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(1, $this->p_name);
-        $stmt->bindParam(2, $this->quantity);
-        $stmt->bindParam(3, $this->id);
+            $stmt->bindParam(1, $this->p_name);
+            $stmt->bindParam(2, $this->quantity);
+            $stmt->bindParam(3, $this->id);
 
-        if ($stmt->execute())
-        {
-            return true;
+            if ($stmt->execute()) {
+                return true;
+            }
+            return false;
+        }catch (Exception $error){
+            $caughtError = $error->getMessage();
+            echo "Что-то пошло не так, обновите страницу и попробуйте еще раз";
         }
-        return false;
     }
 }

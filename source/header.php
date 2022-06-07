@@ -77,7 +77,7 @@ session_start();
                             <?php endif; ?>
                             <?php if (isset($_SESSION["userName"])): ?>
                                 <li class="nav-item">
-                                    <a class="btn btn-warning" aria-current="page" ><?= $_SESSION["userName"] ?></a>
+                                    <a class="nav-link active" aria-current="page" ><?= $_SESSION["userName"] ?></a>
                                 </li>
                                 <?php if (isset($_SESSION["isAdmin"])): ?>
                                     <li class="nav-item">

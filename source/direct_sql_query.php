@@ -30,7 +30,6 @@ if (isset($_GET['user_query'])) {
         }
     } catch (Exception $error) {
         $caughtError = $error->getMessage();
-        echo '<pre>' . __FILE__ . ':' . __LINE__ . ':<br>' . print_r($caughtError, true) . '</pre>';
     }
 }
 ?>

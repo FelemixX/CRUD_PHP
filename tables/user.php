@@ -25,26 +25,30 @@ class User extends Main_Class
 
     function update()
     {
-        $tname = $this->table_name;
+        try {
+            $tname = $this->table_name;
 
-        $query = "UPDATE 
+            $query = "UPDATE 
                         " . $tname . "  
                    SET 
                         `login` = ?, `name` = ?
                    WHERE 
                         " . $tname . " .`id` = ?";
 
-        $stmt = $this->conn->prepare($query);
+            $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(1, $this->login);
-        $stmt->bindParam(2, $this->name);
-        $stmt->bindParam(3, $this->id);
+            $stmt->bindParam(1, $this->login);
+            $stmt->bindParam(2, $this->name);
+            $stmt->bindParam(3, $this->id);
 
-        if ($stmt->execute())
-        {
-            return true;
+            if ($stmt->execute()) {
+                return true;
+            }
+            return false;
+        }catch (Exception $error){
+            $caughtError = $error->getMessage();
+            echo "Что-то пошло не так, обновите страницу и попробуйте еще раз";
         }
-        return false;
     }
 
     function genSalt()

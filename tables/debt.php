@@ -8,17 +8,20 @@ class Debt extends Main_Class
 
     function create()
     {
-        $tname = $this->table_name;
-        $query = "INSERT INTO debt (`debt`, `document_ID`, `client_ID`)
+        try {
+            $tname = $this->table_name;
+            $query = "INSERT INTO debt (`debt`, `document_ID`, `client_ID`)
                         VALUES(?, ?, ?)";
-        $stmt = $this->conn->prepare($query);
+            $stmt = $this->conn->prepare($query);
 
-        if ($stmt->execute([$this->debt, $this->document_ID, $this->client_ID]))
-        {
-            return true;
-        } else
-        {
-            return false;
+            if ($stmt->execute([$this->debt, $this->document_ID, $this->client_ID])) {
+                return true;
+            } else {
+                return false;
+            }
+        }catch (Exception $error){
+            $caughtError = $error->getMessage();
+            echo "Что-то пошло не так, обновите страницу и попробуйте еще раз";
         }
     }
 
@@ -40,24 +43,27 @@ class Debt extends Main_Class
 
     function update()
     {
-
-        $query = "UPDATE 
+        try {
+            $query = "UPDATE 
                         " . $this->table_name . "  
                    SET 
                         `debt` = ?
                    WHERE 
                         " . $this->table_name . " .`id` = ?";
 
-        $stmt = $this->conn->prepare($query);
+            $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(1, $this->debt);
-        $stmt->bindParam(2, $this->id);
+            $stmt->bindParam(1, $this->debt);
+            $stmt->bindParam(2, $this->id);
 
-        if ($stmt->execute())
-        {
-            return true;
+            if ($stmt->execute()) {
+                return true;
+            }
+            return false;
+        }catch (Exception $error){
+            $caughtError = $error->getMessage();
+            echo "Что-то пошло не так, обновите страницу и попробуйте еще раз";
         }
-        return false;
     }
 
     function getClientByDocID()

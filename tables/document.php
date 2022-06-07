@@ -8,19 +8,20 @@ class Document extends Main_Class
 
     function create()
     {
-        $tname = $this->table_name;
-//        $query = "INSERT INTO $tname (`number`,`creation_date`)
-//                            VALUES(?, ?)";
-        $query = "INSERT INTO document (`number`, `creation_date`, `client_ID`)
+        try {
+            $tname = $this->table_name;
+            $query = "INSERT INTO document (`number`, `creation_date`, `client_ID`)
                         VALUES(?, ?, ?)";
-        $stmt = $this->conn->prepare($query);
+            $stmt = $this->conn->prepare($query);
 
-        if ($stmt->execute([$this->number, $this->creation_date, $this->client_ID]))
-        {
-            return true;
-        } else
-        {
-            return false;
+            if ($stmt->execute([$this->number, $this->creation_date, $this->client_ID])) {
+                return true;
+            } else {
+                return false;
+            }
+        }catch (Exception $error){
+            $caughtError = $error->getMessage();
+            echo "Что-то пошло не так, обновите страницу и попробуйте еще раз";
         }
     }
 
@@ -43,26 +44,29 @@ class Document extends Main_Class
 
     function update()
     {
-
-        $query = "UPDATE 
+        try {
+            $query = "UPDATE 
                         " . $this->table_name . "  
                    SET 
                         `number` = ?, `creation_date` = ?, `client_ID` = ?
                    WHERE 
                         " . $this->table_name . " .`id` = ? ";
 
-        $stmt = $this->conn->prepare($query);
+            $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(1, $this->number);
-        $stmt->bindParam(2, $this->creation_date);
-        $stmt->bindParam(3, $this->client_ID);
-        $stmt->bindParam(4, $this->id);
+            $stmt->bindParam(1, $this->number);
+            $stmt->bindParam(2, $this->creation_date);
+            $stmt->bindParam(3, $this->client_ID);
+            $stmt->bindParam(4, $this->id);
 
 
-        if ($stmt->execute())
-        {
-            return true;
+            if ($stmt->execute()) {
+                return true;
+            }
+            return false;
+        } catch (Exception $error){
+            $caughtError = $error->getMessage();
+            echo "Что-то пошло не так, обновите страницу и попробуйте еще раз";
         }
-        return false;
     }
 }
