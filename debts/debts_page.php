@@ -45,7 +45,7 @@ if (isset($_POST['search']))
 
 if (isset($_POST['show_logs']))
 {
-    $log = $conn->prepare("SELECT * FROM logs");
+    $log = $conn->prepare("SELECT * FROM logs ORDER BY last_update");
     $log->execute();
     while ($row = $log->fetch(PDO::FETCH_BOTH))
     {
