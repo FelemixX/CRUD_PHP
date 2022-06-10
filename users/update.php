@@ -16,7 +16,7 @@ if (isset($_GET["id"]))
     $id = $_GET["id"];
 
     $user = new User($conn); //Вывод клиентов для выпадашки
-    $users = $user->read();
+    $users = $user->read("");
 }
 
 if (isset($_GET["deleteID"]))

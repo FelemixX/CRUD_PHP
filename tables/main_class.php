@@ -26,18 +26,23 @@ abstract class Main_Class
 
     function delete()
     {
-
-        $query = "DELETE FROM " . $this->table_name . " WHERE id = ?";
-
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $this->id);
-
-        if ($result = $stmt->execute())
+        try
         {
-            return true;
-        } else
-        {
-            return false;
+            $query = "DELETE FROM " . $this->table_name . " WHERE id = ?";
+
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(1, $this->id);
+
+            if ($result = $stmt->execute())
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
+        } catch(Exception $error){
+            $caughtError = $error->getMessage();
+            echo "Что-то пошло не так, обновите страницу и попробуйте еще раз";
         }
     }
 }

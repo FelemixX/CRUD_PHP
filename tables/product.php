@@ -34,8 +34,6 @@ class Product extends Main_Class
             $sort = "id";
         }
         $tname = $this->table_name;
-        /*$query = "SELECT $tname.id, $tname.p_name, $tname.quantity
-                    FROM $tname";*/
         $query = "SELECT pr.*, d.number FROM product AS pr 
                     JOIN document d on pr.document_ID = d.id
                     ORDER BY $sort";
