@@ -18,12 +18,10 @@ if (isset($_POST['user_name']) && isset($_POST['user_login']) && isset($_POST['u
     $user->pass = $_POST['user_passwd'];
 
     if ($user->userExists()) {
-        $err = 'Ошибка! Пользователь с таким логином уже существует';
+        header("Location: " . $_SERVER[""] . "?userExists");
     } else {
         if ($user->registration()) {
             header("Location: ../index.php");
-        } else {
-            header("Location: " . $_SERVER['PHP_SELF'] . "?error");
         }
     }
 }
@@ -49,11 +47,18 @@ if (isset($_POST['user_name']) && isset($_POST['user_login']) && isset($_POST['u
     </div>
     <div class="text-center">
         <button type="submit" class="d-inline-block btn btn-primary mr-3">Зарегистрироваться</button>
-        <a class="d-inline-block btn btn-warning" href="/index.php/">Назад</a>
+        <a class="d-inline-block btn btn-secondary" href="/index.php/">Назад</a>
     </div>
 </form>
-<?php if (isset($err)): ?>
-    <?php echo '<br>' . $err; ?>
+<?php if (isset($_GET["userExists"])): ?>
+    <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show" role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+            <use xlink:href="#exclamation-triangle-fill"/>
+        </svg>
+        <div>
+            Ошибка! Такой пользователь уже существует
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 <?php endif; ?>
-
 <?php require_once('../source/footer.php'); ?>

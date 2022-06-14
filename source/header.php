@@ -47,13 +47,15 @@ session_start();
             <div class="container-fluid">
                 <?php if (isset($_SESSION["usedId"])): ?>
                     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                        <div class="btn-group" role="group" aria-label="Basic example">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
                                 <a class="btn" aria-current="page"
                                    href="../clients/clients_page.php">Клиенты</a>
                             </li>
                             <li class="nav-item">
-                                <a class="btn" aria-current="page" href="../documents/documents_page.php">Документы</a>
+                                <a class="btn" aria-current="page"
+                                   href="../documents/documents_page.php">Документы</a>
                             </li>
                             <li class="nav-item">
                                 <a class="btn" aria-current="page"

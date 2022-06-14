@@ -17,7 +17,7 @@ if (isset($_POST['user_login']) && isset($_POST['user_passwd'])) {
     if ($user->authorization()) {
         header("Location: /clients/clients_page.php");
     } else {
-        header("Location: " . $_SERVER['PHP_SELF'] . "?error");
+        header("Location: " . $_SERVER[""] . "?error");
     }
 }
 ?>
@@ -35,10 +35,9 @@ if (isset($_POST['user_login']) && isset($_POST['user_passwd'])) {
         </div>
         <div class="text-center">
             <button type="submit" class="btn btn-primary mr-3">Войти</button>
-            <a type="submit" class="d-inline-block btn btn-warning" href="/auth/register_page.php">Регистрация</a>
+            <a type="submit" class="d-inline-block btn btn-secondary" href="/auth/register_page.php">Регистрация</a>
         </div>
     </form>
-
 <?php if (isset($_GET["error"])): ?>
     <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show" role="alert">
         <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">

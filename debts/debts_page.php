@@ -152,7 +152,7 @@ if (isset($_POST['call_proc'])) {
     <?php endif; ?>
 </div>
 <?php require_once('../source/footer.php'); ?>
-
+<!-- Сортировка -->
 <script type="text/javascript">
     let sortId = document.getElementById("Id");
     let sortDebt = document.getElementById("Debt");

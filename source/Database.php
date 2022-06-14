@@ -26,7 +26,6 @@ class Database
         }
     }
 
-    //Коннекшн
     public function getConnection()
     {
         $conn = null;

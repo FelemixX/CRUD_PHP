@@ -108,7 +108,7 @@ if (isset($_POST['search'])) {
 </div>
 
 <?php require_once('../source/footer.php'); ?>
-
+<!-- Сортировка -->
 <script type="text/javascript">
     let sortId = document.getElementById("Id");
     let sortName = document.getElementById("Name");

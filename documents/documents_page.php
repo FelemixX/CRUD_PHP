@@ -112,7 +112,7 @@ if (isset($_POST['search'])) {
     <?php endif; ?>
 </div>
 <?php require_once('../source/footer.php'); ?>
-
+<!-- Сортировка -->
 <script type="text/javascript">
     let sortId = document.getElementById("Id");
     let sortNumber = document.getElementById("Number");

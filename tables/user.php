@@ -141,7 +141,6 @@ class User extends Main_Class
         if ($stmt > 0)
         {
             return true;
-
         } else
         {
             return false;
