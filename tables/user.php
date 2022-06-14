@@ -79,10 +79,10 @@ class User extends Main_Class
     function authorization()
     {
         $tname = $this->table_name;
-        $aye = $this->login;
+        $usrLogin = $this->login;
 
         $query = "SELECT * FROM $tname
-                    WHERE login = '$aye'";
+                    WHERE login = '$usrLogin'";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
@@ -141,6 +141,7 @@ class User extends Main_Class
         if ($stmt > 0)
         {
             return true;
+
         } else
         {
             return false;

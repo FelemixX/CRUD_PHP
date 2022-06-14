@@ -15,8 +15,7 @@ try {
 $users = new User($conn);
 
 $query = " ";
-foreach ($_GET as $index => $item)
-{
+foreach ($_GET as $index => $item) {
     $query .= $index . " " . $item . ", ";
 }
 $query = substr_replace($query, "", -2);
@@ -44,66 +43,67 @@ if (isset($_POST['search'])) {
 <?php require_once('../source/header.php'); ?>
 
 <div class="container">
-        <h1>Список пользователей</h1>
-        <table class="table table-hover">
-            <thead>
+    <h1>Список пользователей</h1>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th id="Id" scope="col">ID Пользователя</th>
+            <th id="Name" scope="col">Имя</th>
+            <th id="Login" scope="col">Логин</th>
+            <?php if (isset($_SESSION["isAdmin"])): ?>
+                <th scope="col">Действие с пользователями</th>
+            <?php endif; ?>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($readUsers as $client): ?>
             <tr>
-                <th id="Id" scope="col">ID Пользователя</th>
-                <th id="Name" scope="col">Имя</th>
-                <th id="Login" scope="col">Логин</th>
+                <td><?= $client["id"] ?></td>
+                <td><?= $client["name"] ?></td>
+                <td><?= $client["login"] ?></td>
                 <?php if (isset($_SESSION["isAdmin"])): ?>
-                    <th scope="col">Действие с пользователями</th>
+                    <td>
+                        <a class="btn btn-success" href='update.php?id=<?= $client["id"] ?>'>Обновить</a>
+                        <a class="btn btn-danger" href='update.php?deleteID=<?= $client["id"] ?>'>Удалить</a>
+                    </td>
                 <?php endif; ?>
             </tr>
-            </thead>
-            <tbody>
-            <?php foreach ($readUsers as $client): ?>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+    <form class="mb-2" method="post" action="users_page.php">
+        <br>
+        <h5>Поиск пользователей</h5>
+        <input class="form-control" required name="search" type="text"/>
+        <br>
+        <button type="submit" class="btn btn-primary">Поиск</button>
+    </form>
+    <?php if (isset($_POST['search'])): ?>
+        <?php if (empty($array)): ?>
+            <p>Ничего не найдено</p>
+        <?php else: ?>
+            <table class="table table-hover">
+                <thead>
+                <h2>Найденные совпадения</h2>
                 <tr>
-                    <td><?= $client["id"] ?></td>
-                    <td><?= $client["name"] ?></td>
-                    <td><?= $client["login"] ?></td>
-                    <?php if (isset($_SESSION["isAdmin"])): ?>
-                        <td>
-                            <a class="btn btn-success" href='update.php?id=<?= $client["id"] ?>'>Обновить</a>
-                            <a class="btn btn-danger" href='update.php?deleteID=<?= $client["id"] ?>'>Удалить</a>
-                        </td>
-                    <?php endif; ?>
+                    <th scope="col">ID Пользователя</th>
+                    <th scope="col">Имя</th>
+                    <th scope="col">Логин</th>
                 </tr>
-            <?php endforeach; ?>
-            </tbody>
-        </table>
-        <form class="mb-2" method="post" action="users_page.php">
-            <br>
-            <h5>Поиск пользователей</h5>
-            <input class="form-control" required name="search" type="text"/>
-            <br><button type="submit" class="btn btn-primary">Поиск</button>
-        </form>
-        <?php if (isset($_POST['search'])): ?>
-            <?php if (empty($array)): ?>
-                <p>Ничего не найдено</p>
-            <?php else: ?>
-                <table class="table table-hover">
-                    <thead>
-                    <h2>Найденные совпадения</h2>
+                </thead>
+                <tbody>
+                <?php foreach ($array as $results): ?>
                     <tr>
-                        <th scope="col">ID Пользователя</th>
-                        <th scope="col">Имя</th>
-                        <th scope="col">Логин</th>
+                        <td><?= $results["0"] ?></td>
+                        <td><?= $results["2"] ?></td>
+                        <td><?= $results["1"] ?></td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    <?php foreach ($array as $results): ?>
-                        <tr>
-                            <td><?= $results["0"] ?></td>
-                            <td><?= $results["2"] ?></td>
-                            <td><?= $results["1"] ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                    </tbody>
-                </table>
-            <?php endif; ?>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
         <?php endif; ?>
-    </div>
+    <?php endif; ?>
+</div>
 </div>
 <?php require_once('../source/footer.php'); ?>
 

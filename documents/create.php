@@ -2,16 +2,13 @@
 
 $conn = null;
 
-try
-{
+try {
     $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-} catch (PDOException $exception)
-{
+} catch (PDOException $exception) {
     echo "Ошибка подключения к БД!: " . $exception->getMessage();
 }
 
-if (isset($_POST["client_ID"]) && isset($_POST["number"]) && isset($_POST["creation_date"]))
-{
+if (isset($_POST["client_ID"]) && isset($_POST["number"]) && isset($_POST["creation_date"])) {
     require_once('../tables/client.php');
 
     $docNumber = $_POST["number"];
@@ -25,8 +22,7 @@ if (isset($_POST["client_ID"]) && isset($_POST["number"]) && isset($_POST["creat
     $document->creation_date = $creationDate;
     $document->client_ID = $clientID;
 
-    if ($document->create())
-    {
+    if ($document->create()) {
         header("Location: documents_page.php");
     }
 }

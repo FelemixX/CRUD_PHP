@@ -19,7 +19,7 @@ class Client extends Main_Class
             } else {
                 return false;
             }
-        }catch (Exception $error){
+        } catch (Exception $error) {
             $caughtError = $error->getMessage();
             echo "Что-то пошло не так, обновите страницу и попробуйте еще раз";
         }
@@ -28,8 +28,7 @@ class Client extends Main_Class
     function read($sort)
     {
 
-        if($sort == "")
-        {
+        if ($sort == "") {
             $sort = "id";
         }
         $tname = $this->table_name;
@@ -62,7 +61,7 @@ class Client extends Main_Class
                 return true;
             }
             return false;
-        }catch (Exception $error){
+        } catch (Exception $error) {
             $caughtError = $error->getMessage();
             echo "Что-то пошло не так, обновите страницу и попробуйте еще раз";
         }

@@ -1,15 +1,12 @@
 <?php
-if (isset($_POST["birth_date"]) && isset($_POST["name"]))
-{
+if (isset($_POST["birth_date"]) && isset($_POST["name"])) {
     $date = $_POST["birth_date"];
     $name = $_POST["name"];
 
     $conn = null;
-    try
-    {
+    try {
         $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-    } catch (PDOException $exception)
-    {
+    } catch (PDOException $exception) {
         echo "Ошибка подключения к БД!: " . $exception->getMessage();
     }
     require_once('../tables/client.php');
@@ -20,14 +17,14 @@ if (isset($_POST["birth_date"]) && isset($_POST["name"]))
         if ($client->create()) {
             header("Location: clients_page.php");
         }
-    } catch(Exception $error){
+    } catch (Exception $error) {
         $caughtError = $error->getMessage();
     }
 }
 ?>
 <?php require_once('../source/header.php'); ?>
-    <?php if (isset($caughtError)): ?>
-        <h1>Произошла ошибка, обновите страницу</h1>
+<?php if (isset($caughtError)): ?>
+    <h1>Произошла ошибка, обновите страницу</h1>
 <?php else: ?>
     <form action="create.php" method="post">
         <div class="mb-3">

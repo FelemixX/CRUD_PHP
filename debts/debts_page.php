@@ -1,24 +1,20 @@
 <?php
 session_start();
-if (!isset($_SESSION["usedId"]))
-{
+if (!isset($_SESSION["usedId"])) {
     header("Location: /index.php/");
 }
 $config = require_once('../source/config.php');
 $conn = null;
-try
-{
+try {
     $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-} catch (PDOException $exception)
-{
+} catch (PDOException $exception) {
     echo "Ошибка подключения к БД!: " . $exception->getMessage();
 }
 require_once('../tables/debt.php');
 $debts = new Debt($conn);
 
 $query = " ";
-foreach ($_GET as $index => $item)
-{
+foreach ($_GET as $index => $item) {
     $query .= $index . " " . $item . ", ";
 }
 $query = substr_replace($query, "", -2);
@@ -28,34 +24,29 @@ $readDebts = $debts->read($query);
 
 <?php
 //поиск
-if (isset($_POST['search']))
-{
+if (isset($_POST['search'])) {
     $query = $_POST['search'];
     $query = trim($query);
     $query = htmlspecialchars($query);
     $result = $conn->prepare("SELECT * FROM debt
 			        WHERE (`debt` LIKE '%" . $query . "%')");
     $result->execute();
-    while ($row = $result->fetch(PDO::FETCH_BOTH))
-    {
+    while ($row = $result->fetch(PDO::FETCH_BOTH)) {
         $id = array_shift($row);
         $array[$id] = $row[3];
     }
 }
 
-if (isset($_POST['show_logs']))
-{
+if (isset($_POST['show_logs'])) {
     $log = $conn->prepare("SELECT * FROM logs ORDER BY last_update");
     $log->execute();
-    while ($row = $log->fetch(PDO::FETCH_BOTH))
-    {
+    while ($row = $log->fetch(PDO::FETCH_BOTH)) {
         $id = array_shift($row);
         $logs[$id] = array($row[0], $row[1], $row[2]);
     }
 }
 
-if (isset($_POST['call_proc']))
-{
+if (isset($_POST['call_proc'])) {
     $debts->callProc();
     header("Location: debts_page.php");
 }

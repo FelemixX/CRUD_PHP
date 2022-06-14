@@ -26,21 +26,18 @@ abstract class Main_Class
 
     function delete()
     {
-        try
-        {
+        try {
             $query = "DELETE FROM " . $this->table_name . " WHERE id = ?";
 
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(1, $this->id);
 
-            if ($result = $stmt->execute())
-            {
+            if ($result = $stmt->execute()) {
                 return true;
-            } else
-            {
+            } else {
                 return false;
             }
-        } catch(Exception $error){
+        } catch (Exception $error) {
             $caughtError = $error->getMessage();
             echo "Что-то пошло не так, обновите страницу и попробуйте еще раз";
         }

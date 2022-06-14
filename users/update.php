@@ -3,36 +3,30 @@ require_once('../tables/user.php');
 
 $conn = null;
 
-try
-{
+try {
     $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-} catch (PDOException $exception)
-{
+} catch (PDOException $exception) {
     echo "Ошибка подключения к БД!: " . $exception->getMessage();
 }
 
-if (isset($_GET["id"]))
-{
+if (isset($_GET["id"])) {
     $id = $_GET["id"];
 
     $user = new User($conn); //Вывод клиентов для выпадашки
     $users = $user->read("");
 }
 
-if (isset($_GET["deleteID"]))
-{
+if (isset($_GET["deleteID"])) {
     $deleteID = $_GET["deleteID"];
     $removeUser = new User($conn);
     $removeUser->id = $deleteID;
 
-    if ($removeUser->delete())
-    {
+    if ($removeUser->delete()) {
         header("Location: users_page.php");
     }
 }
 
-if (isset($_POST["id"]) && isset($_POST["name"]) && isset($_POST["login"]))
-{
+if (isset($_POST["id"]) && isset($_POST["name"]) && isset($_POST["login"])) {
     $userID = $_POST["id"];
     $userName = $_POST["name"];
     $userLogin = $_POST["login"];
@@ -42,8 +36,7 @@ if (isset($_POST["id"]) && isset($_POST["name"]) && isset($_POST["login"]))
     $updateUser->name = $userName;
     $updateUser->login = $userLogin;
 
-    if ($updateUser->update())
-    {
+    if ($updateUser->update()) {
         header("Location: users_page.php");
     }
 }

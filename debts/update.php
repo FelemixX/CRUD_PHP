@@ -2,16 +2,13 @@
 
 $conn = null;
 
-try
-{
+try {
     $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-} catch (PDOException $exception)
-{
+} catch (PDOException $exception) {
     echo "Ошибка подключения к БД!: " . $exception->getMessage();
 }
 
-if (isset($_GET["id"]))
-{
+if (isset($_GET["id"])) {
     $id = $_GET["id"];
 
     require_once('../tables/document.php');
@@ -19,21 +16,18 @@ if (isset($_GET["id"]))
     $documents = $document->read("");
 }
 
-if (isset($_GET["deleteID"]))
-{
+if (isset($_GET["deleteID"])) {
     $deleteID = $_GET["deleteID"];
 
     require_once('../tables/debt.php');
     $debt = new Debt($conn);
     $debt->id = $deleteID;
-    if ($debt->delete())
-    {
+    if ($debt->delete()) {
         header("Location: debts_page.php");
     }
 }
 
-if (isset($_POST["document_ID"]) && isset($_POST["id"]) && isset($_POST["debt"]))
-{
+if (isset($_POST["document_ID"]) && isset($_POST["id"]) && isset($_POST["debt"])) {
     $postID = $_POST["id"];
     $totalDebt = $_POST["debt"];
     $document = $_POST["document_ID"];
@@ -44,8 +38,7 @@ if (isset($_POST["document_ID"]) && isset($_POST["id"]) && isset($_POST["debt"])
     $debt->document_ID = $document;
     $debt->id = $postID;
     $debt->client_ID = $debt->getClientByDocID()["client_ID"];
-    if ($debt->update())
-    {
+    if ($debt->update()) {
         header("Location: debts_page.php");
     }
 }

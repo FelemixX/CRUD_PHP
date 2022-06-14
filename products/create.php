@@ -2,16 +2,13 @@
 
 $conn = null;
 
-try
-{
+try {
     $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-} catch (PDOException $exception)
-{
+} catch (PDOException $exception) {
     echo "Ошибка подключпения к БД!: " . $exception->getMessage();
 }
 
-if (isset($_POST["document_ID"]) && isset($_POST["p_name"]) && isset($_POST["quantity"]))
-{
+if (isset($_POST["document_ID"]) && isset($_POST["p_name"]) && isset($_POST["quantity"])) {
     $productName = $_POST["p_name"];
     $quantity = $_POST["quantity"];
     $documentID = $_POST["document_ID"];
@@ -23,8 +20,7 @@ if (isset($_POST["document_ID"]) && isset($_POST["p_name"]) && isset($_POST["qua
     $product->quantity = $quantity;
     $product->document_ID = $documentID;
 
-    if ($product->create())
-    {
+    if ($product->create()) {
         header("Location: products_page.php");
     }
 }

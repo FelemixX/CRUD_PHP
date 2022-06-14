@@ -2,16 +2,13 @@
 
 $conn = null;
 
-try
-{
+try {
     $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-} catch (PDOException $exception)
-{
+} catch (PDOException $exception) {
     echo "Ошибка подключпения к БД!: " . $exception->getMessage();
 }
 
-if (isset($_GET["id"]))
-{
+if (isset($_GET["id"])) {
     $id = $_GET["id"];
 
     require_once('../tables/client.php');
@@ -19,21 +16,18 @@ if (isset($_GET["id"]))
     $clients = $client->read("");
 }
 
-if (isset($_GET["deleteID"]))
-{
+if (isset($_GET["deleteID"])) {
     $deleteID = $_GET["deleteID"];
     require_once('../tables/document.php');
     $document = new Document($conn);
     $document->id = $deleteID;
 
-    if ($document->delete())
-    {
+    if ($document->delete()) {
         header("Location: documents_page.php");
     }
 }
 
-if (isset($_POST["id"]) && isset($_POST["number"]) && isset($_POST["creation_date"]) && isset($_POST["client_ID"]))
-{
+if (isset($_POST["id"]) && isset($_POST["number"]) && isset($_POST["creation_date"]) && isset($_POST["client_ID"])) {
     $postID = $_POST["id"];
     $docNumber = $_POST["number"];
     $creationDate = $_POST["creation_date"];
@@ -46,8 +40,7 @@ if (isset($_POST["id"]) && isset($_POST["number"]) && isset($_POST["creation_dat
     $document->id = $postID;
     $document->client_ID = $client;
 
-    if ($document->update())
-    {
+    if ($document->update()) {
         header("Location: documents_page.php");
     }
 }

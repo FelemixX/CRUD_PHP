@@ -1,16 +1,13 @@
 <?php
 
 $conn = null;
-try
-{
+try {
     $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-} catch (PDOException $exception)
-{
+} catch (PDOException $exception) {
     echo "Ошибка подключения к БД!: " . $exception->getMessage();
 }
 
-if (isset($_GET["id"]))
-{
+if (isset($_GET["id"])) {
     $id = $_GET["id"];
 
     require_once('../tables/document.php');
@@ -18,22 +15,19 @@ if (isset($_GET["id"]))
     $documents = $document->read("");
 }
 
-if (isset($_GET["deleteID"]))
-{
+if (isset($_GET["deleteID"])) {
     $deleteID = $_GET["deleteID"];
     require_once('../tables/product.php');
 
     $product = new Product($conn);
     $product->id = $deleteID;
 
-    if ($product->delete())
-    {
+    if ($product->delete()) {
         header("Location: products_page.php");
     }
 }
 
-if (isset($_POST["id"]) && isset($_POST["p_name"]) && isset($_POST["quantity"]))
-{
+if (isset($_POST["id"]) && isset($_POST["p_name"]) && isset($_POST["quantity"])) {
     $postID = $_POST["id"];
     $productName = $_POST["p_name"];
     $quantity = $_POST["quantity"];
@@ -45,8 +39,7 @@ if (isset($_POST["id"]) && isset($_POST["p_name"]) && isset($_POST["quantity"]))
     $product->quantity = $quantity;
     $product->document_ID = $documentID;
     $product->id = $postID;
-    if ($product->update())
-    {
+    if ($product->update()) {
         header("Location: products_page.php");
     }
 }

@@ -14,8 +14,7 @@ class Database
     public function __construct()
     {
         //$this->config = $config;
-        if ($this->config)
-        {
+        if ($this->config) {
 //            $this->db_host = $config['db_host'];
 //            $this->db_name = $config['db_name'];
 //            $this->db_user = $config['db_user'];
@@ -31,11 +30,9 @@ class Database
     public function getConnection()
     {
         $conn = null;
-        try
-        {
+        try {
             $conn = new PDO("mysql:host=" . $this->db_host . ";dbname=" . $this->db_name, $this->db_user, $this->db_pass);
-        } catch (PDOException $exception)
-        {
+        } catch (PDOException $exception) {
             echo "Ошибка подключения к БД!: " . $exception->getMessage();
         }
         return $conn;

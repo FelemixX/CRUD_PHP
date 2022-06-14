@@ -64,10 +64,10 @@ session_start();
                                    href="../debts/debts_page.php">Задолженности</a>
                             </li>
                             <?php if (isset($_SESSION["isAdmin"])): ?>
-                            <li class="nav-item">
-                                <a class="btn" aria-current="page"
-                                   href="../users/users_page.php">Список пользователей</a>
-                            </li>
+                                <li class="nav-item">
+                                    <a class="btn" aria-current="page"
+                                       href="../users/users_page.php">Список пользователей</a>
+                                </li>
                             <?php endif; ?>
                             <?php if (isset($_SESSION["isAdmin"])): ?>
                                 <li class="nav-item">
@@ -77,11 +77,11 @@ session_start();
                             <?php endif; ?>
                             <?php if (isset($_SESSION["userName"])): ?>
                                 <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" ><?= $_SESSION["userName"] ?></a>
+                                    <a class="nav-link active" aria-current="page"><?= $_SESSION["userName"] ?></a>
                                 </li>
                                 <?php if (isset($_SESSION["isAdmin"])): ?>
                                     <li class="nav-item">
-                                        <a class="nav-link active" aria-current="page" ><strong class="gradient-text">ADMIN</strong></a>
+                                        <a class="nav-link active" aria-current="page"><strong class="gradient-text">ADMIN</strong></a>
                                     </li>
                                 <?php endif; ?>
                                 <li class="nav-item">

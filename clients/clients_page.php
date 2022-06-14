@@ -1,24 +1,20 @@
 <?php
 session_start();
-if (!isset($_SESSION["usedId"]))
-{
+if (!isset($_SESSION["usedId"])) {
     header("Location: /index.php/");
 }
 $config = require_once('../source/config.php');
 $conn = null;
-try
-{
+try {
     $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-} catch (PDOException $exception)
-{
+} catch (PDOException $exception) {
     echo "Ошибка подключения к БД!: " . $exception->getMessage();
 }
 require_once('../tables/client.php');
 $clients = new Client($conn);
 //сортировка
 $query = " ";
-foreach ($_GET as $index => $item)
-{
+foreach ($_GET as $index => $item) {
     $query .= $index . " " . $item . ", ";
 }
 $query = substr_replace($query, "", -2);
@@ -28,16 +24,14 @@ $readClients = $clients->read($query);
 
 <?php
 //поиск
-if (isset($_POST['search']))
-{
+if (isset($_POST['search'])) {
     $query = $_POST['search'];
     $query = trim($query);
     $query = htmlspecialchars($query);
     $result = $conn->prepare("SELECT * FROM client
                     WHERE (`name` LIKE '%" . $query . "%')");
     $result->execute();
-    while ($row = $result->fetch(PDO::FETCH_BOTH))
-    {
+    while ($row = $result->fetch(PDO::FETCH_BOTH)) {
         $id = array_shift($row);
         $array[$id] = array($row[0], $row[1], $row[2]);//0,1,2
     }
