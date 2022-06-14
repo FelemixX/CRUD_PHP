@@ -22,7 +22,7 @@ if (isset($_POST['user_name']) && isset($_POST['user_login']) && isset($_POST['u
 
     if ($user->userExists())
     {
-        $err = 'Пользователь с таким логином уже существует';
+        $err = 'Ошибка! Пользователь с таким логином уже существует';
     } else
     {
         if ($user->registration())
