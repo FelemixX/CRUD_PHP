@@ -108,7 +108,7 @@ if (isset($_POST['search'])) {
         <?php endif; ?>
     <?php endif; ?>
 </div>
-</div>
+
 <?php require_once('../source/footer.php'); ?>
 <!-- Сортировка -->
 <script type="text/javascript">
