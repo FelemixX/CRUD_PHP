@@ -4,12 +4,13 @@ $db = new Database();
 $conn = $db->getConnection();
 
 
-if (isset($_POST["client_ID"]) && isset($_POST["number"]) && isset($_POST["creation_date"])) {
+if (isset($_POST["client_ID"]) && isset($_POST["number"]) && isset($_POST["creation_date"]) && isset($_POST["tin"])) {
     require_once('../tables/client.php');
 
     $docNumber = $_POST["number"];
     $creationDate = $_POST["creation_date"];
     $clientID = $_POST["client_ID"];
+    $docTin = $_POST["tin"];
 
     require_once('../tables/document.php');
 
@@ -17,6 +18,7 @@ if (isset($_POST["client_ID"]) && isset($_POST["number"]) && isset($_POST["creat
     $document->number = $docNumber;
     $document->creation_date = $creationDate;
     $document->client_ID = $clientID;
+    $document->tin = $docTin;
 
     if ($document->create()) {
         header("Location: documents_page.php");
@@ -42,6 +44,10 @@ $clients = $client->read("");
             </select>
             <label for="number" class="form-label">Номер документа</label>
             <input required name="number" type="number" class="form-control" id="number">
+        </div>
+        <div class="mb-3">
+            <label for="tin" class="form-label">ИНН</label>
+            <input required name="tin" type="number" class="form-control" oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="15" id="tin">
         </div>
         <div class="mb-3">
             <label for="creation_date" class="form-label">Дата создания</label>

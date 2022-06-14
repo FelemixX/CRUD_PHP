@@ -46,6 +46,7 @@ if (isset($_POST['search'])) {
         <tr>
             <th id="Id" scope="col">ID Документа</th>
             <th id="Number" scope="col">Номер документа</th>
+            <th id="Tin" scope="col">ИНН</th>
             <th scope="col">Имя клиента</th>
             <th id="Creation_Date" scope="col">Дата создания</th>
             <?php if (isset($_SESSION["isAdmin"])): ?>
@@ -58,6 +59,7 @@ if (isset($_POST['search'])) {
             <tr>
                 <td><?= $document["id"] ?></td>
                 <td><?= "№ " . $document["number"] ?></td>
+                <td><?= "№ ". $document["tin"] ?></td>
                 <td><?= $document["name"] ?></td> <!-- Имя клиента -->
                 <td><?= $document["creation_date"] ?></td>
                 <?php if (isset($_SESSION["isAdmin"])): ?>
