@@ -85,11 +85,13 @@ session_start();
                                     </li>
                                     <?php if (isset($_SESSION["isAdmin"])): ?>
                                         <li class="nav-item">
-                                            <a class="nav-link active" aria-current="page"><strong class="gradient-text">ADMIN</strong></a>
+                                            <a class="nav-link active" aria-current="page"><strong
+                                                        class="gradient-text">ADMIN</strong></a>
                                         </li>
                                     <?php endif; ?>
                                     <li class="nav-item">
-                                        <a class="btn btn-danger" aria-current="page" href="../auth/logout.php">Выйти</a>
+                                        <a class="btn btn-danger" aria-current="page"
+                                           href="../auth/logout.php">Выйти</a>
                                     </li>
                                 <?php endif; ?>
                             </ul>

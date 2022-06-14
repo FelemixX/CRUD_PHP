@@ -1,5 +1,5 @@
 <?php
-require_once ('../source/Database.php');
+require_once('../source/Database.php');
 $db = new Database();
 $conn = $db->getConnection();
 
@@ -26,25 +26,25 @@ $documents = $document->read("");
 
 ?>
 <?php require_once('../source/header.php'); ?>
-<div class="container">
-    <form action="create.php" method="post">
-        <div class="mb-3">
-            <label for="document_ID" class="form-label">Документ</label>
-            <select name="document_ID" class="form-select" aria-label="client select" id="document_ID">
-                <!-- Выпадашка -->
-                <?php foreach ($documents as $item): ?> <!-- Выборка клиентов -->
-                    <option value="<?= $item["id"] ?>" selected><?= $item["number"] ?></option>
-                <?php endforeach ?>
-            </select>
-            <label for="p_name" class="form-label">Наименование</label>
-            <input required name="p_name" type="text" class="form-control" id="p_name">
-        </div>
-        <div class="mb-3">
-            <label for="quantity" class="form-label">Количество</label>
-            <input required name="quantity" type="number" class="form-control" id="quantity">
-        </div>
-        <button type="submit" class="btn btn-primary">Отправить</button>
-        <a class="btn btn-danger" href="products_page.php">Отмена</a>
-    </form>
-</div>
+    <div class="container">
+        <form action="create.php" method="post">
+            <div class="mb-3">
+                <label for="document_ID" class="form-label">Документ</label>
+                <select name="document_ID" class="form-select" aria-label="client select" id="document_ID">
+                    <!-- Выпадашка -->
+                    <?php foreach ($documents as $item): ?> <!-- Выборка клиентов -->
+                        <option value="<?= $item["id"] ?>" selected><?= $item["number"] ?></option>
+                    <?php endforeach ?>
+                </select>
+                <label for="p_name" class="form-label">Наименование</label>
+                <input required name="p_name" type="text" class="form-control" id="p_name">
+            </div>
+            <div class="mb-3">
+                <label for="quantity" class="form-label">Количество</label>
+                <input required name="quantity" type="number" class="form-control" id="quantity">
+            </div>
+            <button type="submit" class="btn btn-primary">Отправить</button>
+            <a class="btn btn-danger" href="products_page.php">Отмена</a>
+        </form>
+    </div>
 <?php require_once('../source/footer.php'); ?>

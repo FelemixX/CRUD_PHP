@@ -1,5 +1,5 @@
 <?php
-require_once ('../source/Database.php');
+require_once('../source/Database.php');
 $db = new Database();
 $conn = $db->getConnection();
 
@@ -42,21 +42,22 @@ if (isset($_POST["document_ID"]) && isset($_POST["id"]) && isset($_POST["debt"])
 
 <?php require_once('../source/header.php'); ?>
 <div class="container">
-<form action="update.php" method="post">
-    <input class="invisible" name="id" value="<?= $id ?>">
-    <div class="mb-3">
-        <label for="document_ID" class="form-label">Документ</label>
-        <select name="document_ID" class="form-select" aria-label="client select" id="document_ID">  <!-- Выпадашка -->
-            <?php foreach ($documents as $item): ?>
-                <option value="<?= $item["id"] ?>" selected><?= $item["number"] ?></option>
-            <?php endforeach ?>
-        </select>
-        <label for="debt" class="form-label">Задолженность</label>
-        <input required name="debt" type="number" class="form-control" id="debt">
-    </div>
-    <button type="submit" class="btn btn-primary">Отправить</button>
-    <a class="btn btn-danger" href="debts_page.php">Отмена</a>
-</form>
+    <form action="update.php" method="post">
+        <input class="invisible" name="id" value="<?= $id ?>">
+        <div class="mb-3">
+            <label for="document_ID" class="form-label">Документ</label>
+            <select name="document_ID" class="form-select" aria-label="client select" id="document_ID">
+                <!-- Выпадашка -->
+                <?php foreach ($documents as $item): ?>
+                    <option value="<?= $item["id"] ?>" selected><?= $item["number"] ?></option>
+                <?php endforeach ?>
+            </select>
+            <label for="debt" class="form-label">Задолженность</label>
+            <input required name="debt" type="number" class="form-control" id="debt">
+        </div>
+        <button type="submit" class="btn btn-primary">Отправить</button>
+        <a class="btn btn-danger" href="debts_page.php">Отмена</a>
+    </form>
 </div>
 <?php require_once('../source/footer.php'); ?>
 

@@ -1,5 +1,5 @@
 <?php
-require_once ('../source/Database.php');
+require_once('../source/Database.php');
 $db = new Database();
 $conn = $db->getConnection();
 
@@ -39,6 +39,6 @@ $documents = $doc->read("");
         <button type="submit" class="btn btn-primary">Отправить</button>
         <a class="btn btn-danger" href="debts_page.php">Отмена</a>
     </form>
-<?php require_once('../source/footer.php'); ?>
+    <?php require_once('../source/footer.php'); ?>
 </div>
 

@@ -10,8 +10,7 @@ class User extends Main_Class
 
     function read($sort)
     {
-        if($sort == "")
-        {
+        if ($sort == "") {
             $sort = "id";
         }
         $tname = $this->table_name;
@@ -45,7 +44,7 @@ class User extends Main_Class
                 return true;
             }
             return false;
-        }catch (Exception $error){
+        } catch (Exception $error) {
             $caughtError = $error->getMessage();
             echo "Что-то пошло не так, обновите страницу и попробуйте еще раз";
         }
@@ -67,11 +66,9 @@ class User extends Main_Class
                             VALUES(?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
 
-        if ($stmt->execute([$this->userName, $this->login, $saltedPass, $salt]))
-        { //saltedPass == pass
+        if ($stmt->execute([$this->userName, $this->login, $saltedPass, $salt])) { //saltedPass == pass
             return true;
-        } else
-        {
+        } else {
             return false;
         }
     }
@@ -88,33 +85,26 @@ class User extends Main_Class
         $stmt->execute();
         $stmt = $stmt->fetch();
 
-        if (!empty($stmt))
-        {
+        if (!empty($stmt)) {
             $foundSalt = $stmt["salt"];
             $foundLogin = $stmt["login"];
             $saltedPass = md5($this->pass . $foundSalt);
             $pass = $stmt["pass"];
 
-            if (($saltedPass == $pass))
-            {
+            if (($saltedPass == $pass)) {
                 self::logout();
                 session_start();
                 $_SESSION["userName"] = $stmt["name"];
                 $_SESSION["usedId"] = $stmt["id"];
-                if ($foundLogin == "admin")
-                {
+                if ($foundLogin == "admin") {
                     $_SESSION["isAdmin"] = true;
                     return true;
                 }
                 return true;
-            }
-            else
-            {
+            } else {
                 return false;
             }
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -138,11 +128,9 @@ class User extends Main_Class
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $stmt = $stmt->rowCount();
-        if ($stmt > 0)
-        {
+        if ($stmt > 0) {
             return true;
-        } else
-        {
+        } else {
             return false;
         }
     }

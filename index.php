@@ -1,10 +1,10 @@
 <?php
 require_once('tables/user.php');
-require_once ('../source/Database.php');
+require_once('../source/Database.php');
 $db = new Database();
 $conn = $db->getConnection();
-$clients = new Client($conn);
 ?>
+
 <?php require_once('source/header.php') ?>
 <?php if (isset($_SESSION["userName"])): ?>
     <h2 class="text-center mt-5">Здравствуйте, <?= $_SESSION["userName"] ?>!</h2>

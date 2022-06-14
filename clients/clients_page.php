@@ -5,7 +5,7 @@ if (!isset($_SESSION["usedId"])) {
 }
 
 require_once('../tables/client.php');
-require_once ('../source/Database.php');
+require_once('../source/Database.php');
 $db = new Database();
 $conn = $db->getConnection();
 $clients = new Client($conn);
