@@ -1,13 +1,9 @@
 <?php
 require_once('../tables/user.php');
-$config = require_once('../source/config.php');
+require_once ('../source/Database.php');
+$db = new Database();
+$conn = $db->getConnection();
 
-$conn = null;
-try {
-    $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-} catch (PDOException $exception) {
-    echo "Ошибка подключения к БД!: " . $exception->getMessage();
-}
 
 if (isset($_POST['user_login']) && isset($_POST['user_passwd'])) {
     $user = new User($conn);

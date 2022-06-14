@@ -1,12 +1,7 @@
 <?php
-
-$conn = null;
-
-try {
-    $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-} catch (PDOException $exception) {
-    echo "Ошибка подключения к БД!: " . $exception->getMessage();
-}
+require_once ('../source/Database.php');
+$db = new Database();
+$conn = $db->getConnection();
 
 if (isset($_GET["id"])) {
     $id = $_GET["id"];

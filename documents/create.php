@@ -2,7 +2,7 @@
 require_once ('../source/Database.php');
 $db = new Database();
 $conn = $db->getConnection();
-$clients = new Client($conn);
+
 
 if (isset($_POST["client_ID"]) && isset($_POST["number"]) && isset($_POST["creation_date"])) {
     require_once('../tables/client.php');

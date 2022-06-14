@@ -2,7 +2,7 @@
 require_once ('../source/Database.php');
 $db = new Database();
 $conn = $db->getConnection();
-$clients = new Client($conn);
+
 
 if (isset($_GET["id"])) {
     $id = $_GET["id"];

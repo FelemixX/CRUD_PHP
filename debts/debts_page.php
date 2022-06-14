@@ -6,7 +6,7 @@ if (!isset($_SESSION["usedId"])) {
 require_once ('../source/Database.php');
 $db = new Database();
 $conn = $db->getConnection();
-$clients = new Client($conn);
+
 
 require_once('../tables/debt.php');
 $debts = new Debt($conn);

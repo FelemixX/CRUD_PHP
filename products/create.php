@@ -2,7 +2,7 @@
 require_once ('../source/Database.php');
 $db = new Database();
 $conn = $db->getConnection();
-$clients = new Client($conn);
+
 
 if (isset($_POST["document_ID"]) && isset($_POST["p_name"]) && isset($_POST["quantity"])) {
     $productName = $_POST["p_name"];

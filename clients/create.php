@@ -1,14 +1,11 @@
 <?php
+require_once ('../source/Database.php');
+$db = new Database();
+$conn = $db->getConnection();
+
 if (isset($_POST["birth_date"]) && isset($_POST["name"])) {
     $date = $_POST["birth_date"];
     $name = $_POST["name"];
-
-    $conn = null;
-    try {
-        $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-    } catch (PDOException $exception) {
-        echo "Ошибка подключения к БД!: " . $exception->getMessage();
-    }
     require_once('../tables/client.php');
     $client = new Client($conn);
     $client->name = $name;

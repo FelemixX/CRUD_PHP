@@ -2,7 +2,7 @@
 require_once ('../source/Database.php');
 $db = new Database();
 $conn = $db->getConnection();
-$clients = new Client($conn);
+
 
 if (isset($_POST['user_name']) && isset($_POST['user_login']) && isset($_POST['user_passwd'])) {
     $user = new User($conn);

@@ -1,12 +1,11 @@
 <?php
+require_once ('../source/Database.php');
+$db = new Database();
+$conn = $db->getConnection();
 session_start();
 if (!isset($_SESSION["usedId"])) {
     header("Location: /index.php/");
 }
-require_once ('../source/Database.php');
-$db = new Database();
-$conn = $db->getConnection();
-$clients = new Client($conn);
 
 require_once('../tables/product.php');
 $products = new Product($conn);
