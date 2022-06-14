@@ -30,6 +30,7 @@ session_start();
     <title>Документы</title>
 </head>
 <body>
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
     <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
@@ -41,6 +42,7 @@ session_start();
         <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
     </symbol>
 </svg>
+
 <div class="container">
     <nav class="navbar navbar-nav-scroll navbar-expand-lg navbar-light bg-light ">
         <div class="gradient">
@@ -48,50 +50,54 @@ session_start();
                 <?php if (isset($_SESSION["usedId"])): ?>
                     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="btn" aria-current="page"
-                                   href="../clients/clients_page.php">Клиенты</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="btn" aria-current="page"
-                                   href="../documents/documents_page.php">Документы</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="btn" aria-current="page"
-                                   href="../products/products_page.php">Товары</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="btn" aria-current="page"
-                                   href="../debts/debts_page.php">Задолженности</a>
-                            </li>
-                            <?php if (isset($_SESSION["isAdmin"])): ?>
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li class="nav-item">
                                     <a class="btn" aria-current="page"
-                                       href="../users/users_page.php">Список пользователей</a>
+                                       href="../clients/clients_page.php">Клиенты</a>
                                 </li>
-                            <?php endif; ?>
-                            <?php if (isset($_SESSION["isAdmin"])): ?>
                                 <li class="nav-item">
-                                    <a class="btn" aria-current="page" href="../source/direct_sql_query.php">Запрос
-                                        к БД</a>
+                                    <a class="btn" aria-current="page"
+                                       href="../documents/documents_page.php">Документы</a>
                                 </li>
-                            <?php endif; ?>
-                            <?php if (isset($_SESSION["userName"])): ?>
                                 <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page"><?= $_SESSION["userName"] ?></a>
+                                    <a class="btn" aria-current="page"
+                                       href="../products/products_page.php">Товары</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="btn" aria-current="page"
+                                       href="../debts/debts_page.php">Задолженности</a>
                                 </li>
                                 <?php if (isset($_SESSION["isAdmin"])): ?>
                                     <li class="nav-item">
-                                        <a class="nav-link active" aria-current="page"><strong class="gradient-text">ADMIN</strong></a>
+                                        <a class="btn" aria-current="page"
+                                           href="../users/users_page.php">Список пользователей</a>
                                     </li>
                                 <?php endif; ?>
-                                <li class="nav-item">
-                                    <a class="btn btn-danger" aria-current="page" href="../auth/logout.php">Выйти</a>
-                                </li>
-                            <?php endif; ?>
-                        </ul>
+                                <?php if (isset($_SESSION["isAdmin"])): ?>
+                                    <li class="nav-item">
+                                        <a class="btn" aria-current="page" href="../source/direct_sql_query.php">Запрос
+                                            к БД</a>
+                                    </li>
+                                <?php endif; ?>
+                                <?php if (isset($_SESSION["userName"])): ?>
+                                    <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page"><?= $_SESSION["userName"] ?></a>
+                                    </li>
+                                    <?php if (isset($_SESSION["isAdmin"])): ?>
+                                        <li class="nav-item">
+                                            <a class="nav-link active" aria-current="page"><strong class="gradient-text">ADMIN</strong></a>
+                                        </li>
+                                    <?php endif; ?>
+                                    <li class="nav-item">
+                                        <a class="btn btn-danger" aria-current="page" href="../auth/logout.php">Выйти</a>
+                                    </li>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
                     </div>
                 <?php endif; ?>
             </div>
+        </div>
     </nav>
+</div>
+

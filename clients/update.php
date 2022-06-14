@@ -42,25 +42,27 @@ if (isset($_POST["id"]) && isset($_POST["birth_date"]) && isset($_POST["name"]))
 ?>
 
 <?php require_once('../source/header.php'); ?>
-<form action="update.php" method="post">
-    <input class="invisible" name="id" value="<?= $id ?>">
-    <br>
-    <div class="mb-3">
-        <label for="client_ID" class="form-label">Клиент</label>
-        <select name="client_ID" class="form-select" aria-label="client select" id="client_ID">  <!-- Выпадашка -->
-            <?php foreach ($clients as $item): ?> <!-- Выборка клиентов -->
-                <option value="<?= $item["id"] ?>" <?php if ($id == $item["id"]) echo "selected"; ?>><?= $item["name"] ?></option>
-            <?php endforeach ?>
-        </select>
-        <label for="name" class="form-label">Имя</label>
-        <input required name="name" type="text" pattern="^[A-Za-zА-Яа-яЁё\s]+$" class="form-control" id="name">
-    </div>
-    <div class="mb-3">
-        <label for="birth_date" class="form-label">Дата рождения</label>
-        <input required name="birth_date" type="date" class="form-control" id="birth_date">
-    </div>
-    <button type="submit" class="btn btn-primary">Отправить</button>
-    <a class="btn btn-danger" href="clients_page.php">Отменить</a>
-</form>
+<div class="container">
+    <form action="update.php" method="post">
+        <input class="invisible" name="id" value="<?= $id ?>">
+        <br>
+        <div class="mb-3">
+            <label for="client_ID" class="form-label">Клиент</label>
+            <select name="client_ID" class="form-select" aria-label="client select" id="client_ID">  <!-- Выпадашка -->
+                <?php foreach ($clients as $item): ?> <!-- Выборка клиентов -->
+                    <option value="<?= $item["id"] ?>" <?php if ($id == $item["id"]) echo "selected"; ?>><?= $item["name"] ?></option>
+                <?php endforeach ?>
+            </select>
+            <label for="name" class="form-label">Имя</label>
+            <input required name="name" type="text" pattern="^[A-Za-zА-Яа-яЁё\s]+$" class="form-control" id="name">
+        </div>
+        <div class="mb-3">
+            <label for="birth_date" class="form-label">Дата рождения</label>
+            <input required name="birth_date" type="date" class="form-control" id="birth_date">
+        </div>
+        <button type="submit" class="btn btn-primary">Отправить</button>
+        <a class="btn btn-danger" href="clients_page.php">Отменить</a>
+    </form>
+</div>
 <?php require_once('../source/footer.php'); ?>
 

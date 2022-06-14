@@ -20,4 +20,3 @@ if (isset($_POST['user_login']) && isset($_POST['user_passwd'])) {
         header("Location: /index.php?error");
     }
 }
-

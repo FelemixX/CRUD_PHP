@@ -10,22 +10,16 @@ if (isset($_POST["birth_date"]) && isset($_POST["name"])) {
         echo "Ошибка подключения к БД!: " . $exception->getMessage();
     }
     require_once('../tables/client.php');
-    try {
-        $client = new Client($conn);
-        $client->name = $name;
-        $client->birth_date = $date;
-        if ($client->create()) {
-            header("Location: clients_page.php");
-        }
-    } catch (Exception $error) {
-        $caughtError = $error->getMessage();
+    $client = new Client($conn);
+    $client->name = $name;
+    $client->birth_date = $date;
+    if ($client->create()) {
+        header("Location: clients_page.php");
     }
 }
 ?>
 <?php require_once('../source/header.php'); ?>
-<?php if (isset($caughtError)): ?>
-    <h1>Произошла ошибка, обновите страницу</h1>
-<?php else: ?>
+<div class="container">
     <form action="create.php" method="post">
         <div class="mb-3">
             <label for="number" class="form-label">Имя</label>
@@ -38,5 +32,5 @@ if (isset($_POST["birth_date"]) && isset($_POST["name"])) {
         <button type="submit" class="btn btn-primary">Отправить</button>
         <a class="btn btn-danger" href="clients_page.php">Отмена</a>
     </form>
-<?php endif; ?>
-<?php require_once('../source/footer.php'); ?>
+    <?php require_once('../source/footer.php'); ?>
+</div>

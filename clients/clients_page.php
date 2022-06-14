@@ -3,15 +3,13 @@ session_start();
 if (!isset($_SESSION["usedId"])) {
     header("Location: /index.php/");
 }
-$config = require_once('../source/config.php');
-$conn = null;
-try {
-    $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-} catch (PDOException $exception) {
-    echo "Ошибка подключения к БД!: " . $exception->getMessage();
-}
+
 require_once('../tables/client.php');
+require_once ('../source/Database.php');
+$db = new Database();
+$conn = $db->getConnection();
 $clients = new Client($conn);
+
 //сортировка
 $query = " ";
 foreach ($_GET as $index => $item) {

@@ -1,15 +1,8 @@
-<?php require_once('../tables/user.php'); ?>
-
-<?php
-
-$config = require_once('../source/config.php');
-
-$conn = null;
-try {
-    $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-} catch (PDOException $exception) {
-    echo "Ошибка подключения к БД!: " . $exception->getMessage();
-}
+<?php require_once('../tables/user.php');
+require_once ('../source/Database.php');
+$db = new Database();
+$conn = $db->getConnection();
+$clients = new Client($conn);
 
 if (isset($_POST['user_name']) && isset($_POST['user_login']) && isset($_POST['user_passwd'])) {
     $user = new User($conn);
@@ -25,7 +18,6 @@ if (isset($_POST['user_name']) && isset($_POST['user_login']) && isset($_POST['u
         }
     }
 }
-
 ?>
 
 <?php require_once('../source/header.php'); ?>

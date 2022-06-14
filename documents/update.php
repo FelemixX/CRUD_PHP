@@ -1,12 +1,8 @@
 <?php
-
-$conn = null;
-
-try {
-    $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-} catch (PDOException $exception) {
-    echo "Ошибка подключпения к БД!: " . $exception->getMessage();
-}
+require_once ('../source/Database.php');
+$db = new Database();
+$conn = $db->getConnection();
+$clients = new Client($conn);
 
 if (isset($_GET["id"])) {
     $id = $_GET["id"];
@@ -48,6 +44,7 @@ if (isset($_POST["id"]) && isset($_POST["number"]) && isset($_POST["creation_dat
 ?>
 
 <?php require_once('../source/header.php'); ?>
+<div class="container">
 <form action="update.php" method="post">
     <br>
     <div class="mb-3">
@@ -70,5 +67,6 @@ if (isset($_POST["id"]) && isset($_POST["number"]) && isset($_POST["creation_dat
     <button type="submit" class="btn btn-primary">Отправить</button>
     <a class="btn btn-danger" href="documents_page.php">Отмена</a>
 </form>
+</div>
 <?php require_once('../source/footer.php'); ?>
 

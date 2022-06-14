@@ -1,12 +1,8 @@
 <?php
-
-$conn = null;
-
-try {
-    $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-} catch (PDOException $exception) {
-    echo "Ошибка подключения к БД!: " . $exception->getMessage();
-}
+require_once ('../source/Database.php');
+$db = new Database();
+$conn = $db->getConnection();
+$clients = new Client($conn);
 
 if (isset($_POST["document_ID"]) && isset($_POST["debt"])) {
     $totalDebt = $_POST["debt"];
@@ -27,6 +23,7 @@ $doc = new Document($conn);
 $documents = $doc->read("");
 ?>
 <?php require_once('../source/header.php'); ?>
+<div class="container">
     <form action="create.php" method="post">
         <label for="document_ID" class="form-label">Документ</label>
         <select name="document_ID" class="form-select" aria-label="document select" id="document_ID">
@@ -43,3 +40,5 @@ $documents = $doc->read("");
         <a class="btn btn-danger" href="debts_page.php">Отмена</a>
     </form>
 <?php require_once('../source/footer.php'); ?>
+</div>
+

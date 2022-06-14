@@ -1,12 +1,8 @@
 <?php
-
-$conn = null;
-
-try {
-    $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-} catch (PDOException $exception) {
-    echo "Ошибка подключпения к БД!: " . $exception->getMessage();
-}
+require_once ('../source/Database.php');
+$db = new Database();
+$conn = $db->getConnection();
+$clients = new Client($conn);
 
 if (isset($_POST["document_ID"]) && isset($_POST["p_name"]) && isset($_POST["quantity"])) {
     $productName = $_POST["p_name"];
@@ -30,6 +26,7 @@ $documents = $document->read("");
 
 ?>
 <?php require_once('../source/header.php'); ?>
+<div class="container">
     <form action="create.php" method="post">
         <div class="mb-3">
             <label for="document_ID" class="form-label">Документ</label>
@@ -49,4 +46,5 @@ $documents = $document->read("");
         <button type="submit" class="btn btn-primary">Отправить</button>
         <a class="btn btn-danger" href="products_page.php">Отмена</a>
     </form>
+</div>
 <?php require_once('../source/footer.php'); ?>
