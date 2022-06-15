@@ -58,7 +58,7 @@ if (isset($_POST["id"]) && isset($_POST["number"]) && isset($_POST["creation_dat
         </div>
         <input class="invisible" name="id" value="<?= $id ?>">
         <div class="mb-3">
-            <label for="number" class="form-label">Номер документа</label>
+            <label for="number" class="form-label">Серия и номер паспорта</label>
             <input required name="number" type="number" class="form-control" id="number">
         </div>
         <div class="mb-3">

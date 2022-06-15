@@ -7,7 +7,6 @@ require_once('../source/Database.php');
 $db = new Database();
 $conn = $db->getConnection();
 
-
 require_once('../tables/document.php');
 $documents = new Document($conn);
 
@@ -44,7 +43,7 @@ if (isset($_POST['search'])) {
         <thead>
         <tr>
             <th id="Id" scope="col">ID Документа</th>
-            <th id="Number" scope="col">Номер документа</th>
+            <th id="Number" scope="col">Серия и номер паспорта</th>
             <th id="Tin" scope="col">ИНН</th>
             <th scope="col">ФИО клиента</th>
             <th id="Creation_Date" scope="col">Дата создания</th>
@@ -78,7 +77,7 @@ if (isset($_POST['search'])) {
     <?php endif; ?>
     <form class="mb-2" method="post" action="documents_page.php">
         <br>
-        <h5>Поиск документов по номеру</h5>
+        <h5>Поиск по паспортам</h5>
         <input class="form-control" required name="search" type="text"/>
         <br>
         <button type="submit" class="btn btn-primary">Поиск</button>
