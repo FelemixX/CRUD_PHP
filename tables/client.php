@@ -4,17 +4,17 @@ require_once "main_class.php";
 class Client extends Main_Class
 {
     protected $table_name = "client";
-    public $name, $birth_date, $id;
+    public $first_name, $second_name, $third_name, $birth_date, $id;
 
     function create()
     {
         try {
             $tname = $this->table_name;
-            $query = "INSERT INTO $tname (`name`,`birth_date`)
-                            VALUES(?, ?)";
+            $query = "INSERT INTO $tname (`first_name`, `second_name`, `third_name`, `birth_date`)
+                            VALUES(?, ?, ?, ?)";
             $stmt = $this->conn->prepare($query);
 
-            if ($stmt->execute([$this->name, $this->birth_date])) {
+            if ($stmt->execute([$this->first_name, $this->second_name, $this->third_name, $this->birth_date])) {
                 return true;
             } else {
                 return false;
@@ -32,7 +32,7 @@ class Client extends Main_Class
             $sort = "id";
         }
         $tname = $this->table_name;
-        $query = "SELECT $tname.id, $tname.birth_date, $tname.name
+        $query = "SELECT $tname.id, $tname.birth_date, $tname.first_name, $tname.second_name, $tname.third_name
                     FROM $tname 
                     ORDER BY $sort ";
         $stmt = $this->conn->prepare($query);
@@ -45,17 +45,19 @@ class Client extends Main_Class
         try {
             $tname = $this->table_name;
             $query = "UPDATE 
-                        " . $this->table_name . "  
+                        " . $tname . "  
                    SET 
-                        `name` = ?, `birth_date` = ?
+                        `first_name` = ?, `second_name` = ?, `third_name` = ?, `birth_date` = ?
                    WHERE 
-                        " . $this->table_name . " .`id` = ?";
+                        " . $tname . " .`id` = ?";
 
             $stmt = $this->conn->prepare($query);
 
-            $stmt->bindParam(1, $this->name);
-            $stmt->bindParam(2, $this->birth_date);
-            $stmt->bindParam(3, $this->id);
+            $stmt->bindParam(1, $this->first_name);
+            $stmt->bindParam(2, $this->second_name);
+            $stmt->bindParam(3, $this->third_name);
+            $stmt->bindParam(4, $this->birth_date);
+            $stmt->bindParam(5, $this->id);
 
             if ($stmt->execute()) {
                 return true;

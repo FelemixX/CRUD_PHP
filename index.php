@@ -36,7 +36,7 @@ $conn = $db->getConnection();
                                 <use xlink:href="#exclamation-triangle-fill"/>
                             </svg>
                             <div>
-                                Ошибка! Пользователя не существует
+                                Ошибка! Пользователя не существует!
                             </div>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>

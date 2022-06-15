@@ -38,7 +38,6 @@ if (isset($_POST['search'])) {
 ?>
 
 <?php require_once('../source/header.php'); ?>
-
 <div class="container">
     <h1>Список документов</h1>
     <table class="table table-hover">
@@ -47,7 +46,7 @@ if (isset($_POST['search'])) {
             <th id="Id" scope="col">ID Документа</th>
             <th id="Number" scope="col">Номер документа</th>
             <th id="Tin" scope="col">ИНН</th>
-            <th scope="col">Имя клиента</th>
+            <th scope="col">ФИО клиента</th>
             <th id="Creation_Date" scope="col">Дата создания</th>
             <?php if (isset($_SESSION["isAdmin"])): ?>
                 <th scope="col">Действие с документами</th>
@@ -59,13 +58,13 @@ if (isset($_POST['search'])) {
             <tr>
                 <td><?= $document["id"] ?></td>
                 <td><?= "№ " . $document["number"] ?></td>
-                <td><?= "№ ". $document["tin"] ?></td>
-                <td><?= $document["name"] ?></td> <!-- Имя клиента -->
+                <td><?= "№ " . $document["tin"] ?></td>
+                <td><?= $document["first_name"] . "\t" . $document["second_name"] . "\t" . $document["third_name"] ?></td> <!-- Имя клиента -->
                 <td><?= $document["creation_date"] ?></td>
                 <?php if (isset($_SESSION["isAdmin"])): ?>
                     <td>
-                        <a class="btn btn-success" href='update.php?id=<?= $document["id"] ?>'>Обновить</a>
-                        <a class="btn btn-danger" href='update.php?deleteID=<?= $document["id"] ?>'>Удалить</a>
+                        <a class="btn btn-outline-success" href='update.php?id=<?= $document["id"] ?>'>Изменить</a>
+                        <a class="btn btn-outline-danger" href='update.php?deleteID=<?= $document["id"] ?>'>Удалить</a>
                     </td>
                 <?php endif; ?>
             </tr>
@@ -79,7 +78,7 @@ if (isset($_POST['search'])) {
     <?php endif; ?>
     <form class="mb-2" method="post" action="documents_page.php">
         <br>
-        <h5>Поиск документов</h5>
+        <h5>Поиск документов по номеру</h5>
         <input class="form-control" required name="search" type="text"/>
         <br>
         <button type="submit" class="btn btn-primary">Поиск</button>

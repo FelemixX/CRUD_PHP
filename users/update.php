@@ -41,7 +41,7 @@ if (isset($_POST["id"]) && isset($_POST["name"]) && isset($_POST["login"])) {
 <?php require_once('../source/header.php'); ?>
 <div class="container">
     <form action="update.php" method="post">
-        <br>
+        <input class="invisible" name="id" value="<?= $id ?>">
         <div class="mb-3">
             <label for="user_ID" class="form-label">Пользователь</label>
             <select name="user_ID" class="form-select" aria-label="client select" id="user_ID">  <!-- Выпадашка -->
@@ -50,7 +50,6 @@ if (isset($_POST["id"]) && isset($_POST["name"]) && isset($_POST["login"])) {
                 <?php endforeach ?>
             </select>
         </div>
-        <input class="invisible" name="id" value="<?= $id ?>">
         <div class="mb-3">
             <label for="user_login" class="form-label">Логин</label>
             <input required name="user_login" type="text" class="form-control" id="user_login">

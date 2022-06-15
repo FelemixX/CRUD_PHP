@@ -55,7 +55,7 @@ if (isset($_POST['user_name']) && isset($_POST['user_login']) && isset($_POST['u
                             <use xlink:href="#exclamation-triangle-fill"/>
                         </svg>
                         <div>
-                            Ошибка! Такой пользователь уже существует
+                            Ошибка! Такой пользователь уже существует!
                         </div>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>

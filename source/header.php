@@ -90,7 +90,7 @@ session_start();
                                         </li>
                                     <?php endif; ?>
                                     <li class="nav-item">
-                                        <a class="btn btn-danger" aria-current="page"
+                                        <a class="btn btn-outline-danger" aria-current="page"
                                            href="../auth/logout.php">Выйти</a>
                                     </li>
                                 <?php endif; ?>

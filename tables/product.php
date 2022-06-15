@@ -10,9 +10,7 @@ class Product extends Main_Class
     {
         try {
             $tname = $this->table_name;
-//        $query = "INSERT INTO $tname (`p_name`,`quantity`)
-//                            VALUES(?, ?)";
-            $query = "INSERT INTO product (`p_name`, `quantity`, `document_ID`)
+            $query = "INSERT INTO $tname (`p_name`, `quantity`, `document_ID`)
                         VALUES(?, ?, ?)";
             $stmt = $this->conn->prepare($query);
 
@@ -33,7 +31,7 @@ class Product extends Main_Class
             $sort = "id";
         }
         $tname = $this->table_name;
-        $query = "SELECT pr.*, d.number FROM product AS pr 
+        $query = "SELECT pr.*, d.number FROM $tname AS pr 
                     JOIN document d on pr.document_ID = d.id
                     ORDER BY $sort";
         $stmt = $this->conn->prepare($query);

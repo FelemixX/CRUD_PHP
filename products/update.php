@@ -44,7 +44,7 @@ if (isset($_POST["id"]) && isset($_POST["p_name"]) && isset($_POST["quantity"]))
 
 <?php require_once('../source/header.php'); ?>
 <div class="container">
-    <form action="update.php" method="post">
+    <div action="update.php" method="post">
         <input class="invisible" name="id" value="<?= $id ?>">
         <div class="mb-3">
             <label for="document_ID" class="form-label">Документ</label>
@@ -54,6 +54,8 @@ if (isset($_POST["id"]) && isset($_POST["p_name"]) && isset($_POST["quantity"]))
                     <option value="<?= $item["id"] ?>" selected><?= $item["number"] ?></option>
                 <?php endforeach ?>
             </select>
+        </div>
+        <div class="mb-3">
             <label for="p_name" class="form-label">Наименование</label>
             <input required name="p_name" type="text" class="form-control" id="p_name">
         </div>
@@ -63,7 +65,7 @@ if (isset($_POST["id"]) && isset($_POST["p_name"]) && isset($_POST["quantity"]))
         </div>
         <button type="submit" class="btn btn-primary">Отправить</button>
         <a class="btn btn-danger" href="products_page.php">Отмена</a>
-    </form>
-</div>
-<?php require_once('../source/footer.php'); ?>
+        </form>
+    </div>
+    <?php require_once('../source/footer.php'); ?>
 

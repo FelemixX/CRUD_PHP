@@ -52,7 +52,6 @@ if (isset($_POST['call_proc'])) {
 ?>
 
 <?php require_once('../source/header.php'); ?>
-
 <div class="container">
     <h1>Список задолженностей</h1>
     <table class="table table-hover">
@@ -74,8 +73,8 @@ if (isset($_POST['call_proc'])) {
                 <td><?= "№ " . $debt["number"] ?></td>
                 <?php if (isset($_SESSION["isAdmin"])): ?>
                     <td>
-                        <a class="btn btn-success" href='update.php?id=<?= $debt["id"] ?>'>Обновить</a>
-                        <a class="btn btn-danger" href='update.php?deleteID=<?= $debt["id"] ?>'>Удалить</a>
+                        <a class="btn btn-outline-success" href='update.php?id=<?= $debt["id"] ?>'>Изменить</a>
+                        <a class="btn btn-outline-danger" href='update.php?deleteID=<?= $debt["id"] ?>'>Удалить</a>
                     </td>
                 <?php endif; ?>
             </tr>

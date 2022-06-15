@@ -28,7 +28,7 @@ $documents = $document->read("");
 <?php require_once('../source/header.php'); ?>
     <div class="container">
         <form action="create.php" method="post">
-            <div class="mb-3">
+            <div class="mt-3 mb-3">
                 <label for="document_ID" class="form-label">Документ</label>
                 <select name="document_ID" class="form-select" aria-label="client select" id="document_ID">
                     <!-- Выпадашка -->
@@ -36,6 +36,8 @@ $documents = $document->read("");
                         <option value="<?= $item["id"] ?>" selected><?= $item["number"] ?></option>
                     <?php endforeach ?>
                 </select>
+            </div>
+            <div class="mb-3">
                 <label for="p_name" class="form-label">Наименование</label>
                 <input required name="p_name" type="text" class="form-control" id="p_name">
             </div>

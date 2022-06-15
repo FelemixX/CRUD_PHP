@@ -20,14 +20,18 @@ if (isset($_GET["deleteID"])) {
     }
 }
 
-if (isset($_POST["id"]) && isset($_POST["birth_date"]) && isset($_POST["name"])) {
+if (isset($_POST["id"]) && isset($_POST["birth_date"]) && isset($_POST["first_name"]) && isset($_POST["second_name"]) && isset($_POST["third_name"])) {
     $postID = $_POST["id"];
     $date = $_POST["birth_date"];
-    $name = $_POST["name"];
+    $firstName = $_POST["first_name"];
+    $secondName = $_POST["second_name"];
+    $thirdName = $_POST["third_name"];
 
     require_once('../tables/client.php');
     $client = new Client($conn);
-    $client->name = $name;
+    $client->first_name = $firstName;
+    $client->second_name = $secondName;
+    $client->third_name = $thirdName;
     $client->birth_date = $date;
     $client->id = $postID;
     if ($client->update()) {
@@ -41,15 +45,25 @@ if (isset($_POST["id"]) && isset($_POST["birth_date"]) && isset($_POST["name"]))
     <form action="update.php" method="post">
         <input class="invisible" name="id" value="<?= $id ?>">
         <br>
-        <div class="mb-3">
+        <div class="mt-3 mb-3">
             <label for="client_ID" class="form-label">Клиент</label>
             <select name="client_ID" class="form-select" aria-label="client select" id="client_ID">  <!-- Выпадашка -->
                 <?php foreach ($clients as $item): ?> <!-- Выборка клиентов -->
-                    <option value="<?= $item["id"] ?>" <?php if ($id == $item["id"]) echo "selected"; ?>><?= $item["name"] ?></option>
+                    <option value="<?= $item["id"] ?>" <?php if ($id == $item["id"]) echo "selected"; ?>><?= $item["first_name"] .  "\t" . $item["second_name"] . "\t" . $item["third_name"] ?></option>
                 <?php endforeach ?>
             </select>
-            <label for="name" class="form-label">Имя</label>
-            <input required name="name" type="text" pattern="^[A-Za-zА-Яа-яЁё\s]+$" class="form-control" id="name">
+        </div>
+        <div class="mb-3">
+            <label for="first_name" class="form-label">Фамилия</label>
+            <input required name="first_name" type="text" pattern="^[A-Za-zА-Яа-яЁё\s]+$" class="form-control" id="first_name">
+        </div>
+        <div class="mb-3">
+            <label for="second_name" class="form-label">Имя</label>
+            <input required name="second_name" type="text" pattern="^[A-Za-zА-Яа-яЁё\s]+$" class="form-control" id="second_name">
+        </div>
+        <div class="mb-3">
+            <label for="hird_name" class="form-label">Отчество</label>
+            <input required name="third_name" type="text" pattern="^[A-Za-zА-Яа-яЁё\s]+$" class="form-control" id="third_name">
         </div>
         <div class="mb-3">
             <label for="birth_date" class="form-label">Дата рождения</label>

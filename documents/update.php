@@ -48,12 +48,11 @@ if (isset($_POST["id"]) && isset($_POST["number"]) && isset($_POST["creation_dat
 <?php require_once('../source/header.php'); ?>
 <div class="container">
     <form action="update.php" method="post">
-        <br>
-        <div class="mb-3">
+        <div class="mt-3">
             <label for="client_ID" class="form-label">Клиент</label>
             <select name="client_ID" class="form-select" aria-label="client select" id="client_ID">  <!-- Выпадашка -->
                 <?php foreach ($clients as $item): ?> <!-- Выборка клиентов -->
-                    <option value="<?= $item["id"] ?>" selected><?= $item["name"] ?></option>
+                    <option value="<?= $item["id"] ?>" selected><?= $item["first_name"] . "\t" . $item["second_name"] . "\t" . $item["third_name"] ?></option>
                 <?php endforeach ?>
             </select>
         </div>
