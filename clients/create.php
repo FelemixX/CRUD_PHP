@@ -35,7 +35,7 @@ if (isset($_POST["birth_date"]) && isset($_POST["first_name"]) && isset($_POST["
             <input required name="second_name" type="text" pattern="^[A-Za-zА-Яа-яЁё\s]+$" class="form-control" id="second_name">
         </div>
         <div class="mb-3">
-            <label for="hird_name" class="form-label">Отчество</label>
+            <label for="third_name" class="form-label">Отчество</label>
             <input required name="third_name" type="text" pattern="^[A-Za-zА-Яа-яЁё\s]+$" class="form-control" id="third_name">
         </div>
         <div class="mb-3">
