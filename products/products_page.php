@@ -58,7 +58,7 @@ if (isset($_POST['search'])) {
             <tr>
                 <td><?= $product["id"] ?></td>
                 <td><?= $product["p_name"] ?></td>
-                <td><?= "№ " . $product["number"] ?></td>
+                <td><?= "№\t" . $product["number"] ?></td>
                 <td><?= $product["quantity"] ?></td>
                 <?php if (isset($_SESSION["isAdmin"])): ?>
                     <td>
@@ -74,11 +74,9 @@ if (isset($_POST['search'])) {
         <a class="btn btn-primary" href='create.php'>Создать</a>
     <?php endif; ?>
     <form class="mb-2" method="post" action="products_page.php">
-        <br>
-        <h5>Поиск товаров</h5>
+        <h5 class="mt-3">Поиск товаров по наименованию</h5>
         <input class="form-control" required name="search" type="text"/>
-        <br>
-        <button type="submit" class="btn btn-primary">Поиск</button>
+        <button type="submit" class="mt-3 btn btn-primary">Поиск</button>
     </form>
     <?php if (isset($_POST['search'])): ?>
         <?php if (empty($array)): ?>

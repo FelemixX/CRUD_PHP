@@ -48,7 +48,7 @@ $clients = $client->read("");
         </div>
         <div class="mb-3">
             <label for="tin" class="form-label">ИНН</label>
-            <input required name="tin" type="number" class="form-control" oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="15" id="tin">
+            <input required name="tin" type="number" class="form-control" oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="12" id="tin">
         </div>
         <div class="mb-3">
             <label for="creation_date" class="form-label">Дата создания</label>

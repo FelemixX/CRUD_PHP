@@ -75,9 +75,9 @@ if (isset($_POST['search'])) {
         <a class="btn btn-primary" href='create.php'>Создать</a>
     <?php endif; ?>
     <form class="mb-2" method="post" action="clients_page.php">
-         <h5 class="mt-3">Поиск клиентов по фамилии</h5>
+         <h5 class="mt-3">Поиск клиентов по ФИО</h5>
         <input class="form-control" required name="search" type="text"/>
-        <button type="submit" class="btn btn-primary mt-2">Поиск</button>
+        <button type="submit" class="mt-3 btn btn-primary">Поиск</button>
     </form>
     <?php if (isset($_POST['search'])): ?>
         <?php if (empty($array)): ?>
