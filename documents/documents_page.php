@@ -43,7 +43,7 @@ if (isset($_POST['search'])) {
         <thead>
         <tr>
             <th id="Id" scope="col">ID Документа</th>
-            <th id="Number" scope="col">Серия и номер паспорта</th>
+            <th id="Number" scope="col">Номер документа</th>
             <th id="Tin" scope="col">ИНН</th>
             <th scope="col">ФИО клиента</th>
             <th id="Creation_Date" scope="col">Дата создания</th>
@@ -56,8 +56,8 @@ if (isset($_POST['search'])) {
         <?php foreach ($readDocuments as $document): ?>
             <tr>
                 <td><?= $document["id"] ?></td>
-                <td><?= "№ " . $document["number"] ?></td>
-                <td><?= "№ " . $document["tin"] ?></td>
+                <td><?= "№\t" . $document["number"] ?></td>
+                <td><?= "№\t" . $document["tin"] ?></td>
                 <td><?= $document["first_name"] . "\t" . $document["second_name"] . "\t" . $document["third_name"] ?></td> <!-- Имя клиента -->
                 <td><?= $document["creation_date"] ?></td>
                 <?php if (isset($_SESSION["isAdmin"])): ?>
@@ -76,11 +76,9 @@ if (isset($_POST['search'])) {
         </form>
     <?php endif; ?>
     <form class="mb-2" method="post" action="documents_page.php">
-        <br>
-        <h5>Поиск по паспортам</h5>
+        <h5 class="mt-3">Поиск документов по номеру</h5>
         <input class="form-control" required name="search" type="text"/>
-        <br>
-        <button type="submit" class="btn btn-primary">Поиск</button>
+        <button type="submit" class="mt-3 btn btn-primary">Поиск</button>
     </form>
     <?php if (isset($_POST['search'])): ?>
         <?php if (empty($array)): ?>

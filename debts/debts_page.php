@@ -70,7 +70,7 @@ if (isset($_POST['call_proc'])) {
             <tr>
                 <td><?= $debt["id"] ?></td>
                 <td><?= $debt["debt"] . " руб." ?></td>
-                <td><?= "№ " . $debt["number"] ?></td>
+                <td><?= "№\t" . $debt["number"] ?></td>
                 <?php if (isset($_SESSION["isAdmin"])): ?>
                     <td>
                         <a class="btn btn-outline-success" href='update.php?id=<?= $debt["id"] ?>'>Изменить</a>
@@ -119,11 +119,9 @@ if (isset($_POST['call_proc'])) {
         <?php endif; ?>
     <?php endif; ?>
     <form method="post" action="debts_page.php">
-        <br>
-        <h5>Поиск задолженностей</h5>
+        <h5 class="mt-3">Поиск задолженностей</h5>
         <input class="form-control" required name="search" type="text"/>
-        <br>
-        <button type="submit" class="btn btn-primary">Поиск</button>
+        <button type="submit" class="mt-3 btn btn-primary">Поиск</button>
     </form>
     <?php if (isset($_POST['search'])): ?>
         <?php if (empty($array)): ?>

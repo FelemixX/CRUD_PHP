@@ -8,20 +8,26 @@ class Document extends Main_Class
 
     function create()
     {
-        try {
-            $tname = $this->table_name;
-            $query = "INSERT INTO document (`tin`, `number`, `creation_date`, `client_ID`)
+        if ($this->checkStatus()) {
+            try {
+                $tname = $this->table_name;
+                $query = "INSERT INTO $tname (`tin`, `number`, `creation_date`, `client_ID`)
                         VALUES(?, ?, ?, ?)";
-            $stmt = $this->conn->prepare($query);
+                $stmt = $this->conn->prepare($query);
 
-            if ($stmt->execute([$this->tin, $this->number, $this->creation_date, $this->client_ID])) {
-                return true;
-            } else {
-                return false;
+                if ($stmt->execute([$this->tin, $this->number, $this->creation_date, $this->client_ID])) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (Exception $error) {
+                $caughtError = $error->getMessage();
+                //echo "Что-то пошло не так, обновите страницу и попробуйте еще раз";
+                echo "Ошибка при создании документа";
             }
-        } catch (Exception $error) {
-            $caughtError = $error->getMessage();
-            echo "Что-то пошло не так, обновите страницу и попробуйте еще раз";
+        } else {
+            header("Location ../source/wrong_TIN.php");
+            return false;
         }
     }
 
@@ -31,7 +37,7 @@ class Document extends Main_Class
             $sort = "id";
         }
         $tname = $this->table_name;
-        $query = "SELECT dc.*, cl.first_name, cl.second_name, cl.third_name FROM document AS dc
+        $query = "SELECT dc.*, cl.first_name, cl.second_name, cl.third_name FROM $tname AS dc
                     JOIN client cl on dc.client_ID = cl.id
                     ORDER BY $sort";
         $stmt = $this->conn->prepare($query);
@@ -68,48 +74,46 @@ class Document extends Main_Class
         }
     }
 
-    function checkTax()
+    /*
+ * Если введен верный ИНН, то возвращается (в данном случае)
+ * ассоциативный массив.
+ * Если ИНН неверный, то в ответ ничего не приходит.
+ * Если ничего не пришло, то возвращаем 0, иначе 1.
+ * Функция проверяет наличие работы у человека, используя ИНН
+ * Независимо от трудоустройства человека, при верном ИНН
+ * В ответ вернет массив.
+    */
+
+    function checkStatus()
     {
-//        $get = [
-//            'fam' => $secondName,
-//            'nam' => $firstName,
-//            'otch' => $thirdName,
-//            'bdate' => $birth_date,
-//            'doctype' => '21',
-//            'docno' => $passportNum,
-//            'key' => 'b2002f5294bcf07fb03109b82771c54875f2f55b'
-//        ];
-//    $get = [
-//        'fam' => 'Мищинков',
-//        'nam' => 'Александр',
-//        'otch' => 'Григорьевич',
-//        'bdate' => '22.11.2001',
-//        'doctype' => '21',
-//        'docno' => '1821834393',
-//        'key' => 'b2002f5294bcf07fb03109b82771c54875f2f55b'
-//    ];
-//        $str = "";
-//        foreach ($get as $index => $data) {
-//            $str .= $index . "=" . $data . "&";
-//        }
-//        $str = substr_replace($str, "", -1);
-//        $ch = curl_init('https://api-fns.ru/api/innfl?' . $str);
-//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-//        curl_setopt($ch, CURLOPT_HEADER, false);
-//        $response = curl_exec($ch);
-//        curl_close($ch);
-//        echo '<pre>' . __FILE__ . ':' . __LINE__ . ':<br>' . print_r($response, true) . '</pre>';
-//        if(isset($response)){
-//
-//        } else {
-//            echo "sth wrong";
-//        }
+        $date = null;
+        $inn = $this->tin;
+        if (!$date) {
+            $date = new DateTime("now");;
+        }
+        $dateStr = $date->format("Y-m-d");
+        $url = "https://statusnpd.nalog.ru/api/v1/tracker/taxpayer_status";
+        $data = [
+            "inn" => $inn,
+            "requestDate" => $dateStr
+        ];
+        $options = [
+            'http' => [
+                'method' => 'POST',
+                'header' => [
+                    'Content-type: application/json',
+                ],
+                'content' => json_encode($data)
+            ],
+        ];
+
+        $context = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+        $result = json_decode($result, true);
+        if (isset($result)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
-//вывод
-//C:\Users\bythe\Desktop\CRUD2_PHP\tin_query.php:33:
-//{"items":[],"error":"Информация об ИНН не найдена. Рекомендуем проверить правильность введённых данных и повторить попытку поиска."}
-//
-//C:\Users\bythe\Desktop\CRUD2_PHP\tin_query.php:33:
-//{"items":[{"ИНН":"301302268406"}]}
