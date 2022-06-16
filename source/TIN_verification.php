@@ -32,7 +32,6 @@ function checkStatus($inn, $date = null)
         $context = stream_context_create($options);
         $result = file_get_contents($url, false, $context);
         $result = json_decode($result, true);
-        echo '<pre>' . __FILE__ . ':' . __LINE__ . ':<br>' . print_r($result, true) . '</pre>';
         if (isset($result)) {
             return true;
         } else {

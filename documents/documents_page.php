@@ -3,7 +3,7 @@ session_start();
 if (!isset($_SESSION["usedId"])) {
     header("Location: /index.php/");
 }
-require_once('../source/Database.php');
+require_once('../config/Database.php');
 $db = new Database();
 $conn = $db->getConnection();
 
@@ -44,8 +44,8 @@ if (isset($_POST['search'])) {
         <tr>
             <th id="Id" scope="col">ID Документа</th>
             <th id="Number" scope="col">Номер документа</th>
-            <th id="Tin" scope="col">ИНН</th>
-            <th scope="col">ФИО клиента</th>
+            <th scope="col">ФИО</th>
+            <th scope="col">ИНН</th>
             <th id="Creation_Date" scope="col">Дата создания</th>
             <?php if (isset($_SESSION["isAdmin"])): ?>
                 <th scope="col">Действие с документами</th>
@@ -57,8 +57,8 @@ if (isset($_POST['search'])) {
             <tr>
                 <td><?= $document["id"] ?></td>
                 <td><?= "№\t" . $document["number"] ?></td>
-                <td><?= "№\t" . $document["tin"] ?></td>
                 <td><?= $document["first_name"] . "\t" . $document["second_name"] . "\t" . $document["third_name"] ?></td> <!-- Имя клиента -->
+                <td><?= $document["tin"] ?></td>
                 <td><?= $document["creation_date"] ?></td>
                 <?php if (isset($_SESSION["isAdmin"])): ?>
                     <td>

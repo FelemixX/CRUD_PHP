@@ -1,5 +1,5 @@
 <?php
-require_once('../source/Database.php');
+require_once('../config/Database.php');
 $db = new Database();
 $conn = $db->getConnection();
 
@@ -23,16 +23,14 @@ if (isset($_GET["deleteID"])) {
     }
 }
 
-if (isset($_POST["id"]) && isset($_POST["number"]) && isset($_POST["creation_date"]) && isset($_POST["client_ID"]) && isset($_POST["tin"])) {
+if (isset($_POST["id"]) && isset($_POST["number"]) && isset($_POST["creation_date"]) && isset($_POST["client_ID"])) {
     $postID = $_POST["id"];
     $docNumber = $_POST["number"];
-    $creationDate = $_POST["creation_date"];
-    $docTin = $_POST["tin"];
+    $creationDate = $_POST["creation_date"];;
     $client = $_POST["client_ID"];
 
     require_once('../tables/document.php');
     $document = new Document($conn);
-    $document->tin = $docTin;
     $document->number = $docNumber;
     $document->creation_date = $creationDate;
     $document->id = $postID;
@@ -58,12 +56,8 @@ if (isset($_POST["id"]) && isset($_POST["number"]) && isset($_POST["creation_dat
         </div>
         <input class="invisible" name="id" value="<?= $id ?>">
         <div class="mb-3">
-            <label for="number" class="form-label">Серия и номер паспорта</label>
+            <label for="number" class="form-label">Номер документа</label>
             <input required name="number" type="number" class="form-control" id="number">
-        </div>
-        <div class="mb-3">
-            <label for="tin" class="form-label">ИНН</label>
-            <input required name="tin" type="number" class="form-control" oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="15" id="tin">
         </div>
         <div class="mb-3">
             <label for="creation_date" class="form-label">Дата создания</label>

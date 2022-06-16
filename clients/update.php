@@ -1,18 +1,18 @@
 <?php
-require_once('../source/Database.php');
+require_once('../config/Database.php');
+require_once('../tables/client.php');
+
 $db = new Database();
 $conn = $db->getConnection();
 
 if (isset($_GET["id"])) {
     $id = $_GET["id"];
-    require_once('../tables/client.php');
     $client = new Client($conn); //Вывод клиентов для выпадашки
     $clients = $client->read("");
 }
 
 if (isset($_GET["deleteID"])) {
     $deleteID = $_GET["deleteID"];
-    require_once('../tables/client.php');
     $client = new Client($conn);
     $client->id = $deleteID;
     if ($client->delete()) {
@@ -20,19 +20,20 @@ if (isset($_GET["deleteID"])) {
     }
 }
 
-if (isset($_POST["id"]) && isset($_POST["birth_date"]) && isset($_POST["first_name"]) && isset($_POST["second_name"]) && isset($_POST["third_name"])) {
+if (isset($_POST["id"]) && isset($_POST["birth_date"]) && isset($_POST["first_name"]) && isset($_POST["second_name"]) && isset($_POST["third_name"]) && isset($_POST["tin"])) {
     $postID = $_POST["id"];
-    $date = $_POST["birth_date"];
     $firstName = $_POST["first_name"];
     $secondName = $_POST["second_name"];
     $thirdName = $_POST["third_name"];
+    $date = $_POST["birth_date"];
+    $tin = $_POST["tin"];
 
-    require_once('../tables/client.php');
     $client = new Client($conn);
     $client->first_name = $firstName;
     $client->second_name = $secondName;
     $client->third_name = $thirdName;
     $client->birth_date = $date;
+    $client->tin = $tin;
     $client->id = $postID;
     if ($client->update()) {
         header("Location: clients_page.php");
@@ -64,6 +65,10 @@ if (isset($_POST["id"]) && isset($_POST["birth_date"]) && isset($_POST["first_na
         <div class="mb-3">
             <label for="hird_name" class="form-label">Отчество</label>
             <input required name="third_name" type="text" pattern="^[A-Za-zА-Яа-яЁё\s]+$" class="form-control" id="third_name">
+        </div>
+        <div class="mb-3">
+            <label for="tin" class="form-label">ИНН</label>
+            <input required name="tin" type="number" class="form-control" oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="12" id="tin">
         </div>
         <div class="mb-3">
             <label for="birth_date" class="form-label">Дата рождения</label>
