@@ -70,7 +70,7 @@ if (isset($_POST['search'])) {
     </table>
     <form class="mb-2" method="post" action="users_page.php">
         <br>
-        <h5>Поиск пользователей</h5>
+        <h5>Поиск пользователей по имени</h5>
         <input class="form-control" required name="search" type="text"/>
         <br>
         <button type="submit" class="btn btn-primary">Поиск</button>
