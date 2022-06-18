@@ -66,6 +66,19 @@ if (isset($_POST["birth_date"]) && isset($_POST["first_name"]) && isset($_POST["
             </div>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+    <?php else: ?>
+        <?php if (isset($_SERVER["err"])): ?>
+            <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show mt-3"
+                 role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+                    <use xlink:href="#exclamation-triangle-fill"/>
+                </svg>
+                <div>
+                    Ошибка! Проверьте данные и попробуйте еще раз.
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
     <?php endif; ?>
     <?php require_once('../source/footer.php'); ?>
 </div>

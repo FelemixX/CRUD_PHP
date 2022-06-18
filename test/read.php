@@ -76,12 +76,10 @@ $readClients = $client->read("");
                             data: {
                                 updateData: ddata,
                             },
-                            success: function(data){
-                                if (data.success === true) {
-                                    location.reload();
-                                }
+                            success: function(){
+
                             }
-                        });
+                        }); //301302268406
                     })
                 }
             });

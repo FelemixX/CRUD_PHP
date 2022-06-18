@@ -21,8 +21,7 @@ class Client extends Main_Class
                     return false;
                 }
             } catch (Exception $error) {
-                $caughtError = $error->getMessage();
-                echo "Что-то пошло не так, обновите страницу и попробуйте еще раз";
+                $_SERVER["err"] = true;
             }
         } else {
             $_SERVER["wrongTIN"] = true;

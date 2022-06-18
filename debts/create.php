@@ -38,7 +38,18 @@ $documents = $doc->read("");
         </div>
         <button type="submit" class="btn btn-primary">Отправить</button>
         <a class="btn btn-danger" href="debts_page.php">Отмена</a>
-    </form>
+    </form><?php if (isset($_SERVER["err"])): ?>
+        <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show mt-3"
+             role="alert">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+                <use xlink:href="#exclamation-triangle-fill"/>
+            </svg>
+            <div>
+                Ошибка! Проверьте данные и попробуйте еще раз.
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
     <?php require_once('../source/footer.php'); ?>
 </div>
 

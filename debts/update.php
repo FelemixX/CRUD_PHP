@@ -58,6 +58,15 @@ if (isset($_POST["document_ID"]) && isset($_POST["id"]) && isset($_POST["debt"])
         <button type="submit" class="btn btn-primary">Отправить</button>
         <a class="btn btn-danger" href="debts_page.php">Отмена</a>
     </form>
+    <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show mt-3"
+         role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+            <use xlink:href="#exclamation-triangle-fill"/>
+        </svg>
+        <div>
+            Ошибка! Проверьте данные и попробуйте еще раз.
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <?php require_once('../source/footer.php'); ?>
 </div>
-<?php require_once('../source/footer.php'); ?>
-

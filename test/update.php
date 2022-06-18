@@ -26,7 +26,7 @@ if (isset($updateData)) {
     $client->tin = $tin;
     $client->id = $postID;
     if ($client->update()) {
-        header("Location: view.php");
+//        header("Location: view.php");
     }
 }
 
