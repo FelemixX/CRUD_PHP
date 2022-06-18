@@ -8,7 +8,7 @@ class Client extends Main_Class
 
     function create()
     {
-        if($this->checkStatus()) {
+        if ($this->checkStatus()) {
             try {
                 $tname = $this->table_name;
                 $query = "INSERT INTO $tname (`first_name`, `second_name`, `third_name`, `birth_date`, `tin`)
@@ -25,8 +25,7 @@ class Client extends Main_Class
                 echo "Что-то пошло не так, обновите страницу и попробуйте еще раз";
             }
         } else {
-            header("Location: ../source/wrong_TIN.php");
-            $_POST["wrongCreate"] = true;
+            $_SERVER["wrongTIN"] = true;
         }
     }
 
@@ -48,7 +47,7 @@ class Client extends Main_Class
     function update()
     {
         $tname = $this->table_name;
-        if ($this->checkStatus()) {
+        if ($this->checkStatus() && empty($_POST["tinNotFound"])) {
             try {
                 $query = "UPDATE 
                         " . $tname . "  
@@ -75,7 +74,8 @@ class Client extends Main_Class
                 echo "Что-то пошло не так, обновите страницу и попробуйте еще раз";
             }
         } else {
-            header("Location: ../source/wrong_TIN.php");
+            $_SERVER["wrongTIN"] = true;
+            //header("Location: ../source/wrong_TIN.php");
         }
     }
 
@@ -113,7 +113,7 @@ class Client extends Main_Class
         ];
 
         $context = stream_context_create($options);
-        $result = file_get_contents($url, false, $context);
+        $result = @file_get_contents($url, false, $context);
         $result = json_decode($result, true);
         if (isset($result)) {
             return true;

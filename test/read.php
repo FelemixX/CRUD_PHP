@@ -57,7 +57,7 @@ $readClients = $client->read("");
                     id: updateId,
                 },
                 success: function (data) {
-                    modalBody.html(data); //updateID - ID клиента которого обновляем
+                    modalBody.html(data);
 
                     let saveBtn = $("#save" + updateId);
                     let ddata = {};
@@ -69,7 +69,6 @@ $readClients = $client->read("");
                                 ddata[$(this).attr('name')] = $(this).val()
                             }
                         });
-                        console.log(ddata);
                         $.ajax({
                             type: 'POST',
                             url: 'update.php',
@@ -77,7 +76,10 @@ $readClients = $client->read("");
                             data: {
                                 updateData: ddata,
                             },
-                            success: function () {
+                            success: function(data){
+                                if (data.success === true) {
+                                    location.reload();
+                                }
                             }
                         });
                     })

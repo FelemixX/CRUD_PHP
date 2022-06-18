@@ -14,6 +14,7 @@ if (isset($_GET['user_query'])) {
             $queryToExec = $conn->prepare($query);
             $queryToExec->execute();
             $queryToExec = $queryToExec->fetchAll(PDO::FETCH_ASSOC);
+            echo '<pre>' . __FILE__ . ':' . __LINE__ . ':<br>' . print_r($queryToExec, true) . '</pre>';
         }
         //Т.к. во всех запросах кроме SELECT и всего что с ним связано нет смысла отображать таблицу
         //А количество столбцов, к которым применен запрос
