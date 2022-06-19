@@ -1,15 +1,12 @@
 <?php
+require_once('../config/Database.php');
+$db = new Database();
+$conn = $db->getConnection();
 session_start();
 if (!isset($_SESSION["usedId"])) {
     header("Location: /index.php/");
 }
-$config = require_once('../source/config.php');
-$conn = null;
-try {
-    $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-} catch (PDOException $exception) {
-    echo "Ошибка подключения к БД!: " . $exception->getMessage();
-}
+
 require_once('../tables/product.php');
 $products = new Product($conn);
 
@@ -61,12 +58,12 @@ if (isset($_POST['search'])) {
             <tr>
                 <td><?= $product["id"] ?></td>
                 <td><?= $product["p_name"] ?></td>
-                <td><?= "№ " . $product["number"] ?></td>
+                <td><?= "№\t" . $product["number"] ?></td>
                 <td><?= $product["quantity"] ?></td>
                 <?php if (isset($_SESSION["isAdmin"])): ?>
                     <td>
-                        <a class="btn btn-success" href='update.php?id=<?= $product["id"] ?>'>Обновить</a>
-                        <a class="btn btn-danger" href='update.php?deleteID=<?= $product["id"] ?>'>Удалить</a>
+                        <a class="btn btn-outline-success" href='update.php?id=<?= $product["id"] ?>'>Изменить</a>
+                        <a class="btn btn-outline-danger" href='update.php?deleteID=<?= $product["id"] ?>'>Удалить</a>
                     </td>
                 <?php endif; ?>
             </tr>
@@ -77,15 +74,22 @@ if (isset($_POST['search'])) {
         <a class="btn btn-primary" href='create.php'>Создать</a>
     <?php endif; ?>
     <form class="mb-2" method="post" action="products_page.php">
-        <br>
-        <h5>Поиск товаров</h5>
+        <h5 class="mt-3">Поиск товаров по наименованию</h5>
         <input class="form-control" required name="search" type="text"/>
-        <br>
-        <button type="submit" class="btn btn-primary">Поиск</button>
+        <button type="submit" class="mt-3 btn btn-primary">Поиск</button>
     </form>
     <?php if (isset($_POST['search'])): ?>
         <?php if (empty($array)): ?>
-            <p>Ничего не найдено</p>
+            <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show mt-3"
+                 role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+                    <use xlink:href="#exclamation-triangle-fill"/>
+                </svg>
+                <div>
+                    Ошибка! Ничего не найдено.
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         <?php else: ?>
             <table class="table table-hover">
                 <thead>

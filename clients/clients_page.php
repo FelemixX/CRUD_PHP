@@ -3,15 +3,13 @@ session_start();
 if (!isset($_SESSION["usedId"])) {
     header("Location: /index.php/");
 }
-$config = require_once('../source/config.php');
-$conn = null;
-try {
-    $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-} catch (PDOException $exception) {
-    echo "Ошибка подключения к БД!: " . $exception->getMessage();
-}
+
 require_once('../tables/client.php');
+require_once('../config/Database.php');
+$db = new Database();
+$conn = $db->getConnection();
 $clients = new Client($conn);
+
 //сортировка
 $query = " ";
 foreach ($_GET as $index => $item) {
@@ -29,26 +27,25 @@ if (isset($_POST['search'])) {
     $query = trim($query);
     $query = htmlspecialchars($query);
     $result = $conn->prepare("SELECT * FROM client
-                    WHERE (`name` LIKE '%" . $query . "%')");
+                    WHERE (`first_name` LIKE '%" . $query . "%')");
     $result->execute();
     while ($row = $result->fetch(PDO::FETCH_BOTH)) {
         $id = array_shift($row);
-        $array[$id] = array($row[0], $row[1], $row[2]);//0,1,2
+        $array[$id] = array($row[0], $row[1], $row[2], $row[3], $row[4]);
     }
 }
-
 ?>
 
-
 <?php require_once('../source/header.php'); ?>
-
 <div class="container">
     <h1>Список клиентов</h1>
     <table class="table table-hover">
         <thead>
         <tr>
             <th id="Id" scope="col">ID Клиента</th>
-            <th id="Name" scope="col">Имя</th>
+            <th id="First_Name" scope="col">Фамилия</th>
+            <th id="Second_Name" scope="col">Имя</th>
+            <th id="Third_Name" scope="col">Отчество</th>
             <th id="Date" scope="col">Дата рождения</th>
             <?php if (isset($_SESSION["isAdmin"])): ?>
                 <th scope="col">Действие с клиентами</th>
@@ -59,12 +56,14 @@ if (isset($_POST['search'])) {
         <?php foreach ($readClients as $client): ?>
             <tr>
                 <td><?= $client["id"] ?></td>
-                <td><?= $client["name"] ?></td>
+                <td><?= $client["first_name"] ?></td>
+                <td><?= $client["second_name"] ?></td>
+                <td><?= $client["third_name"] ?></td>
                 <td><?= $client["birth_date"] ?></td>
                 <?php if (isset($_SESSION["isAdmin"])): ?>
                     <td>
-                        <a class="btn btn-success" href='update.php?id=<?= $client["id"] ?>'>Обновить</a>
-                        <a class="btn btn-danger" href='update.php?deleteID=<?= $client["id"] ?>'>Удалить</a>
+                        <a class="btn btn-outline-success" href='update.php?id=<?= $client["id"] ?>'>Изменить</a>
+                        <a class="btn btn-outline-danger" href='update.php?deleteID=<?= $client["id"] ?>'>Удалить</a>
                     </td>
                 <?php endif; ?>
             </tr>
@@ -75,21 +74,31 @@ if (isset($_POST['search'])) {
         <a class="btn btn-primary" href='create.php'>Создать</a>
     <?php endif; ?>
     <form class="mb-2" method="post" action="clients_page.php">
-        <br> <h5>Поиск клиентов</h5>
+         <h5 class="mt-3">Поиск клиентов по ФИО</h5>
         <input class="form-control" required name="search" type="text"/>
-        <br>
-        <button type="submit" class="btn btn-primary">Поиск</button>
+        <button type="submit" class="mt-3 btn btn-primary">Поиск</button>
     </form>
     <?php if (isset($_POST['search'])): ?>
         <?php if (empty($array)): ?>
-            <p>Ничего не найдено</p>
+            <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show mt-3"
+                 role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+                    <use xlink:href="#exclamation-triangle-fill"/>
+                </svg>
+                <div>
+                    Ошибка! Ничего не найдено.
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         <?php else: ?>
             <table class="table table-hover">
                 <thead>
                 <h2>Найденные совпадения</h2>
                 <tr>
                     <th scope="col">ID Клиента</th>
+                    <th scope="col">Фамилия</th>
                     <th scope="col">Имя</th>
+                    <th scope="col">Отчество</th>
                     <th scope="col">Дата рождения</th>
                 </tr>
                 </thead>
@@ -99,6 +108,8 @@ if (isset($_POST['search'])) {
                         <td><?= $result["0"] ?></td>
                         <td><?= $result["1"] ?></td>
                         <td><?= $result["2"] ?></td>
+                        <td><?= $result["3"] ?></td>
+                        <td><?= $result["4"] ?></td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
@@ -106,12 +117,13 @@ if (isset($_POST['search'])) {
         <?php endif; ?>
     <?php endif; ?>
 </div>
-
 <?php require_once('../source/footer.php'); ?>
 <!-- Сортировка -->
 <script type="text/javascript">
     let sortId = document.getElementById("Id");
-    let sortName = document.getElementById("Name");
+    let sortFName = document.getElementById("First_Name");
+    let sortSName = document.getElementById("Second_Name");
+    let sortTName = document.getElementById("Third_Name");
     let sortDate = document.getElementById("Date");
     let url = new URL(location.href);
 
@@ -128,15 +140,41 @@ if (isset($_POST['search'])) {
         console.log(url);
         window.location.replace(url);
     }
-    sortName.onclick = function (e) {
-        if (url.searchParams.has("name")) {
-            if (url.searchParams.get("name") === "asc") {
-                url.searchParams.set("name", "desc");
+    sortFName.onclick = function (e) {
+        if (url.searchParams.has("first_name")) {
+            if (url.searchParams.get("first_name") === "asc") {
+                url.searchParams.set("first_name", "desc");
             } else {
-                url.searchParams.delete("name");
+                url.searchParams.delete("first_name");
             }
         } else {
-            url.searchParams.append("name", "asc");
+            url.searchParams.append("first_name", "asc");
+        }
+        console.log(url);
+        window.location.replace(url);
+    }
+    sortSName.onclick = function (e) {
+        if (url.searchParams.has("second_name")) {
+            if (url.searchParams.get("second_name") === "asc") {
+                url.searchParams.set("second_name", "desc");
+            } else {
+                url.searchParams.delete("second_name");
+            }
+        } else {
+            url.searchParams.append("second_name", "asc");
+        }
+        console.log(url);
+        window.location.replace(url);
+    }
+    sortTName.onclick = function (e) {
+        if (url.searchParams.has("third_name")) {
+            if (url.searchParams.get("third_name") === "asc") {
+                url.searchParams.set("third_name", "desc");
+            } else {
+                url.searchParams.delete("third_name");
+            }
+        } else {
+            url.searchParams.append("third_name", "asc");
         }
         console.log(url);
         window.location.replace(url);
@@ -154,4 +192,5 @@ if (isset($_POST['search'])) {
         console.log(url);
         window.location.replace(url);
     }
+
 </script>

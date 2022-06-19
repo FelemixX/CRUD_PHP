@@ -3,13 +3,9 @@ session_start();
 if (!isset($_SESSION["usedId"])) {
     header("Location: /index.php/");
 }
-$config = require_once('../source/config.php');
-$conn = null;
-try {
-    $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-} catch (PDOException $exception) {
-    echo "Ошибка подключения к БД!: " . $exception->getMessage();
-}
+require_once('../config/Database.php');
+$db = new Database();
+$conn = $db->getConnection();
 
 require_once('../tables/document.php');
 $documents = new Document($conn);
@@ -41,7 +37,6 @@ if (isset($_POST['search'])) {
 ?>
 
 <?php require_once('../source/header.php'); ?>
-
 <div class="container">
     <h1>Список документов</h1>
     <table class="table table-hover">
@@ -49,7 +44,8 @@ if (isset($_POST['search'])) {
         <tr>
             <th id="Id" scope="col">ID Документа</th>
             <th id="Number" scope="col">Номер документа</th>
-            <th scope="col">Имя клиента</th>
+            <th scope="col">ФИО</th>
+            <th scope="col">ИНН</th>
             <th id="Creation_Date" scope="col">Дата создания</th>
             <?php if (isset($_SESSION["isAdmin"])): ?>
                 <th scope="col">Действие с документами</th>
@@ -60,13 +56,14 @@ if (isset($_POST['search'])) {
         <?php foreach ($readDocuments as $document): ?>
             <tr>
                 <td><?= $document["id"] ?></td>
-                <td><?= "№ " . $document["number"] ?></td>
-                <td><?= $document["name"] ?></td> <!-- Имя клиента -->
+                <td><?= "№\t" . $document["number"] ?></td>
+                <td><?= $document["first_name"] . "\t" . $document["second_name"] . "\t" . $document["third_name"] ?></td> <!-- Имя клиента -->
+                <td><?= $document["tin"] ?></td>
                 <td><?= $document["creation_date"] ?></td>
                 <?php if (isset($_SESSION["isAdmin"])): ?>
                     <td>
-                        <a class="btn btn-success" href='update.php?id=<?= $document["id"] ?>'>Обновить</a>
-                        <a class="btn btn-danger" href='update.php?deleteID=<?= $document["id"] ?>'>Удалить</a>
+                        <a class="btn btn-outline-success" href='update.php?id=<?= $document["id"] ?>'>Изменить</a>
+                        <a class="btn btn-outline-danger" href='update.php?deleteID=<?= $document["id"] ?>'>Удалить</a>
                     </td>
                 <?php endif; ?>
             </tr>
@@ -79,15 +76,22 @@ if (isset($_POST['search'])) {
         </form>
     <?php endif; ?>
     <form class="mb-2" method="post" action="documents_page.php">
-        <br>
-        <h5>Поиск документов</h5>
-        <input class="form-control" required name="search" type="text"/>
-        <br>
-        <button type="submit" class="btn btn-primary">Поиск</button>
+        <h5 class="mt-3">Поиск документов по номеру</h5>
+        <input class="form-control" required name="search" type="number"/>
+        <button type="submit" class="mt-3 btn btn-primary">Поиск</button>
     </form>
     <?php if (isset($_POST['search'])): ?>
         <?php if (empty($array)): ?>
-            <p>Ничего не найдено</p>
+            <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show mt-3"
+                 role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+                    <use xlink:href="#exclamation-triangle-fill"/>
+                </svg>
+                <div>
+                    Ошибка! Ничего не найдено.
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         <?php else: ?>
             <table class="table table-hover">
                 <thead>

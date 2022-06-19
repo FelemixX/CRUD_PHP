@@ -3,13 +3,11 @@ session_start();
 if (!isset($_SESSION["usedId"])) {
     header("Location: /index.php/");
 }
-$config = require_once('../source/config.php');
-$conn = null;
-try {
-    $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-} catch (PDOException $exception) {
-    echo "Ошибка подключения к БД!: " . $exception->getMessage();
-}
+require_once('../config/Database.php');
+$db = new Database();
+$conn = $db->getConnection();
+
+
 require_once('../tables/debt.php');
 $debts = new Debt($conn);
 
@@ -54,7 +52,6 @@ if (isset($_POST['call_proc'])) {
 ?>
 
 <?php require_once('../source/header.php'); ?>
-
 <div class="container">
     <h1>Список задолженностей</h1>
     <table class="table table-hover">
@@ -73,11 +70,11 @@ if (isset($_POST['call_proc'])) {
             <tr>
                 <td><?= $debt["id"] ?></td>
                 <td><?= $debt["debt"] . " руб." ?></td>
-                <td><?= "№ " . $debt["number"] ?></td>
+                <td><?= "№\t" . $debt["number"] ?></td>
                 <?php if (isset($_SESSION["isAdmin"])): ?>
                     <td>
-                        <a class="btn btn-success" href='update.php?id=<?= $debt["id"] ?>'>Обновить</a>
-                        <a class="btn btn-danger" href='update.php?deleteID=<?= $debt["id"] ?>'>Удалить</a>
+                        <a class="btn btn-outline-success" href='update.php?id=<?= $debt["id"] ?>'>Изменить</a>
+                        <a class="btn btn-outline-danger" href='update.php?deleteID=<?= $debt["id"] ?>'>Удалить</a>
                     </td>
                 <?php endif; ?>
             </tr>
@@ -99,7 +96,16 @@ if (isset($_POST['call_proc'])) {
     <?php endif; ?>
     <?php if (isset($_POST['show_logs'])): ?>
         <?php if (empty($logs)): ?>
-            <p>Нет логированной информации</p>
+            <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show mt-3"
+                 role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+                    <use xlink:href="#exclamation-triangle-fill"/>
+                </svg>
+                <div>
+                    Ошибка! Нет логированной информации.
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         <?php else: ?>
             <table class="table table-hover">
                 <thead>
@@ -122,15 +128,22 @@ if (isset($_POST['call_proc'])) {
         <?php endif; ?>
     <?php endif; ?>
     <form method="post" action="debts_page.php">
-        <br>
-        <h5>Поиск задолженностей</h5>
-        <input class="form-control" required name="search" type="text"/>
-        <br>
-        <button type="submit" class="btn btn-primary">Поиск</button>
+        <h5 class="mt-3">Поиск задолженностей по сумме</h5>
+        <input class="form-control" required name="search" type="number"/>
+        <button type="submit" class="mt-3 btn btn-primary">Поиск</button>
     </form>
     <?php if (isset($_POST['search'])): ?>
         <?php if (empty($array)): ?>
-            <p>Ничего не найдено</p>
+            <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show mt-3"
+                 role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+                    <use xlink:href="#exclamation-triangle-fill"/>
+                </svg>
+                <div>
+                    Ошибка! Ничего не найдено.
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         <?php else: ?>
             <table class="table table-hover">
                 <thead>
@@ -185,3 +198,4 @@ if (isset($_POST['call_proc'])) {
         window.location.replace(url);
     }
 </script>
+

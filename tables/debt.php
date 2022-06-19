@@ -10,7 +10,7 @@ class Debt extends Main_Class
     {
         try {
             $tname = $this->table_name;
-            $query = "INSERT INTO debt (`debt`, `document_ID`, `client_ID`)
+            $query = "INSERT INTO $tname (`debt`, `document_ID`, `client_ID`)
                         VALUES(?, ?, ?)";
             $stmt = $this->conn->prepare($query);
 
@@ -20,8 +20,7 @@ class Debt extends Main_Class
                 return false;
             }
         } catch (Exception $error) {
-            $caughtError = $error->getMessage();
-            echo "Что-то пошло не так, обновите страницу и попробуйте еще раз";
+            $_SERVER["err"] = true;
         }
     }
 
@@ -32,7 +31,7 @@ class Debt extends Main_Class
         }
 
         $tname = $this->table_name;
-        $query = "SELECT db.*, d.number FROM debt as db
+        $query = "SELECT db.*, d.number FROM $tname as db
                     JOIN document d on db.document_ID = d.id
                     ORDER BY $sort";
         $stmt = $this->conn->prepare($query);
@@ -42,13 +41,14 @@ class Debt extends Main_Class
 
     function update()
     {
+        $tname = $this->table_name;
         try {
             $query = "UPDATE 
-                        " . $this->table_name . "  
+                        " . $tname . "  
                    SET 
                         `debt` = ?
                    WHERE 
-                        " . $this->table_name . " .`id` = ?";
+                        " . $tname . " .`id` = ?";
 
             $stmt = $this->conn->prepare($query);
 
@@ -61,7 +61,7 @@ class Debt extends Main_Class
             return false;
         } catch (Exception $error) {
             $caughtError = $error->getMessage();
-            echo "Что-то пошло не так, обновите страницу и попробуйте еще раз";
+            $_SERVER["err"] = true;
         }
     }
 

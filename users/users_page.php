@@ -1,15 +1,12 @@
 <?php
 require_once('../tables/user.php');
+require_once('../config/Database.php');
+$db = new Database();
+$conn = $db->getConnection();
+
 session_start();
 if (!isset($_SESSION["usedId"])) {
     header("Location: /index.php/");
-}
-$config = require_once('../source/config.php');
-$conn = null;
-try {
-    $conn = new PDO("mysql:host=" . "localhost:3306" . ";dbname=" . "debts_docs_payments", "root", "root");
-} catch (PDOException $exception) {
-    echo "Ошибка подключения к БД!: " . $exception->getMessage();
 }
 
 $users = new User($conn);
@@ -63,8 +60,8 @@ if (isset($_POST['search'])) {
                 <td><?= $client["login"] ?></td>
                 <?php if (isset($_SESSION["isAdmin"])): ?>
                     <td>
-                        <a class="btn btn-success" href='update.php?id=<?= $client["id"] ?>'>Обновить</a>
-                        <a class="btn btn-danger" href='update.php?deleteID=<?= $client["id"] ?>'>Удалить</a>
+                        <a class="btn btn-outline-success" href='update.php?id=<?= $client["id"] ?>'>Обновить</a>
+                        <a class="btn btn-outline-danger" href='update.php?deleteID=<?= $client["id"] ?>'>Удалить</a>
                     </td>
                 <?php endif; ?>
             </tr>
@@ -73,7 +70,7 @@ if (isset($_POST['search'])) {
     </table>
     <form class="mb-2" method="post" action="users_page.php">
         <br>
-        <h5>Поиск пользователей</h5>
+        <h5>Поиск пользователей по имени</h5>
         <input class="form-control" required name="search" type="text"/>
         <br>
         <button type="submit" class="btn btn-primary">Поиск</button>
@@ -103,7 +100,18 @@ if (isset($_POST['search'])) {
             </table>
         <?php endif; ?>
     <?php endif; ?>
-</div>
+    <?php if (isset($_SERVER["err"])): ?>
+        <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show mt-3"
+             role="alert">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+                <use xlink:href="#exclamation-triangle-fill"/>
+            </svg>
+            <div>
+                Ошибка! Проверьте данные и попробуйте еще раз.
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
 </div>
 <?php require_once('../source/footer.php'); ?>
 

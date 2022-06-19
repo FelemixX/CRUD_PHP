@@ -8,22 +8,21 @@ class Document extends Main_Class
 
     function create()
     {
-        try {
-            $tname = $this->table_name;
-            $query = "INSERT INTO document (`number`, `creation_date`, `client_ID`)
+        $tname = $this->table_name;
+            try {
+                $query = "INSERT INTO $tname ( `number`, `creation_date`, `client_ID`)
                         VALUES(?, ?, ?)";
-            $stmt = $this->conn->prepare($query);
+                $stmt = $this->conn->prepare($query);
 
-            if ($stmt->execute([$this->number, $this->creation_date, $this->client_ID])) {
-                return true;
-            } else {
-                return false;
+                if ($stmt->execute([$this->number, $this->creation_date, $this->client_ID])) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (Exception $error) {
+                $_SERVER["err"] = true;
             }
-        } catch (Exception $error) {
-            $caughtError = $error->getMessage();
-            echo "Что-то пошло не так, обновите страницу и попробуйте еще раз";
         }
-    }
 
     function read($sort)
     {
@@ -31,9 +30,7 @@ class Document extends Main_Class
             $sort = "id";
         }
         $tname = $this->table_name;
-        /* $query = "SELECT $tname.id, $tname.number, $tname.creation_date
-                     FROM $tname";*/
-        $query = "SELECT dc.*, cl.name FROM document AS dc
+        $query = "SELECT dc.*, cl.first_name, cl.second_name, cl.third_name, cl.tin FROM $tname AS dc
                     JOIN client cl on dc.client_ID = cl.id
                     ORDER BY $sort";
         $stmt = $this->conn->prepare($query);
@@ -43,13 +40,14 @@ class Document extends Main_Class
 
     function update()
     {
+        $tname = $this->table_name;
         try {
             $query = "UPDATE 
-                        " . $this->table_name . "  
+                        " . $tname . "  
                    SET 
                         `number` = ?, `creation_date` = ?, `client_ID` = ?
                    WHERE 
-                        " . $this->table_name . " .`id` = ? ";
+                        " . $tname . " .`id` = ? ";
 
             $stmt = $this->conn->prepare($query);
 
@@ -58,14 +56,14 @@ class Document extends Main_Class
             $stmt->bindParam(3, $this->client_ID);
             $stmt->bindParam(4, $this->id);
 
-
             if ($stmt->execute()) {
                 return true;
             }
             return false;
         } catch (Exception $error) {
-            $caughtError = $error->getMessage();
-            echo "Что-то пошло не так, обновите страницу и попробуйте еще раз";
+            $_SERVER["err"] = true;
         }
     }
+
+
 }
