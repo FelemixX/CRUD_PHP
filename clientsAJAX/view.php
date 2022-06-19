@@ -1,5 +1,5 @@
 <?php require_once('../source/header.php') ?>
-<form id="test">
+<form id="mainTable">
 </form>
 <?php require_once('../source/footer.php') ?>
 <script type="text/javascript">
@@ -8,7 +8,7 @@
         url: 'read.php',
         dataType: 'html',
         success: function (data) {
-            let test = $('#test');
+            let test = $('#mainTable');
             test.html(data);
         }
     });
