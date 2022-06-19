@@ -1,20 +1,20 @@
 <?php require_once('../tables/user.php');
-require_once('../source/Database.php');
+require_once('../config/Database.php');
 $db = new Database();
 $conn = $db->getConnection();
 
 
 if (isset($_POST['user_name']) && isset($_POST['user_login']) && isset($_POST['user_passwd'])) {
     $user = new User($conn);
-    $user->userName = $_POST['user_name'];
-    $user->login = $_POST['user_login'];
-    $user->pass = $_POST['user_passwd'];
+    $user->userName =$_POST['user_name'];
+    $user->login =preg_replace('/\s+/', '',$_POST['user_login']);
+    $user->pass = preg_replace('/\s+/', '', $_POST['user_passwd']);
 
     if ($user->userExists()) {
         header("Location: " . $_SERVER[""] . "?userExists");
     } else {
         if ($user->registration()) {
-            header("Location: ../index.php");
+            header("Location: /index.php/");
         }
     }
 }

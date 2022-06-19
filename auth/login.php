@@ -7,8 +7,8 @@ $conn = $db->getConnection();
 
 if (isset($_POST['user_login']) && isset($_POST['user_passwd'])) {
     $user = new User($conn);
-    $user->login = $_POST['user_login'];
-    $user->pass = $_POST['user_passwd'];
+    $user->login = preg_replace('/\s+/', '', $_POST['user_login']);
+    $user->pass = preg_replace('/\s+/', '', $_POST['user_passwd']);
 
     if ($user->authorization()) {
         header("Location: ../clients/clients_page.php");

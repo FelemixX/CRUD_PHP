@@ -1,3 +1,9 @@
+<?php
+session_start();
+if (!isset($_SESSION["usedId"])) {
+    header("Location: /index.php/");
+} ?>
+
 <?php require_once('../source/header.php') ?>
 <form id="mainTable">
 </form>
