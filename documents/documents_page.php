@@ -77,12 +77,21 @@ if (isset($_POST['search'])) {
     <?php endif; ?>
     <form class="mb-2" method="post" action="documents_page.php">
         <h5 class="mt-3">Поиск документов по номеру</h5>
-        <input class="form-control" required name="search" type="text"/>
+        <input class="form-control" required name="search" type="number"/>
         <button type="submit" class="mt-3 btn btn-primary">Поиск</button>
     </form>
     <?php if (isset($_POST['search'])): ?>
         <?php if (empty($array)): ?>
-            <p>Ничего не найдено</p>
+            <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show mt-3"
+                 role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+                    <use xlink:href="#exclamation-triangle-fill"/>
+                </svg>
+                <div>
+                    Ошибка! Ничего не найдено.
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         <?php else: ?>
             <table class="table table-hover">
                 <thead>

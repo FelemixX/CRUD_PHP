@@ -96,7 +96,16 @@ if (isset($_POST['call_proc'])) {
     <?php endif; ?>
     <?php if (isset($_POST['show_logs'])): ?>
         <?php if (empty($logs)): ?>
-            <p>Нет логированной информации</p>
+            <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show mt-3"
+                 role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+                    <use xlink:href="#exclamation-triangle-fill"/>
+                </svg>
+                <div>
+                    Ошибка! Нет логированной информации.
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         <?php else: ?>
             <table class="table table-hover">
                 <thead>
@@ -120,12 +129,21 @@ if (isset($_POST['call_proc'])) {
     <?php endif; ?>
     <form method="post" action="debts_page.php">
         <h5 class="mt-3">Поиск задолженностей по сумме</h5>
-        <input class="form-control" required name="search" type="text"/>
+        <input class="form-control" required name="search" type="number"/>
         <button type="submit" class="mt-3 btn btn-primary">Поиск</button>
     </form>
     <?php if (isset($_POST['search'])): ?>
         <?php if (empty($array)): ?>
-            <p>Ничего не найдено</p>
+            <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show mt-3"
+                 role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+                    <use xlink:href="#exclamation-triangle-fill"/>
+                </svg>
+                <div>
+                    Ошибка! Ничего не найдено.
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         <?php else: ?>
             <table class="table table-hover">
                 <thead>
