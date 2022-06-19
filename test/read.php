@@ -57,12 +57,13 @@ $readClients = $client->read("");
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).ready(function () { //Update
         let update = $('.update');
 
         update.click(function () {
             let modalBody = $('#modalBody');
             let updateID = $(this).data("update");
+
             $.ajax({
                 type: 'GET',
                 url: 'update.php',
@@ -74,8 +75,9 @@ $readClients = $client->read("");
                     modalBody.html(data);
                     let saveBtn = $("#save" + updateID);
                     let updData = {};
+
                     saveBtn.click(function (){
-                        $("#modalBody:input").each(function(){
+                        $("#modalBody :input").each(function(){
                             if ($(this).val() !== "") {
                                 updData[$(this).attr('name')] = $(this).val();
                             }
@@ -83,6 +85,7 @@ $readClients = $client->read("");
                         $.ajax({
                             type: 'POST',
                             url: 'update.php',
+                            //dataType: 'json',
                             data: {
                                 updateData: updData,
                             },
@@ -96,7 +99,7 @@ $readClients = $client->read("");
         });
     })
 
-    $(document).ready(function () {
+    $(document).ready(function () { //delete
         let del = $('.delete');
         del.click(function () {
             $.ajax({
@@ -132,37 +135,37 @@ $readClients = $client->read("");
 </div>
 
 <script>
-    $(document).ready(function () {
+    $(document).ready(function () { //create        Все комментарии, оставленные тут, применимы и для других запросов на этой странице
         let create = $('.create');
 
         create.click(function () {
-            let modalBody = $('#creationModalBody');
+            let modalBody = $('#creationModalBody'); //Обращение к модальной форме над этим кодом, где creationModalBody - ID тела модальной формы
             let createID = $(this).data("create");
             $.ajax({
-                type: 'GET',
+                type: 'GET', //получить get запросом данные со страницы create.php
                 url: 'create.php',
                 dataType: 'html',
                 data: {
-                    id: createID,
+                    id: createID, //поместить полученные html данные сюда
                 },
                 success: function (data) {
-                    modalBody.html(data);
-                    let createBtn = $("#create");
-                    let crtData = {};
-                    createBtn.click(function (){
-                        $("#creationModalBody :input").each(function(){
+                    modalBody.html(data); //вставить полученный html в тело модальной формы
+                    let createBtn = $("#create"); //ID кнопки, которая находится в форме(лежит в файле create.php)
+                    let crtData = {}; //Массив под данные, которые уйдут на create.php
+                    createBtn.click(function (){ //При нажатии кнопки создания
+                        $("#creationModalBody :input").each(function(){ //из полученного html выбираются все input поля
                             if ($(this).val() !== "") {
-                                crtData[$(this).attr('name')] = $(this).val();
+                                crtData[$(this).attr('name')] = $(this).val(); //если в поле есть атрибут с %name%, то его мы отправляем. Сделано чтобы не подтягивать в массив с данными button'ы
                             }
                         });
                         $.ajax({
                             type: 'POST',
                             url: 'create.php',
                             data: {
-                              createData: crtData,
+                              createData: crtData, //POST запросом отправляем данные
                             },
                             success: function () {
-                                location.reload();
+                                location.reload(); //если данные успешно дошли, то перезагружаем страницу, чтобы увидеть изменения
                             }
                         })
                     })
