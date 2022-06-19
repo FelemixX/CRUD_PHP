@@ -1,26 +1,33 @@
 <?php
-require_once('../config/Database.php');
-require_once('../tables/client.php');
+if (isset($_POST["createData"])) {
+    $createData = $_POST["createData"];
+}
 
-$db = new Database();
-$conn = $db->getConnection();
+if (isset($createData)) {
 
-//$firstName = $_POST["first_name"];
-//$secondName = $_POST["second_name"];
-//$thirdName = $_POST["third_name"];
-//$date = $_POST["birth_date"];
-//$tin = $_POST["tin"];
-//
-//$client = new Client($conn);
-//$client->first_name = $firstName;
-//$client->second_name = $secondName;
-//$client->third_name = $thirdName;
-//$client->birth_date = $date;
-//$client->tin = $tin;
-//
-//if ($client->create()) {
-//    header("Location: clients_page.php");
-//}
+    require_once('../config/Database.php');
+    require_once('../tables/client.php');
+
+    $db = new Database();
+    $conn = $db->getConnection();
+
+    $firstName = $createData["first_name"];
+    $secondName = $createData["second_name"];
+    $thirdName = $createData["third_name"];
+    $date = $createData["birth_date"];
+    $tin = $createData["tin"];
+
+    $client = new Client($conn);
+    $client->first_name = $firstName;
+    $client->second_name = $secondName;
+    $client->third_name = $thirdName;
+    $client->birth_date = $date;
+    $client->tin = $tin;
+
+    if ($client->create()) {
+        header("Location: view.php");
+    }
+}
 ?>
 <div class="mb-3">
     <label for="first_name" class="form-label">Фамилия</label>

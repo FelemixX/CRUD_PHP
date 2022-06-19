@@ -59,45 +59,45 @@ $readClients = $client->read("");
 <script type="text/javascript">
     $(document).ready(function () {
         let update = $('.update');
-        let del = $('.delete');
 
         update.click(function () {
-            let updateId = $(this).data("update");
             let modalBody = $('#modalBody');
+            let updateID = $(this).data("update");
             $.ajax({
                 type: 'GET',
                 url: 'update.php',
                 dataType: 'html',
                 data: {
-                    id: updateId,
+                    id: updateID,
                 },
                 success: function (data) {
                     modalBody.html(data);
-
-                    let saveBtn = $("#save" + updateId);
-                    let ddata = {};
-
-                    saveBtn.click(function () {
-                        $("#modalBody :input").each(function () {
+                    let saveBtn = $("#save" + updateID);
+                    let updData = {};
+                    saveBtn.click(function (){
+                        $("#modalBody:input").each(function(){
                             if ($(this).val() !== "") {
-                                ddata[$(this).attr('name')] = $(this).val()
+                                updData[$(this).attr('name')] = $(this).val();
                             }
                         });
                         $.ajax({
                             type: 'POST',
                             url: 'update.php',
-                            dataType: 'json',
                             data: {
-                                updateData: ddata,
+                                updateData: updData,
                             },
                             success: function () {
-
+                                location.reload();
                             }
-                        }); //301302268406
+                        })
                     })
                 }
-            });
-        })
+            })
+        });
+    })
+
+    $(document).ready(function () {
+        let del = $('.delete');
         del.click(function () {
             $.ajax({
                 type: 'GET',
@@ -134,6 +134,7 @@ $readClients = $client->read("");
 <script>
     $(document).ready(function () {
         let create = $('.create');
+
         create.click(function () {
             let modalBody = $('#creationModalBody');
             let createID = $(this).data("create");
@@ -146,6 +147,25 @@ $readClients = $client->read("");
                 },
                 success: function (data) {
                     modalBody.html(data);
+                    let createBtn = $("#create");
+                    let crtData = {};
+                    createBtn.click(function (){
+                        $("#creationModalBody :input").each(function(){
+                            if ($(this).val() !== "") {
+                                crtData[$(this).attr('name')] = $(this).val();
+                            }
+                        });
+                        $.ajax({
+                            type: 'POST',
+                            url: 'create.php',
+                            data: {
+                              createData: crtData,
+                            },
+                            success: function () {
+                                location.reload();
+                            }
+                        })
+                    })
                 }
             })
         });
