@@ -1,11 +1,12 @@
 <?php
 require_once('../tables/client.php');
 require_once('../config/Database.php');
+
 $db = new Database();
 $conn = $db->getConnection();
+
 $client = new Client($conn);
 $readClients = $client->read("");
-
 ?>
 <div class="container">
     <h1>Список клиентов</h1>
@@ -28,21 +29,35 @@ $readClients = $client->read("");
                 <td><?= $client["second_name"] ?></td>
                 <td><?= $client["third_name"] ?></td>
                 <td><?= $client["birth_date"] ?></td>
-                <td>
-                    <a data-bs-toggle="modal" data-bs-target="#myModal" data-update="<?= $client["id"] ?>" class="btn btn-outline-success update">Изменить</>
+                <td> <!-- Update and delete buttons for existing clients -->
+                    <a data-bs-toggle="modal" data-bs-target="#myModal" data-update="<?= $client["id"] ?>"
+                       class="btn btn-outline-success update">Изменить</a>
                     <a data-delete="<?= $client["id"] ?>" class="btn btn-outline-danger delete">Удалить</a>
                 </td>
             </tr>
         <?php endforeach; ?>
         </tbody>
     </table>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-        Launch demo modal
-    </button>
-    <a class="btn btn-primary" href='create.php'>Создать</a>
+    <a data-bs-toggle="modal" data-bs-target="#creationModal"
+       class="btn btn-primary create">Создать</a>
 </div>
+<!-- Modal for updating existing clients -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Редактирование клиента</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="modalBody" class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
         let update = $('.update');
         let del = $('.delete');
 
@@ -63,20 +78,19 @@ $readClients = $client->read("");
                     let ddata = {};
 
                     saveBtn.click(function () {
-                        $("#modalBody :input").each(function(){
-                            if ($(this).val() !== "")
-                            {
+                        $("#modalBody :input").each(function () {
+                            if ($(this).val() !== "") {
                                 ddata[$(this).attr('name')] = $(this).val()
                             }
                         });
                         $.ajax({
                             type: 'POST',
                             url: 'update.php',
-                            dataType:'json',
+                            dataType: 'json',
                             data: {
                                 updateData: ddata,
                             },
-                            success: function(){
+                            success: function () {
 
                             }
                         }); //301302268406
@@ -101,16 +115,41 @@ $readClients = $client->read("");
         });
     })
 </script>
-<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+<!-- Modal for creating new clients -->
+<div class="modal fade" id="creationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Создание клиента</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div id="modalBody" class="modal-body">
-            </div>
+            <div id="creationModalBody" class="modal-body">
 
+            </div>
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        let create = $('.create');
+        create.click(function () {
+            let modalBody = $('#creationModalBody');
+            let createID = $(this).data("create");
+            $.ajax({
+                type: 'GET',
+                url: 'create.php',
+                dataType: 'html',
+                data: {
+                    id: createID,
+                },
+                success: function (data) {
+                    modalBody.html(data);
+                }
+            })
+        });
+    })
+</script>
+
+
