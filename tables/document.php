@@ -32,7 +32,8 @@ class Document extends Main_Class
         $tname = $this->table_name;
         $query = "SELECT dc.*, cl.first_name, cl.second_name, cl.third_name, cl.tin FROM $tname AS dc
                     JOIN client cl on dc.client_ID = cl.id
-                    ORDER BY $sort";
+                        WHERE dc.file_path = ''                                             
+                            ORDER BY $sort";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchall(PDO::FETCH_ASSOC);

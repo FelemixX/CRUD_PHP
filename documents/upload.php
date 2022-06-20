@@ -1,21 +1,33 @@
 <?php
 session_start();
 if (!isset($_SESSION["usedId"])) {
-    if(!isset($_SESSION["isAdmin"])) {
+    if (!isset($_SESSION["isAdmin"])) {
         header("Location: /index.php/");
     }
 }
 
 require_once('../config/Database.php');
+require_once('../tables/document.php');
+
 $db = new Database();
 $conn = $db->getConnection();
 
+if (isset($_GET["id"])) {
+    $docID = $_GET["id"];
+    $query = "SELECT client_ID FROM document
+            WHERE id = $docID";
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+    $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $clientID = $stmt[0]["client_ID"];
+}
 $message = '';
 
 if (isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == 'Upload') {
 
     if (isset($_FILES['uploadedFile']) && $_FILES['uploadedFile']['error'] === UPLOAD_ERR_OK) {
-        // get details of the uploaded file
+        // опознать файл
         $fileTmpPath = $_FILES['uploadedFile']['tmp_name'];
         $fileName = $_FILES['uploadedFile']['name'];
         $fileSize = $_FILES['uploadedFile']['size'];
@@ -23,38 +35,42 @@ if (isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == 'Upload') {
         $fileNameCmps = explode(".", $fileName);
         $fileExtension = strtolower(end($fileNameCmps));
 
-        // sanitize file-name
+        // сделать имя файла уникальным, чтобы не было конфликтов
         $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
 
-        // check if file has one of the following extensions
-        $allowedFileExtensions = array('jpg', 'gif', 'png', 'zip', 'txt', 'xls', 'doc');
+        // проверить, имеет ли файл одно из этих расширений
+        $allowedFileExtensions = array('jpg', 'png', 'txt', 'doc', 'docx');
 
         if (in_array($fileExtension, $allowedFileExtensions)) {
-            // directory in which the uploaded file will be moved
+            // директория, в которую будет сохранен файл
             $uploadFileDir = 'uploaded_files/';
             $dest_path = $uploadFileDir . $newFileName;
 
-            if (move_uploaded_file($fileTmpPath, $dest_path)) {
-//                $message = 'File is successfully uploaded.';
-                $_POST["succUpload"] = true;
+            if (isset($clientID) && (move_uploaded_file($fileTmpPath, $dest_path))) {
+                $fileName = preg_replace('/\..+$/u', '', $fileName); //отделить название от расширения файла
+                $query = "INSERT INTO document (`client_ID`, `file_path`, `file_name`, `file_extension`) VALUES (?, ?, ?, ?)";
+                $stmt = $conn->prepare($query);
+                $stmt->execute([$clientID, $dest_path, $fileName, $fileExtension]);
+
+                $_POST["succUpload"] = true; //файл был успешно загружен
+                header("refresh:1;url=documents_page.php"); //редирект на страницу с документами через секунду после загрузки файла
+
             } else {
-//                $message = 'There was some error moving the file to upload directory. Please make sure the upload directory is writable by web server.';
-                $_POST["wrongDir"] = true;
+                $_POST["wrongDir"] = true; //проблемы с указанным путем для загрузки
             }
         } else {
             $message = implode(',', $allowedFileExtensions);
-            $_POST["wrongExtension"] = $message;
+            $_POST["wrongExtension"] = $message; //недопустимое расширение файла
         }
     } else {
-//        $message = 'There is some error in the file upload. Please check the following error.<br>';
         $message .= 'Error:' . $_FILES['uploadedFile']['error'];
-        $_POST["uplError"] = $message;
+        $_POST["uplError"] = $message;  //прочие ошибки загрузки
     }
-    $_SERVER["redirect"] = true;
 }
 ?>
 <?php require_once('../source/header.php'); ?>
-    <form method="post" action="upload.php" enctype="multipart/form-data">
+    <form method="POST" action="" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="<?= $_GET["id"] ?>">
         <div class="container">
             <div class="d-flex justify-content-center">
                 <div class="mb-3">
@@ -63,66 +79,71 @@ if (isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == 'Upload') {
                 </div>
             </div>
             <div class="text-center">
-                <button type="submit" class="mb-2 btn btn-primary" name="uploadBtn" value="Upload">Загрузить</button>
+                <button type="submit" class="mb-2 btn btn-primary" name="uploadBtn" value="Upload">Загрузить</
+                >
             </div>
             <div class="container">
                 <div class="d-flex justify-content-center">
-                        <?php if (isset($_POST["succUpload"])): ?>
-                            <div class="alert alert-success d-flex align-items-center" role="alert">
-                                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
-                                     aria-label="Success:">
-                                    <use xlink:href="#check-circle-fill"/>
-                                </svg>
-                                <div>
-                                    Успешно! Файл загружен!
-                                </div>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <?php if (isset($_POST["succUpload"])): ?>
+                        <div class="alert alert-success d-flex align-items-center" role="alert">
+                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                 aria-label="Success:">
+                                <use xlink:href="#check-circle-fill"/>
+                            </svg>
+                            <div>
+                                Успешно! Файл загружен!
                             </div>
-                        <?php endif; ?>
-                        <?php if (isset($_POST["wrongDir"])): ?>
-                            <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show mt-3"
-                                 role="alert">
-                                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
-                                     aria-label="Danger:">
-                                    <use xlink:href="#exclamation-triangle-fill"/>
-                                </svg>
-                                <div>
-                                    Ошибка! Неверная директория для сохранения файла!
-                                </div>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                        aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php endif; ?>
+                    <?php if (isset($_POST["wrongDir"])): ?>
+                        <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show mt-3"
+                             role="alert">
+                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                 aria-label="Danger:">
+                                <use xlink:href="#exclamation-triangle-fill"/>
+                            </svg>
+                            <div>
+                                Ошибка! Неверная директория для сохранения файла!
                             </div>
-                        <?php endif; ?>
-                        <?php if (isset($_POST["wrongExtension"])): ?>
-                            <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show mt-3"
-                                 role="alert">
-                                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
-                                     aria-label="Danger:">
-                                    <use xlink:href="#exclamation-triangle-fill"/>
-                                </svg>
-                                <div>
-                                    Ошибка! Неподдерживаемый формат файлов!
-                                </div>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                        </div>
+                    <?php endif; ?>
+                    <?php if (isset($_POST["wrongExtension"])): ?>
+                        <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show mt-3"
+                             role="alert">
+                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                 aria-label="Danger:">
+                                <use xlink:href="#exclamation-triangle-fill"/>
+                            </svg>
+                            <div>
+                                Ошибка! Неподдерживаемый формат файлов!
+                                <br>
+                                Поддерживаемые форматы файлов: <?php echo $message; ?>
                             </div>
-                        <?php endif; ?>
-                        <?php if (isset($_POST["uplError"])): ?>
-                            <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show mt-3"
-                                 role="alert">
-                                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
-                                     aria-label="Danger:">
-                                    <use xlink:href="#exclamation-triangle-fill"/>
-                                </svg>
-                                <div>
-                                    Ошибка при загрузке!
-                                    <br>
-                                    <?php echo $_POST["uplError"]; ?>
-                                </div>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php endif; ?>
+                    <?php if (isset($_POST["uplError"])): ?>
+                        <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show mt-3"
+                             role="alert">
+                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                 aria-label="Danger:">
+                                <use xlink:href="#exclamation-triangle-fill"/>
+                            </svg>
+                            <div>
+                                Ошибка при загрузке!
+                                <br>
+                                <?php echo $_POST["uplError"]; ?>
+                                <br>
+                                https://www.php.net/manual/en/features.file-upload.errors.php"
                             </div>
-                        <?php endif; ?>
-                    </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
+        </div>
     </form>
 <?php require_once('../source/footer.php'); ?>
