@@ -1,4 +1,9 @@
 <?php
+session_start();
+if (!isset($_SESSION["usedId"])) {
+    header("Location: /index.php/");
+}
+
 require_once('../config/Database.php');
 require_once('../tables/client.php');
 

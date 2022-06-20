@@ -1,4 +1,8 @@
 <?php
+session_start();
+if (!isset($_SESSION["usedId"])) {
+    header("Location: /index.php/");
+}
 $deleteID = $_GET["deleteID"];
 if (isset($deleteID)) {
     require_once('../config/Database.php');

@@ -1,4 +1,8 @@
 <?php
+session_start();
+if (!isset($_SESSION["usedId"])) {
+    header("Location: /index.php/");
+}
 if (isset($_POST["createData"])) {
     $createData = $_POST["createData"];
 }
