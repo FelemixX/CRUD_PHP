@@ -1,8 +1,11 @@
 <?php
 session_start();
 if (!isset($_SESSION["usedId"])) {
-    header("Location: /index.php/");
+    if(!isset($_SESSION["isAdmin"])) {
+        header("Location: /index.php/");
+    }
 }
+
 require_once('../config/Database.php');
 $db = new Database();
 $conn = $db->getConnection();
