@@ -167,7 +167,7 @@ if (isset($_POST['search'])) {
     }
 </script>
 
-<!--<!-- Modal for uploading new files -->-->
+<!-- Modal for uploading new files -->
 <!--<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
 <!--    <div class="modal-dialog">-->
 <!--        <div class="modal-content">-->
