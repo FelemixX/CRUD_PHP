@@ -14,13 +14,13 @@ $conn = $db->getConnection();
 
 if (isset($_GET["id"])) {
     $docID = $_GET["id"];
-    $query = "SELECT client_ID FROM document
+    $query = "SELECT number FROM document
             WHERE id = $docID";
     $stmt = $conn->prepare($query);
     $stmt->execute();
     $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $clientID = $stmt[0]["client_ID"];
+    $docNumber = $stmt[0]["number"];
 }
 $message = '';
 
@@ -39,18 +39,18 @@ if (isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == 'Upload') {
         $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
 
         // проверить, имеет ли файл одно из этих расширений
-        $allowedFileExtensions = array('jpg', 'png', 'txt', 'doc', 'docx');
+        $allowedFileExtensions = array('jpg', 'docx');
 
         if (in_array($fileExtension, $allowedFileExtensions)) {
             // директория, в которую будет сохранен файл
             $uploadFileDir = 'uploaded_files/';
             $dest_path = $uploadFileDir . $newFileName;
 
-            if (isset($clientID) && (move_uploaded_file($fileTmpPath, $dest_path))) {
+            if (isset($docNumber) && (move_uploaded_file($fileTmpPath, $dest_path))) {
                 $fileName = preg_replace('/\..+$/u', '', $fileName); //отделить название от расширения файла
-                $query = "INSERT INTO document (`client_ID`, `file_path`, `file_name`, `file_extension`) VALUES (?, ?, ?, ?)";
+                $query = "INSERT INTO document (`number`, `file_path`, `file_name`, `file_extension`) VALUES (?, ?, ?, ?)";
                 $stmt = $conn->prepare($query);
-                $stmt->execute([$clientID, $dest_path, $fileName, $fileExtension]);
+                $stmt->execute([$docNumber, $dest_path, $fileName, $fileExtension]);
 
                 $_POST["succUpload"] = true; //файл был успешно загружен
                 header("refresh:1;url=documents_page.php"); //редирект на страницу с документами через секунду после загрузки файла

@@ -7,8 +7,16 @@ if (!isset($_SESSION["usedId"])) {
 }
 
 require_once('../config/Database.php');
-require_once('../tables/document.php');
+$db = new Database();
+$conn = $db->getConnection();
 
+require_once('../tables/document.php');
+$documents = new Document($conn);
+
+$query = "SELECT * FROM document WHERE client_ID IS NULL";
+$readDocument = $conn->prepare($query);
+$readDocument->execute();
+$readDocument = $readDocument->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <?php require_once('../source/header.php'); ?>
     <table class="table">
@@ -18,20 +26,24 @@ require_once('../tables/document.php');
             <th scope="col">Название</th>
             <th scope="col">Тип</th>
             <th scope="col">Номер документа</th>
-            <th scope="col">Имя клиента</th>
             <th scope="col">Действие</th>
         </tr>
         </thead>
         <tbody>
+        <?php foreach ($readDocument
+
+        as $document): ?>
         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td><?= $document["id"] ?></td>
+            <td><?= $document["file_name"] ?></td>
+            <td><?= $document["file_extension"] ?></td>
+            <td><?= $document["number"] ?></td>
             <td>
-                <a class="btn btn-outline-info">Открыть</a>
+                <form action="" method="post">
+                    <a class="btn btn-outline-info">Открыть</a>
+                </form>
             </td>
+            <?php endforeach; ?>
         </tr>
         </tbody>
     </table>
