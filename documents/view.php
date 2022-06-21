@@ -1,4 +1,8 @@
 <?php
+if (!extension_loaded('imagick')){
+    echo 'imagick not installed';
+}
+echo phpinfo();
 session_start();
 if (!isset($_SESSION["usedId"])) {
     if (!isset($_SESSION["isAdmin"])) {
@@ -57,10 +61,10 @@ function readZippedXML($archiveFile, $dataFile)
 
 if (isset($_GET["openBtn"])) {
     $id = $_GET["openBtn"];
-    $query = "SELECT file_path FROM document WHERE doc_ID = $id";
-    $getFilePath = $conn->prepare($query);
-    $getFilePath->execute();
-    $filePath = $getFilePath->fetchAll(PDO::FETCH_ASSOC)[0]["file_path"];
+    $query = "SELECT file_path, file_extension FROM document WHERE doc_ID = $id";
+    $getFileInfo = $conn->prepare($query);
+    $getFileInfo->execute();
+    $file = $getFileInfo->fetchAll(PDO::FETCH_ASSOC);
 }
 ?>
 <?php require_once('../source/header.php'); ?>
@@ -86,7 +90,9 @@ if (isset($_GET["openBtn"])) {
                 <td><?= $document["number"] ?></td>
                 <td>
                     <form method="get">
-                        <button type="submit" class="btn btn-outline-info" name="openBtn" value="<?= $document["doc_ID"] ?>">Открыть</button>
+                        <button type="submit" class="btn btn-outline-info" name="openBtn"
+                                value="<?= $document["doc_ID"] ?>">Открыть
+                        </button>
                     </form>
                     <a class="btn btn-outline-danger" href='view.php?deleteID=<?= $document["id"] ?>'>Удалить</a>
                 </td>
@@ -95,20 +101,26 @@ if (isset($_GET["openBtn"])) {
             </tbody>
         </table>
     </div>
-<?php if(isset($filePath)): ?>
-<div>
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <th scope="row"><?= $reader = readZippedXML($filePath, "word/document.xml"); ?></th>
-        </tr>
-        </tbody>
-    </table>
-</div>
+<?php if (isset($file)): ?>
+    <?php if ($file[0]["file_extension"] === 'jpg'): ?>
+        <div class="text-center">
+            <img src="<?= $file[0]["file_path"] ?>" width="500" height="600">
+        </div>
+    <?php else: ?>
+        <div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row"><?= $reader = readZippedXML($file[0]["file_path"], "word/document.xml"); ?></th>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    <?php endif; ?>
 <?php endif; ?>
 <?php require_once('../source/footer.php'); ?>

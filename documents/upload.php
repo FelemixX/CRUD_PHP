@@ -54,7 +54,7 @@ if (isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == 'Upload') {
                 $stmt->execute([$docNumber, $dest_path, $fileName, $fileExtension, $docID]);
 
                 $_POST["succUpload"] = true; //файл был успешно загружен
-                //header("refresh:1;url=documents_page.php"); //редирект на страницу с документами через секунду после загрузки файла
+                header("refresh:1;url=documents_page.php"); //редирект на страницу с документами через секунду после загрузки файла
 
             } else {
                 $_POST["wrongDir"] = true; //проблемы с указанным путем для загрузки
