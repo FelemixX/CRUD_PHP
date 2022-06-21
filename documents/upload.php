@@ -21,6 +21,7 @@ if (isset($_GET["id"])) {
     $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     $docNumber = $stmt[0]["number"];
+
 }
 $message = '';
 
@@ -48,12 +49,12 @@ if (isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == 'Upload') {
 
             if (isset($docNumber) && (move_uploaded_file($fileTmpPath, $dest_path))) {
                 $fileName = preg_replace('/\..+$/u', '', $fileName); //отделить название от расширения файла
-                $query = "INSERT INTO document (`number`, `file_path`, `file_name`, `file_extension`) VALUES (?, ?, ?, ?)";
+                $query = "INSERT INTO document (`number`, `file_path`, `file_name`, `file_extension`, `doc_ID`) VALUES (?, ?, ?, ?, ?)";
                 $stmt = $conn->prepare($query);
-                $stmt->execute([$docNumber, $dest_path, $fileName, $fileExtension]);
+                $stmt->execute([$docNumber, $dest_path, $fileName, $fileExtension, $docID]);
 
                 $_POST["succUpload"] = true; //файл был успешно загружен
-                header("refresh:1;url=documents_page.php"); //редирект на страницу с документами через секунду после загрузки файла
+                //header("refresh:1;url=documents_page.php"); //редирект на страницу с документами через секунду после загрузки файла
 
             } else {
                 $_POST["wrongDir"] = true; //проблемы с указанным путем для загрузки
@@ -79,8 +80,7 @@ if (isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == 'Upload') {
                 </div>
             </div>
             <div class="text-center">
-                <button type="submit" class="mb-2 btn btn-primary" name="uploadBtn" value="Upload">Загрузить</
-                >
+                <button type="submit" class="mb-2 btn btn-primary" name="uploadBtn" value="Upload">Загрузить</button>
             </div>
             <div class="container">
                 <div class="d-flex justify-content-center">

@@ -36,7 +36,6 @@ if (isset($_POST['search'])) {
         $array[$id] = array($row[0], $row[1], $row[2]);
     }
 }
-
 ?>
 
 <?php require_once('../source/header.php'); ?>
