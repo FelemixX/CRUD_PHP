@@ -1,8 +1,4 @@
 <?php
-if (!extension_loaded('imagick')){
-    echo 'imagick not installed';
-}
-echo phpinfo();
 session_start();
 if (!isset($_SESSION["usedId"])) {
     if (!isset($_SESSION["isAdmin"])) {

@@ -35,7 +35,6 @@ if (isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == 'Upload') {
         $fileType = $_FILES['uploadedFile']['type'];
         $fileNameCmps = explode(".", $fileName);
         $fileExtension = strtolower(end($fileNameCmps));
-
         // сделать имя файла уникальным, чтобы не было конфликтов
         $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
 
