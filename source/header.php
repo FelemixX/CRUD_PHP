@@ -17,6 +17,7 @@ session_start();
             integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
             crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
     <style>
         .gradient-text {
             font-family: 'Rubik One', sans-serif;
@@ -27,6 +28,10 @@ session_start();
             -webkit-text-fill-color: transparent;
             color: #0B2349;
         }
+
+        /*.container {*/
+        /*    max-width: 200px;*/
+        /*}*/
     </style>
     <title>Документы</title>
 </head>
@@ -43,64 +48,56 @@ session_start();
         <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
     </symbol>
 </svg>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <?php if (isset($_SESSION["usedId"])): ?>
 
-<div class="container">
-    <nav class="navbar navbar-nav-scroll navbar-expand-lg navbar-light bg-light ">
-        <div class="gradient">
-            <div class="container-fluid">
-                <?php if (isset($_SESSION["usedId"])): ?>
-                    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                <li class="nav-item">
-                                    <a class="btn" aria-current="page"
-                                       href="../clients/clients_page.php">Клиенты</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="btn" aria-current="page"
-                                       href="../documents/documents_page.php">Документы</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="btn" aria-current="page"
-                                       href="../products/products_page.php">Товары</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="btn" aria-current="page"
-                                       href="../debts/debts_page.php">Задолженности</a>
-                                </li>
-                                <?php if (isset($_SESSION["isAdmin"])): ?>
-                                    <li class="nav-item">
-                                        <a class="btn" aria-current="page"
-                                           href="../users/users_page.php">Список пользователей</a>
-                                    </li>
-                                <?php endif; ?>
-                                <?php if (isset($_SESSION["isAdmin"])): ?>
-                                    <li class="nav-item">
-                                        <a class="btn" aria-current="page" href="../source/direct_sql_query.php">Запрос
-                                            к БД</a>
-                                    </li>
-                                <?php endif; ?>
-                                <?php if (isset($_SESSION["userName"])): ?>
-                                    <li class="nav-item">
-                                        <a class="nav-link active" aria-current="page"><?= $_SESSION["userName"] ?></a>
-                                    </li>
-                                    <?php if (isset($_SESSION["isAdmin"])): ?>
-                                        <li class="nav-item">
-                                            <a class="nav-link active" aria-current="page"><strong
-                                                        class="gradient-text">ADMIN</strong></a>
-                                        </li>
-                                    <?php endif; ?>
-                                    <li class="nav-item">
-                                        <a class="btn btn-outline-danger" aria-current="page"
-                                           href="../auth/logout.php">Выйти</a>
-                                    </li>
-                                <?php endif; ?>
-                            </ul>
-                        </div>
-                    </div>
+            <ul class="nav nav-pills nav-fill me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="btn" aria-current="page"
+                       href="../clients/clients_page.php">Клиенты</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn" aria-current="page"
+                       href="../documents/documents_page.php">Документы</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn" aria-current="page"
+                       href="../products/products_page.php">Товары</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn" aria-current="page"
+                       href="../debts/debts_page.php">Задолженности</a>
+                </li>
+                <?php if (isset($_SESSION["isAdmin"])): ?>
+                    <li class="nav-item">
+                        <a class="btn" aria-current="page"
+                           href="../users/users_page.php">Список пользователей</a>
+                    </li>
                 <?php endif; ?>
-            </div>
-        </div>
-    </nav>
-</div>
+                <?php if (isset($_SESSION["isAdmin"])): ?>
+                    <li class="nav-item">
+                        <a class="btn" aria-current="page" href="../source/direct_sql_query.php">Запрос
+                            к БД</a>
+                    </li>
+                <?php endif; ?>
+                <?php if (isset($_SESSION["userName"])): ?>
+                    <li class="nav-item">
+                        <span class="nav-link disabled"><?= $_SESSION["userName"] ?></span>
+                    </li>
+                    <?php if (isset($_SESSION["isAdmin"])): ?>
+                        <li class="nav-item">
+                            <span class="nav-link disabled"><strong class="gradient-text">ADMIN</strong></span>
+                        </li>
+                    <?php endif; ?>
+                    <li class="nav-item">
+                        <a class="btn btn-outline-danger" aria-current="page"
+                           href="../auth/logout.php">Выйти</a>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        <?php endif; ?>
+    </div>
+</nav>
+
 

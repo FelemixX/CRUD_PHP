@@ -1,4 +1,11 @@
 <?php
+session_start();
+if (!isset($_SESSION["usedId"])) {
+    if(!isset($_SESSION["isAdmin"])) {
+        header("Location: /index.php/");
+    }
+}
+
 if (isset($_POST["updateData"])) {
     $updateData = $_POST["updateData"];
 }

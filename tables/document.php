@@ -9,20 +9,20 @@ class Document extends Main_Class
     function create()
     {
         $tname = $this->table_name;
-            try {
-                $query = "INSERT INTO $tname ( `number`, `creation_date`, `client_ID`)
+        try {
+            $query = "INSERT INTO $tname ( `number`, `creation_date`, `client_ID`)
                         VALUES(?, ?, ?)";
-                $stmt = $this->conn->prepare($query);
+            $stmt = $this->conn->prepare($query);
 
-                if ($stmt->execute([$this->number, $this->creation_date, $this->client_ID])) {
-                    return true;
-                } else {
-                    return false;
-                }
-            } catch (Exception $error) {
-                $_SERVER["err"] = true;
+            if ($stmt->execute([$this->number, $this->creation_date, $this->client_ID])) {
+                return true;
+            } else {
+                return false;
             }
+        } catch (Exception $error) {
+            $_SERVER["err"] = true;
         }
+    }
 
     function read($sort)
     {
@@ -32,7 +32,8 @@ class Document extends Main_Class
         $tname = $this->table_name;
         $query = "SELECT dc.*, cl.first_name, cl.second_name, cl.third_name, cl.tin FROM $tname AS dc
                     JOIN client cl on dc.client_ID = cl.id
-                    ORDER BY $sort";
+                        WHERE dc.file_path = ''                                             
+                            ORDER BY $sort";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchall(PDO::FETCH_ASSOC);
@@ -64,6 +65,4 @@ class Document extends Main_Class
             $_SERVER["err"] = true;
         }
     }
-
-
 }

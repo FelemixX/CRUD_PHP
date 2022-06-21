@@ -1,8 +1,11 @@
 <?php
 session_start();
 if (!isset($_SESSION["usedId"])) {
-    header("Location: /index.php/");
+    if(!isset($_SESSION["isAdmin"])) {
+        header("Location: /index.php/");
+    }
 }
+
 require_once('../config/Database.php');
 $db = new Database();
 $conn = $db->getConnection();
@@ -33,7 +36,6 @@ if (isset($_POST['search'])) {
         $array[$id] = array($row[0], $row[1], $row[2]);
     }
 }
-
 ?>
 
 <?php require_once('../source/header.php'); ?>
@@ -57,11 +59,14 @@ if (isset($_POST['search'])) {
             <tr>
                 <td><?= $document["id"] ?></td>
                 <td><?= "№\t" . $document["number"] ?></td>
-                <td><?= $document["first_name"] . "\t" . $document["second_name"] . "\t" . $document["third_name"] ?></td> <!-- Имя клиента -->
+                <td><?= $document["first_name"] . "\t" . $document["second_name"] . "\t" . $document["third_name"] ?></td>
+                <!-- Имя клиента -->
                 <td><?= $document["tin"] ?></td>
                 <td><?= $document["creation_date"] ?></td>
                 <?php if (isset($_SESSION["isAdmin"])): ?>
                     <td>
+                        <a class="btn btn-outline-info" href='upload.php?id=<?= $document["id"] ?>'>Загрузить</a>
+                        <a class="btn btn-outline-secondary" href='view.php?id=<?= $document["id"] ?>'>Посмотреть</a>
                         <a class="btn btn-outline-success" href='update.php?id=<?= $document["id"] ?>'>Изменить</a>
                         <a class="btn btn-outline-danger" href='update.php?deleteID=<?= $document["id"] ?>'>Удалить</a>
                     </td>
@@ -163,3 +168,51 @@ if (isset($_POST['search'])) {
         window.location.replace(url);
     }
 </script>
+
+<!-- Modal for uploading new files -->
+<!--<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+<!--    <div class="modal-dialog">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header">-->
+<!--                <h5 class="modal-title" id="exampleModalLabel">Загрузка файла</h5>-->
+<!--                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--            </div>-->
+<!--            <div id="modalBody" class="modal-body">-->
+<!---->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<script type="text/javascript">-->
+<!--    $(document).ready(function () {-->
+<!--        let upload = $('.upload');-->
+<!--        upload.click(function (){-->
+<!--            let modalBody = $('#modalBody');-->
+<!--            let uploadData = $(this).data("upload");-->
+<!---->
+<!--            $.ajax({-->
+<!--               type: 'GET',-->
+<!--                url: 'upload.php',-->
+<!--                dataType: 'html',-->
+<!--                data: {-->
+<!--                  id: uploadData,-->
+<!--                },-->
+<!--                success: function (data) {-->
+<!--                   modalBody.html(data);-->
+<!--                   let uploadBtn = $("#upload" + uploadData);-->
+<!--                   let upData = {};-->
+<!---->
+<!--                   uploadBtn.click(function(){-->
+<!--                        $("#modalBody :input").each(function (){-->
+<!--                            if($(this).val() !== "") {-->
+<!--                                uploadData[$(this).attr('toUpload')] = $(this).val();-->
+<!--                            }-->
+<!--                            console.log(uploadData);-->
+<!--                        });-->
+<!--                   })-->
+<!--                 }-->
+<!--            })-->
+<!--        });-->
+<!--    })-->
+<!--</script>-->
