@@ -62,6 +62,7 @@ if (isset($_GET["openBtn"])) {
     $getFileInfo->execute();
     $file = $getFileInfo->fetchAll(PDO::FETCH_ASSOC);
 }
+
 ?>
 <?php require_once('../source/header.php'); ?>
     <div>
@@ -77,7 +78,9 @@ if (isset($_GET["openBtn"])) {
             </tr>
             </thead>
             <tbody>
-            <?php foreach ($readDocument as $document): ?>
+            <?php foreach ($readDocument
+
+            as $document): ?>
             <tr>
                 <td><?= $document["id"] ?></td>
                 <td><?= $document["doc_ID"] ?></td>
@@ -99,6 +102,7 @@ if (isset($_GET["openBtn"])) {
     </div>
 <?php if (isset($file)): ?>
     <?php if ($file[0]["file_extension"] === 'jpg'): ?>
+    <?= $_POST["crop"] = true; ?>
         <div class="text-center">
             <img src="<?= $file[0]["file_path"] ?>" width="500" height="600">
         </div>
