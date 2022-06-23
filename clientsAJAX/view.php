@@ -6,6 +6,7 @@ if (!isset($_SESSION["usedId"])) {
 
 <?php require_once('../source/header.php') ?>
 <form id="mainTable">
+
 </form>
 <?php require_once('../source/footer.php') ?>
 <script type="text/javascript">

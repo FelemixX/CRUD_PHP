@@ -10,7 +10,6 @@ require_once('../config/Database.php');
 
 $db = new Database();
 $conn = $db->getConnection();
-
 if (isset($_GET["id"])) {
     $docID = $_GET["id"];
     $query = "SELECT number FROM document
@@ -20,10 +19,9 @@ if (isset($_GET["id"])) {
     $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     $docNumber = $stmt[0]["number"];
-
 }
-$message = '';
 
+$message = '';
 if (isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == 'Upload') {
 
     if (isset($_FILES['uploadedFile']) && $_FILES['uploadedFile']['error'] === UPLOAD_ERR_OK) {
@@ -36,22 +34,22 @@ if (isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == 'Upload') {
         $fileExtension = strtolower(end($fileNameCmps));
         // сделать имя файла уникальным, чтобы не было конфликтов
         $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
-
         // проверить, имеет ли файл одно из этих расширений
         $allowedFileExtensions = array('docx');
 
         if (in_array($fileExtension, $allowedFileExtensions)) {
             // директория, в которую будет сохранен файл
             $uploadFileDir = 'uploaded_files/';
-            $dest_path = $uploadFileDir . $newFileName;
+            $destPath = $uploadFileDir . $newFileName;
 
-            if (isset($docNumber) && (move_uploaded_file($fileTmpPath, $dest_path))) {
+            if (isset($docNumber) && (move_uploaded_file($fileTmpPath, $destPath))) {
                 $fileName = preg_replace('/\..+$/u', '', $fileName); //отделить название от расширения файла
-                $query = "INSERT INTO document (`number`, `file_path`, `file_name`, `file_extension`, `doc_ID`) VALUES (?, ?, ?, ?, ?)";
+                $query = "INSERT INTO document (`number`, `file_path`, `file_name`, `file_extension`, `doc_ID`) 
+                            VALUES (?, ?, ?, ?, ?)";
                 $stmt = $conn->prepare($query);
-                $stmt->execute([$docNumber, $dest_path, $fileName, $fileExtension, $docID]);
+                $stmt->execute([$docNumber, $destPath, $fileName, $fileExtension, $docID]);
 
-                $_POST["succUpload"] = true; //файл был успешно загружен
+                $_POST["isSuccessUpload"] = true; //файл был успешно загружен
                 header("refresh:1;url=documents_page.php"); //редирект на страницу с документами через секунду после загрузки файла
 
             } else {
@@ -69,20 +67,21 @@ if (isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == 'Upload') {
 ?>
 <?php require_once('../source/header.php'); ?>
     <form method="POST" action="" enctype="multipart/form-data">
-        <input type="hidden" name="id" value="<?= $_GET["id"] ?>">
+        <input id="userIdInput" type="hidden" name="id" value="<?= $_GET["id"] ?>">
         <div class="container">
             <div class="d-flex justify-content-center">
                 <div class="mb-3">
-                    <label for="formFile" class="form-label"><h3>Загрузить файл</h3></label>
+                    <label for="formFile" class="mt-2 form-label"><h3>Загрузить файл</h3></label>
                     <input class="form-control" type="file" id="uploadedFile" name="uploadedFile">
                 </div>
             </div>
             <div class="text-center">
-                <button type="submit" class="mb-2 btn btn-primary" name="uploadBtn" value="Upload">Загрузить</button>
+                <button type="submit" class="mb-2 btn btn-primary" name="uploadBtn" value="Upload">Загрузить документ
+                </button>
             </div>
             <div class="container">
                 <div class="d-flex justify-content-center">
-                    <?php if (isset($_POST["succUpload"])): ?>
+                    <?php if (isset($_POST["isSuccessUpload"])): ?>
                         <div class="alert alert-success d-flex align-items-center" role="alert">
                             <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
                                  aria-label="Success:">
@@ -145,54 +144,57 @@ if (isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == 'Upload') {
         </div>
     </form>
     <!-- Crop modal -->
-    <div class="container" align="center">
-        <div class="row">
-            <div class="col-md-4">&nbsp;</div>
-            <div class="col-md-4">
-                <div class="image_area">
-                    <form method="post">
-                        <label for="upload_image">
-                            <button class="btn btn-primary" id="uploaded_image" class="img-responsive img-circle">Загрузить фото</button>
-                            <div class="overlay">
-                                <div class="text">Click to Change Profile Image</div>
-                            </div>
-                            <input type="file" name="image" class="image" id="upload_image" style="display:none"/>
-                        </label>
-                    </form>
+    <div class="text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">&nbsp;</div>
+                <div class="col-md-4">
+                    <div class="image_area">
+                        <form method="post">
+                            <label for="upload_image">
+                                <button class="btn btn-primary" id="uploaded_image" class="img-responsive img-circle">
+                                    Загрузить фото
+                                </button>
+                                <div class="overlay">
+                                </div>
+                                <input type="file" name="image" class="image" id="upload_image" style="display:none"/>
+                            </label>
+                        </form>
+                    </div>
                 </div>
-            </div>
-            <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Кадрирование фото</h5>
-                        </div>
-                        <div class="modal-body">
-                            <div class="img-container">
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <img src="" id="sample_image"/>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="preview"></div>
+                <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Кадрирование фото</h5>
+                            </div>
+                            <div class="modal-body">
+                                <div class="img-container">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <img src="" id="sample_image"/>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="preview"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" id="crop" class="btn btn-primary">Применить</button>
+                            <div class="modal-footer">
+                                <button type="button" id="crop" class="btn btn-primary">Применить</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
         <script>
             $(document).ready(function () {
-                var $modal = $('#modal');
-                var image = document.getElementById('sample_image');
+                var $modal = $('#modal'); //модальная форма кадрирования
+                var image = document.getElementById('sample_image'); //загруженная картинка
                 var cropper;
+                var clientID = document.getElementById('userIdInput').value; //ID клиента, которому загружаем картинку
 
                 $('#upload_image').change(function (event) {
                     var files = event.target.files;
@@ -237,10 +239,14 @@ if (isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == 'Upload') {
                             $.ajax({
                                 url: 'crop.php',
                                 method: 'POST',
-                                data: {image: base64data},
+                                data: {
+                                    image: base64data,
+                                    id: clientID,
+                                },
                                 success: function (data) {
                                     $modal.modal('hide');
                                     $('#uploaded_image').attr('src', data);
+                                    window.location.href = 'documents_page.php';
                                 }
                             });
                         };
