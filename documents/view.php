@@ -29,31 +29,27 @@ $readDocument = $readDocument->fetchAll(PDO::FETCH_ASSOC);
 
 function readZippedXML($archiveFile, $dataFile)
 {
-// Create new ZIP archive
+// Сделать архив
     $zip = new ZipArchive;
-
-// Open received archive file
+// Открыть полученный архив
     if ($zip->open($archiveFile)) {
-        // If done, search for the data file in the archive
+        // Если выполнено успешно, то ищем файл в архиве
         if (($index = $zip->locateName($dataFile)) !== false) {
-            // If found, read it to the string
+            // Если нашли, то читаем в строке
             $data = $zip->getFromIndex($index);
-            // Close archive file
+            // Закрываем архив
             $zip->close();
-            // Load XML from a string
-            // Skip errors and warnings
+            // Загружаем XML, привязанный к docx файл
             $xml = new DOMDocument();
             $xml->loadXML($data, LIBXML_NOENT | LIBXML_XINCLUDE | LIBXML_NOERROR | LIBXML_NOWARNING);
-            // Return data without XML formatting tags
+            // Убираем из текста теги XML
             return strip_tags($xml->saveXML());
         }
         $zip->close();
     }
-
-// In case of failure return empty string
+// Если считать ничего не получилось, то вернем пустую строку
     return "";
 }
-
 
 if (isset($_GET["openBtn"])) {
     $id = $_GET["openBtn"];
@@ -62,7 +58,6 @@ if (isset($_GET["openBtn"])) {
     $getFileInfo->execute();
     $file = $getFileInfo->fetchAll(PDO::FETCH_ASSOC);
 }
-
 ?>
 <?php require_once('../source/header.php'); ?>
     <div>
@@ -78,9 +73,7 @@ if (isset($_GET["openBtn"])) {
             </tr>
             </thead>
             <tbody>
-            <?php foreach ($readDocument
-
-            as $document): ?>
+            <?php foreach ($readDocument as $document): ?>
             <tr>
                 <td><?= $document["id"] ?></td>
                 <td><?= $document["doc_ID"] ?></td>
@@ -102,7 +95,6 @@ if (isset($_GET["openBtn"])) {
     </div>
 <?php if (isset($file)): ?>
     <?php if ($file[0]["file_extension"] === 'jpg'): ?>
-    <?= $_POST["crop"] = true; ?>
         <div class="text-center">
             <img src="<?= $file[0]["file_path"] ?>" width="500" height="600">
         </div>
