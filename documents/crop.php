@@ -20,7 +20,6 @@ if (isset($_POST["id"])) {
         $imageArray = explode(";", $receivedImage);
         $imageArray = explode(",", $imageArray[1]);
         $decodedImage = base64_decode($imageArray[1]);
-        //$image_name = 'croppedImg' . time() . '.png';
         $newFileName = md5(time() . $decodedImage) . '.' . 'jpg';
         $fileExtension = preg_replace('/^.*\.([^.]+)$/D', '$1', $newFileName);
         $fileName = preg_replace('/\..+$/u', '', $newFileName); //отделить название от расширения файла
